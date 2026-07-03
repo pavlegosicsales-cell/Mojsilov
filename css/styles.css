@@ -1,0 +1,480 @@
+/* ==========================================================================
+   Mojsilov Detailing — deljeni stilovi i custom tokeni
+   Paleta i tipografija: v. context/design-system.md
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --navy: #121358;
+  --plava: #293681;
+  --akcent: #2164da;
+  --crna: #000000;
+  --siva: #b6bdc2;
+  --bela: #ffffff;
+
+  /* Slojevite, tonirane senke (nikad ravan shadow-md) */
+  --shadow-sm: 0 1px 2px rgba(18, 19, 88, 0.06), 0 2px 6px rgba(18, 19, 88, 0.06);
+  --shadow-md: 0 4px 12px rgba(18, 19, 88, 0.08), 0 12px 28px rgba(18, 19, 88, 0.10);
+  --shadow-lg: 0 8px 24px rgba(18, 19, 88, 0.10), 0 24px 60px rgba(18, 19, 88, 0.16);
+  --shadow-accent: 0 10px 24px rgba(33, 100, 218, 0.28), 0 4px 10px rgba(33, 100, 218, 0.20);
+}
+
+* { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 88px; overflow-x: clip; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0b1020;
+  background: var(--bela);
+  /* clip (not hidden): prevents horizontal overflow without turning <body> into
+     a scroll container, which would break window scrolling and scroll-reveal. */
+  overflow-x: clip;
+}
+
+::selection { background: var(--akcent); color: #fff; }
+
+/* Fokus stanje — dostupnost */
+:focus-visible {
+  outline: 2px solid var(--akcent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Tipografija
+   -------------------------------------------------------------------------- */
+.font-display { font-family: 'Oswald', 'Inter', sans-serif; }
+
+.eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.h-section {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+
+/* Suptilna tekstura zrna preko tamnih sekcija — dubina */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   Dugmad
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.95rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  will-change: transform;
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+
+.btn-primary {
+  background: var(--akcent);
+  color: #fff;
+  box-shadow: var(--shadow-accent);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(33, 100, 218, 0.36); }
+
+.btn-ghost {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+}
+.btn-ghost:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.5); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid rgba(18, 19, 88, 0.2);
+}
+.btn-outline:hover { transform: translateY(-2px); border-color: var(--akcent); color: var(--akcent); }
+
+/* --------------------------------------------------------------------------
+   Kartice
+   -------------------------------------------------------------------------- */
+.card {
+  background: #fff;
+  border: 1px solid rgba(18, 19, 88, 0.08);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(33, 100, 218, 0.25); }
+
+.card-dark {
+  background: linear-gradient(160deg, rgba(41, 54, 129, 0.55), rgba(18, 19, 88, 0.4));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.card-dark:hover { transform: translateY(-6px); border-color: rgba(33, 100, 218, 0.5); }
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+#site-header { position: sticky; top: 0; z-index: 50; }
+.header-inner {
+  background-color: var(--navy);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+.header-scrolled {
+  background: rgba(18, 19, 88, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(18, 19, 88, 0.24);
+}
+.nav-link { position: relative; transition: color 0.2s ease; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 100%; height: 2px;
+  background: var(--akcent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-link:hover::after, .nav-link.is-active::after { transform: scaleX(1); }
+
+/* Logo: dark logo na tamnoj podlozi → prebaci u čisto belo radi čitljivosti.
+   (Za očuvanje brend boja, dostaviti svetlu/belu verziju logotipa.) */
+.logo-img { filter: brightness(0) invert(1); }
+
+/* Mobilni meni */
+.mobile-menu {
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mobile-menu.open { transform: translateX(0); }
+body.menu-open { overflow: hidden; }
+
+/* --------------------------------------------------------------------------
+   Hero — Moxom stil: slojeviti blokovi + ogroman wordmark + auto cutout
+   -------------------------------------------------------------------------- */
+/* Utility traka (kontakt levo, social desno) */
+.utility-icon {
+  width: 38px; height: 38px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.utility-icon:hover { background: var(--akcent); transform: translateY(-2px); }
+
+/* Glass pill (eyebrow) + pulsirajuća tačkica */
+.glass-pill {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
+}
+.live-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #fff; flex-shrink: 0; }
+.live-dot::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; background: #fff;
+  animation: livePing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes livePing { 0% { transform: scale(1); opacity: 0.7; } 75%, 100% { transform: scale(2.8); opacity: 0; } }
+
+/* Scena sa slojevitim blokovima (Moxom) */
+.hero-stage { position: relative; }
+
+.hero-block { position: absolute; border-radius: 12px; }
+
+/* 3 bloka iza — svi centrirani vertikalno, proviruju gore I dole.
+   1 plavi (centar, najviši) + 2 druge boje (bočno). */
+.hero-block--blue {
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: clamp(150px, 16%, 250px); height: 94%;
+  background: var(--akcent);
+  z-index: 0;
+}
+.hero-block--dark {
+  top: 50%; transform: translateY(-50%);
+  width: clamp(140px, 15%, 220px); height: 82%;
+  background: #2b3480;
+  z-index: 0;
+}
+.hero-block--dark.is-left { left: 21%; }
+.hero-block--dark.is-right { right: 21%; }
+
+/* Kompletan centralni deo hero-a (Figma export: blokovi + senka + auto) */
+.hero-figma {
+  display: block;
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* 4 ugla — centrirani na male linije koje su deo slike (pozicije iz Group 33).
+   x-centri: 15.9% (levo) / 84.4% (desno); linije na y 10.8% (gore) / 89.5% (dole). */
+.hero-corner { position: absolute; z-index: 5; }
+.hero-corner--tl, .hero-corner--tr { display: flex; gap: 0.6rem; }
+.hero-corner--tl { left: 15.9%; top: 10.8%; transform: translate(-50%, calc(-100% - 10px)); }
+.hero-corner--tr { left: 84.4%; top: 10.8%; transform: translate(-50%, calc(-100% - 10px)); }
+.hero-corner--bl { left: 15.9%; top: 89.5%; transform: translate(-50%, 10px); }
+.hero-corner--br { left: 84.4%; top: 89.5%; transform: translate(-50%, 10px); }
+
+@media (max-width: 700px) {
+  /* Na malom (skaliranom) hero-u drži uglove unutar slike, centrirane na linije */
+  .hero-corner--tl, .hero-corner--tr,
+  .hero-corner--bl, .hero-corner--br { transform: translate(-50%, -50%) scale(0.6); }
+}
+
+/* Glavni pravougaonik = slika (navy blok sa MOJSILOV slovima) */
+.hero-mainrect {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(86%, 1080px);
+  height: auto;
+  z-index: 1;
+  border-radius: 4px;
+  pointer-events: none;
+  /* Popuni pozadinu slike bojom hero sekcije → 3 bloka se ne vide KROZ sliku,
+     već samo iznad i ispod nje. Slova (svetlija plava) ostaju kao suptilna senka. */
+  background-color: var(--navy);
+}
+
+/* Glavni oblik = velika senka (ghost) MOJSILOV teksta, ne pun panel */
+.hero-wordmark {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  z-index: 3;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 13.5vw, 13rem);
+  color: #fff;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  text-shadow: 0 6px 36px rgba(0, 0, 0, 0.55);
+}
+/* Ghost — uvećana pala slova iza (oblikuju „senku u pravougaoniku") */
+.hero-wordmark--ghost {
+  transform: translate(-50%, -50%) scale(1.28);
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.12);
+  text-shadow: none;
+}
+
+/* Auto — dole desno, IZA glavnog pravougaonika (z ispod .hero-mainrect) */
+.hero-car {
+  position: absolute;
+  right: -1%; bottom: -2%;
+  width: min(52%, 600px);
+  z-index: 2;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
+}
+
+/* Inline 01–04 stavka: veliki broj + labela pored */
+.feat-item { display: flex; align-items: center; gap: 1rem; }
+.feat-num {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 4vw, 3.25rem);
+  line-height: 1;
+  color: #fff;
+}
+.feat-label-top {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--akcent);
+}
+.feat-label-main {
+  font-family: 'Oswald', sans-serif; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.01em;
+  font-size: 1rem; color: #fff; line-height: 1.1;
+}
+
+@media (max-width: 900px) {
+  .hero-block--side { display: none; }
+  .hero-block--blue { width: 30%; }
+  .hero-car { width: 80%; right: auto; left: 50%; transform: translateX(-50%); bottom: 6%; }
+  .hero-wordmark { font-size: clamp(3rem, 20vw, 8rem); }
+}
+
+/* --------------------------------------------------------------------------
+   Pre/posle slajder (drag)
+   -------------------------------------------------------------------------- */
+.ba-slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 18px;
+  user-select: none;
+  touch-action: pan-y;
+  box-shadow: var(--shadow-lg);
+  cursor: ew-resize;
+}
+.ba-slider img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.ba-after {
+  clip-path: inset(0 0 0 50%);
+  will-change: clip-path;
+}
+.ba-handle {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: #fff;
+  transform: translateX(-50%);
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+.ba-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-md);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='%232164da' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l-4 6 4 6M15 6l4 6-4 6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.ba-label {
+  position: absolute;
+  top: 14px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+.ba-label--pre { left: 14px; background: rgba(0, 0, 0, 0.55); }
+.ba-label--posle { right: 14px; background: rgba(33, 100, 218, 0.85); }
+
+/* --------------------------------------------------------------------------
+   Usluge — Moxom bordered grid (editorial, ne floating kartice)
+   -------------------------------------------------------------------------- */
+.svc-grid {
+  border-top: 1px solid rgba(18, 19, 88, 0.10);
+  border-left: 1px solid rgba(18, 19, 88, 0.10);
+}
+.svc-cell {
+  border-right: 1px solid rgba(18, 19, 88, 0.10);
+  border-bottom: 1px solid rgba(18, 19, 88, 0.10);
+  padding: 2.25rem;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+.svc-cell:hover { background: #f7f9fc; }
+.svc-cell:hover .svc-icon { background: var(--akcent); color: #fff; }
+.svc-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(33, 100, 218, 0.10); color: var(--akcent);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.svc-label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--akcent);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ akordeon
+   -------------------------------------------------------------------------- */
+.faq-item { border-bottom: 1px solid rgba(18, 19, 88, 0.1); }
+.faq-q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 0;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+.faq-icon { flex-shrink: 0; transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); color: var(--akcent); }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+.faq-item.open .faq-a { opacity: 1; }
+.faq-a-inner { padding: 0 0 1.4rem; color: #4a5169; line-height: 1.7; max-width: 60ch; }
+
+/* --------------------------------------------------------------------------
+   Scroll reveal (samo transform/opacity)
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+
+/* --------------------------------------------------------------------------
+   Pomoćne
+   -------------------------------------------------------------------------- */
+.divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(18,19,88,0.14), transparent); }
+.text-balance { text-wrap: balance; }
+
+.link-arrow { display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.25s ease, color 0.2s ease; }
+.link-arrow:hover { gap: 0.7rem; }
+
+/* Poštuj korisnike koji smanjuju animacije */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}

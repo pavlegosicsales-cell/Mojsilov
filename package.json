@@ -1,0 +1,14 @@
+{
+  "name": "mojsilov",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Mojsilov frontend website — built under the WAT framework.",
+  "scripts": {
+    "serve": "node serve.mjs",
+    "shot": "node screenshot.mjs http://localhost:3000"
+  },
+  "devDependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}
