@@ -22,7 +22,7 @@
 
 * { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 88px; overflow-x: clip; }
+html { scroll-behavior: smooth; scroll-padding-top: 132px; overflow-x: clip; }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -117,6 +117,71 @@ body {
 .btn-outline:hover { transform: translateY(-2px); border-color: var(--akcent); color: var(--akcent); }
 
 /* --------------------------------------------------------------------------
+   Glow dugme (CTA „Zakažite termin") — animirani glow prsten u brend akcentu,
+   naš pill radius. Port „glow-button" koncepta u naš vanilla stack.
+   -------------------------------------------------------------------------- */
+.glow-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;               /* naš radius */
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(180deg, #2f74ef, var(--akcent));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 6px 18px rgba(33, 100, 218, 0.4);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.glow-btn :where(svg) { flex-shrink: 0; }
+/* Statičan meki glow iza dugmeta (bez rotacije) */
+.glow-btn::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--akcent);
+  filter: blur(11px);
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+}
+.glow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 12px 28px rgba(33, 100, 218, 0.55);
+}
+.glow-btn:hover::before { opacity: 0.7; }
+.glow-btn:active,
+.glow-btn[data-state="clicked"] { transform: scale(0.96); }
+
+/* --------------------------------------------------------------------------
+   Liquid ghost dugme (port AICONNECT „Sarađuj sa nama") — canvas liquid blobovi
+   + animiran border + glow; pojačava se na hover. Akcent boja.
+   -------------------------------------------------------------------------- */
+.liq-btn { position: relative; display: inline-flex; }
+.liq-btn-canvas { position: absolute; inset: 0; border-radius: 500px; pointer-events: none; }
+.btn-liq {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 30px; border-radius: 500px; overflow: hidden;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  color: rgba(255, 255, 255, 0.78); text-decoration: none; cursor: pointer;
+  border: none; background: transparent;
+  transition: color 0.25s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-liq > span { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; }
+.btn-liq:hover { color: #fff; transform: translateY(-2px); }
+/* Varijanta za svetle sekcije — tamniji tekst */
+.btn-liq--on-light { color: var(--navy); }
+.btn-liq--on-light:hover { color: var(--akcent); }
+
+/* --------------------------------------------------------------------------
    Kartice
    -------------------------------------------------------------------------- */
 .card {
@@ -135,6 +200,296 @@ body {
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .card-dark:hover { transform: translateY(-6px); border-color: rgba(33, 100, 218, 0.5); }
+
+/* --------------------------------------------------------------------------
+   Tačkasta pozadina (dot-grid) — port iz Natasa-Rakic (.vcard__dots)
+   -------------------------------------------------------------------------- */
+.dots-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(18, 19, 88, 0.2) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(125% 85% at 50% 0%, #000 32%, transparent 82%);
+  mask-image: radial-gradient(125% 85% at 50% 0%, #000 32%, transparent 82%);
+}
+/* Varijanta za tamne sekcije — svetle tačkice */
+.dots-bg--light {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.16) 1px, transparent 1.6px);
+}
+
+/* --------------------------------------------------------------------------
+   Eyebrow pill — mini glass „chip" oko labela sekcije (svetla + tamna varijanta)
+   -------------------------------------------------------------------------- */
+.eyebrow-pill {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  padding: 0.48rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(33, 100, 218, 0.06);
+  border: 1px solid rgba(33, 100, 218, 0.16);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+/* Isti font i veličina teksta kao hero glass pill (.gp-inner) */
+.eyebrow-pill .eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.eyebrow-pill--dark {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+/* Tačkica identična hero pill tačkici (.live-dot) */
+.ep-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--akcent); flex-shrink: 0;
+  box-shadow: 0 0 4px rgba(33, 100, 218, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   Step kartica („Kako funkcioniše") — slojevit hover sa easing-om
+   -------------------------------------------------------------------------- */
+.step-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid rgba(18, 19, 88, 0.07);
+  border-radius: 18px;
+  padding: 2rem 1.8rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(18, 19, 88, 0.04), 0 10px 26px rgba(18, 19, 88, 0.05);
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.7s ease, background 0.7s ease;
+}
+/* Gornja akcent linija — raste sleva na hover */
+.step-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--akcent), #7fb0ff);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.step-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(33, 100, 218, 0.3);
+  /* Isti broj slojeva (2) kao početno stanje → box-shadow se glatko animira kroz 0.7s */
+  box-shadow: 0 1px 2px rgba(18, 19, 88, 0.06), 0 26px 50px rgba(18, 19, 88, 0.16);
+}
+.step-card:hover::before { transform: scaleX(1); }
+.step-num {
+  display: block;
+  font-family: 'Oswald', sans-serif; font-weight: 700;
+  font-size: 3rem; line-height: 1;
+  color: rgba(33, 100, 218, 0.2);
+  margin-bottom: 1rem;
+  transform-origin: left center;
+  transition: color 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.step-card:hover .step-num { color: var(--akcent); transform: translateY(-3px) scale(1.08); }
+.step-title {
+  font-size: 1.05rem; font-weight: 600; color: var(--navy);
+  margin-bottom: 0.5rem; transition: color 0.3s ease;
+}
+.step-desc { font-size: 0.875rem; line-height: 1.65; color: #5a6072; }
+/* .reveal (koju kartice imaju) postavlja transition samo za opacity/transform i
+   prepisuje transition sa .step-card → box-shadow bi „skakao". Ovaj specifičniji
+   selektor vraća pun transition (uklj. box-shadow) da se senka glatko animira. */
+.step-card.reveal {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.7s ease, background 0.7s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Count-up brojevi (statistika) — spring + glitch, port iz AICONNECT, akcent boja
+   -------------------------------------------------------------------------- */
+.stat-num { display: inline-flex; align-items: baseline; }
+.count-num { position: relative; z-index: 1; display: inline-block; }
+@keyframes numGlitch {
+  0%   { clip-path: none; transform: none; color: #fff; }
+  30%  { clip-path: inset(15% 0 45% 0); transform: translateX(-4px); color: rgba(33, 100, 218, 0.95); }
+  50%  { clip-path: inset(55% 0 10% 0); transform: translateX(4px);  color: rgba(127, 176, 255, 0.85); }
+  70%  { clip-path: inset(30% 0 35% 0); transform: translateX(-2px); color: #fff; }
+  100% { clip-path: none; transform: none; color: #fff; }
+}
+.stat-num .count-num.glitching { animation: numGlitch 0.2s steps(1) forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .stat-num .count-num.glitching { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Glass kontakt kartica sa putujućim svetlosnim zracima (port sign-in-card-2)
+   -------------------------------------------------------------------------- */
+.glass-card-wrap { position: relative; border-radius: 22px; }
+/* Putujući svetlosni zraci oko ivice */
+.glass-beams {
+  position: absolute; inset: -1px; border-radius: inherit;
+  overflow: hidden; pointer-events: none; z-index: 3;
+}
+.beam { position: absolute; filter: blur(1.5px); }
+.beam-top, .beam-bottom {
+  height: 3px; width: 55%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+}
+.beam-left, .beam-right {
+  width: 3px; height: 55%;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+}
+.beam-top { top: 0; left: -55%; animation: beamTop 4s ease-in-out infinite; }
+.beam-right { top: -55%; right: 0; animation: beamRight 4s ease-in-out infinite; animation-delay: 1s; }
+.beam-bottom { bottom: 0; right: -55%; animation: beamBottom 4s ease-in-out infinite; animation-delay: 2s; }
+.beam-left { bottom: -55%; left: 0; animation: beamLeft 4s ease-in-out infinite; animation-delay: 3s; }
+@keyframes beamTop { 0% { left: -55%; } 55%, 100% { left: 100%; } }
+@keyframes beamRight { 0% { top: -55%; } 55%, 100% { top: 100%; } }
+@keyframes beamBottom { 0% { right: -55%; } 55%, 100% { right: 100%; } }
+@keyframes beamLeft { 0% { bottom: -55%; } 55%, 100% { bottom: 100%; } }
+
+.glass-card {
+  position: relative; z-index: 1;
+  border-radius: 22px;
+  background: rgba(10, 12, 42, 0.55);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+/* Suptilna unutrašnja mreža */
+.glass-card::before {
+  content: ''; position: absolute; inset: 0; opacity: 0.04; pointer-events: none;
+  background-image:
+    linear-gradient(135deg, #fff 0.5px, transparent 0.5px),
+    linear-gradient(45deg, #fff 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+}
+.glass-card > * { position: relative; z-index: 1; }
+
+/* Polja sa ikonicom (tamno staklo) */
+.g-field { position: relative; display: flex; align-items: center; }
+.g-icon {
+  position: absolute; left: 0.85rem; width: 16px; height: 16px;
+  color: rgba(255, 255, 255, 0.4); pointer-events: none;
+  transition: color 0.3s ease;
+}
+.g-icon--top { top: 0.85rem; }
+.g-input {
+  width: 100%; border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff; font-size: 0.875rem;
+  padding: 0.7rem 0.9rem 0.7rem 2.45rem;
+  outline: none;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.g-input::placeholder { color: rgba(255, 255, 255, 0.32); }
+.g-input:focus {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(33, 100, 218, 0.6);
+  box-shadow: 0 0 0 3px rgba(33, 100, 218, 0.18);
+}
+.g-field:focus-within .g-icon { color: #fff; }
+.g-textarea { resize: none; }
+
+/* --------------------------------------------------------------------------
+   Kontakt forma — AICONNECT cf-card (3D tilt glass + zraci + corner tačkice +
+   shine submit). Port u naš stack sa akcent/navy bojama.
+   -------------------------------------------------------------------------- */
+.cf-card-outer { position: relative; border-radius: 22px; perspective: 1200px; }
+.cf-beams { position: absolute; inset: -1px; border-radius: 22px; overflow: hidden; pointer-events: none; z-index: 2; }
+.cf-beam { position: absolute; border-radius: 3px; }
+.cf-beam-top { top: 0; height: 2px; width: 55%; background: linear-gradient(90deg, transparent, rgba(33,100,218,0.6), rgba(143,186,255,0.9), rgba(33,100,218,0.6), transparent); animation: cfBeamTop 3.6s cubic-bezier(0.4,0,0.6,1) infinite; }
+.cf-beam-right { right: 0; width: 2px; height: 55%; background: linear-gradient(180deg, transparent, rgba(33,100,218,0.6), rgba(143,186,255,0.9), rgba(33,100,218,0.6), transparent); animation: cfBeamRight 3.6s cubic-bezier(0.4,0,0.6,1) infinite; animation-delay: 0.9s; }
+.cf-beam-bottom { bottom: 0; height: 2px; width: 55%; background: linear-gradient(90deg, transparent, rgba(33,100,218,0.6), rgba(143,186,255,0.9), rgba(33,100,218,0.6), transparent); animation: cfBeamBottom 3.6s cubic-bezier(0.4,0,0.6,1) infinite; animation-delay: 1.8s; }
+.cf-beam-left { left: 0; width: 2px; height: 55%; background: linear-gradient(180deg, transparent, rgba(33,100,218,0.6), rgba(143,186,255,0.9), rgba(33,100,218,0.6), transparent); animation: cfBeamLeft 3.6s cubic-bezier(0.4,0,0.6,1) infinite; animation-delay: 2.7s; }
+@keyframes cfBeamTop { from { left: -55%; } to { left: 100%; } }
+@keyframes cfBeamRight { from { top: -55%; } to { top: 100%; } }
+@keyframes cfBeamBottom { from { right: -55%; } to { right: 100%; } }
+@keyframes cfBeamLeft { from { bottom: -55%; } to { bottom: 100%; } }
+.cf-corner { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: rgba(33,100,218,0.5); animation: cfCornerPulse 2s ease-in-out infinite; pointer-events: none; z-index: 3; }
+.cf-corner-tl { top: -3px; left: -3px; }
+.cf-corner-tr { top: -3px; right: -3px; animation-delay: 0.5s; }
+.cf-corner-br { bottom: -3px; right: -3px; animation-delay: 1s; }
+.cf-corner-bl { bottom: -3px; left: -3px; animation-delay: 1.5s; }
+@keyframes cfCornerPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 0.9; transform: scale(1.2); box-shadow: 0 0 6px rgba(33,100,218,0.8); }
+}
+.cf-card-inner {
+  position: relative; z-index: 1;
+  border-radius: 22px;
+  background: rgba(9, 11, 34, 0.82);
+  border: 1px solid rgba(33, 100, 218, 0.14);
+  backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+  padding: 40px;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.12s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(33,100,218,0.05) inset;
+}
+.cf-card-outer:hover .cf-card-inner {
+  border-color: rgba(33, 100, 218, 0.3);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 48px rgba(33,100,218,0.08), 0 0 0 1px rgba(33,100,218,0.12) inset;
+}
+.cf-form { display: flex; flex-direction: column; gap: 14px; }
+.cf-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cf-field { position: relative; display: flex; align-items: center; }
+.cf-field-icon {
+  position: absolute; left: 15px; z-index: 1;
+  color: rgba(255,255,255,0.32); pointer-events: none;
+  display: flex; align-items: center; transition: color 0.25s ease;
+}
+.cf-field-icon svg { width: 15px; height: 15px; }
+.cf-field-icon-top { top: 14px; }
+.cf-field:focus-within .cf-field-icon { color: var(--akcent); }
+.cf-input {
+  width: 100%; padding: 14px 16px 14px 42px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  color: #fff; font-family: 'Inter', sans-serif; font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  -webkit-appearance: none; appearance: none;
+}
+.cf-input::placeholder { color: rgba(255,255,255,0.3); }
+.cf-input:focus {
+  background: rgba(33,100,218,0.06);
+  border-color: rgba(33,100,218,0.45);
+  box-shadow: 0 0 0 3px rgba(33,100,218,0.12);
+}
+.cf-textarea { resize: vertical; min-height: 120px; padding-top: 14px; line-height: 1.6; }
+.cf-select { cursor: pointer; padding-right: 42px; color: rgba(255,255,255,0.55); }
+.cf-select:valid { color: #fff; }
+.cf-select option { background: #10143a; color: #fff; }
+.cf-select-arr { position: absolute; right: 16px; pointer-events: none; color: rgba(255,255,255,0.4); font-size: 10px; }
+.cf-submit {
+  position: relative; overflow: hidden;
+  background: var(--akcent); color: #fff;
+  border: none; border-radius: 12px; cursor: pointer;
+  padding: 16px 32px; margin-top: 2px;
+  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 24px rgba(33,100,218,0.32);
+}
+.cf-submit:hover { background: #2f74ef; transform: translateY(-2px); box-shadow: 0 10px 40px rgba(33,100,218,0.5); }
+.cf-submit:active { transform: translateY(0); }
+.cf-submit:disabled { opacity: 0.7; cursor: default; }
+.cf-submit-icon { font-size: 16px; transition: transform 0.25s ease; }
+.cf-submit:hover .cf-submit-icon { transform: translateX(5px); }
+.cf-shine {
+  position: absolute; top: 0; left: -100%; width: 55%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+  transform: skewX(-12deg); pointer-events: none;
+}
+.cf-submit:hover .cf-shine { transition: left 0.5s ease; left: 150%; }
+@media (prefers-reduced-motion: reduce) { .cf-beam, .cf-corner { animation: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .beam { animation: none !important; opacity: 0.4; }
+}
 
 /* --------------------------------------------------------------------------
    Header
@@ -166,6 +521,137 @@ body {
    (Za očuvanje brend boja, dostaviti svetlu/belu verziju logotipa.) */
 .logo-img { filter: brightness(0) invert(1); }
 
+/* Logo znak (transparentni MD u boji) — zadržava originalne boje (bez belog
+   filtera), blaga senka za odvajanje od navy pozadine. */
+.logo-mark { filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.45)); }
+
+/* --------------------------------------------------------------------------
+   Footer — glass kartica sa glow blobovima (port mvpblocks footer)
+   -------------------------------------------------------------------------- */
+.footer-glass {
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.018) 100%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+.footer-blob {
+  position: absolute;
+  width: 20rem; height: 20rem;
+  border-radius: 9999px;
+  filter: blur(80px);
+}
+.footer-col-title {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--akcent);
+  margin-bottom: 1.1rem;
+}
+.footer-link {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: #fff; }
+
+/* --------------------------------------------------------------------------
+   Footer — AICONNECT stil (near-black + radial akcent glow, 4-kol grid,
+   kružne social ikonice, copyright bar), sa našim bojama
+   -------------------------------------------------------------------------- */
+.ac-footer { background: #080a24; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.ac-footer-glow {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(125% 125% at 50% 8%, rgba(8, 10, 36, 0.5) 45%, rgba(33, 100, 218, 0.18) 100%);
+}
+.ac-footer-grid {
+  display: grid; grid-template-columns: 1.8fr 1fr 1fr 1.3fr;
+  gap: 48px; margin-bottom: 44px;
+}
+.ac-tagline { font-size: 14px; color: rgba(255, 255, 255, 0.55); line-height: 1.8; max-width: 260px; margin-top: 2px; }
+.ac-socials { display: flex; gap: 10px; margin-top: 24px; }
+.fsoc {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.fsoc:hover { border-color: var(--akcent); color: var(--akcent); transform: translateY(-2px); }
+.fsoc svg { width: 16px; height: 16px; }
+.foot-col h4 {
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+}
+.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.foot-col a { font-size: 14px; color: rgba(255, 255, 255, 0.6); transition: color 0.2s ease; }
+.foot-col a:hover { color: var(--akcent); }
+.ac-contact li { display: flex; align-items: flex-start; gap: 9px; font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+.ac-contact a { display: flex; align-items: center; gap: 9px; }
+.ac-contact svg { width: 16px; height: 16px; color: var(--akcent); flex-shrink: 0; margin-top: 1px; }
+.ac-seo { font-size: 12px; line-height: 1.7; color: rgba(255, 255, 255, 0.32); max-width: 900px; margin-bottom: 4px; }
+.ac-footer-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 20px; padding: 22px 0;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.ac-copy { font-size: 12px; color: rgba(255, 255, 255, 0.5); letter-spacing: 0.02em; }
+.footer-text-section { margin-top: 6px; padding-top: 18px; padding-bottom: 26px; overflow: visible; }
+
+@media (max-width: 860px) {
+  .ac-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px 40px; }
+}
+@media (max-width: 520px) {
+  .ac-footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .ac-footer-bar { flex-direction: column; align-items: flex-start; }
+}
+
+/* --------------------------------------------------------------------------
+   Footer — veliki MOJSILOV (hover-reveal + iscrtavanje). Port Aceternity
+   „text hover effect" u vanilla SVG, sa brend plavim gradijentom i Oswaldom.
+   -------------------------------------------------------------------------- */
+.moj-wrap { width: 100%; }
+.moj-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.moj-svg text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+/* Stalni tanki outline (jedva vidljiv na navy) — postaje jači na hover */
+.moj-outline {
+  fill: transparent;
+  stroke: rgba(255, 255, 255, 0.10);
+  stroke-width: 0.7;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.moj-svg:hover .moj-outline { opacity: 0.55; }
+/* Iscrtavanje outline-a kad footer uđe u vidokrug */
+.moj-draw {
+  fill: transparent;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 0.7;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+}
+.moj-svg.in .moj-draw { animation: mojDraw 3.4s ease forwards; }
+/* Gradient ispis — vidljiv samo kroz radijalnu masku koja prati kursor (na hover) */
+.moj-fill {
+  fill: transparent;
+  stroke: url(#mojGrad);
+  stroke-width: 1.1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.moj-svg:hover .moj-fill { opacity: 1; }
+
+@keyframes mojDraw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .moj-draw { stroke-dashoffset: 0; animation: none; }
+}
+
 /* Mobilni meni */
 .mobile-menu {
   transform: translateX(100%);
@@ -189,24 +675,74 @@ body.menu-open { overflow: hidden; }
 }
 .utility-icon:hover { background: var(--akcent); transform: translateY(-2px); }
 
-/* Glass pill (eyebrow) + pulsirajuća tačkica */
+/* Glass pill (eyebrow) — realističan frosted glass: jak backdrop blur + saturacija,
+   gornji specular highlight (odsjaj svetla), donja unutrašnja senka, crisp staklena
+   ivica i dubinska senka. Sadržaj je u .gp-inner (z-index 1) da ostane iznad odsjaja. */
 .glass-pill {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  padding: 0.5rem 1.1rem;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.48rem 1.1rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em;
-  text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
 }
-.live-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #fff; flex-shrink: 0; }
+/* Vrlo suptilan gornji odsjaj */
+.glass-pill::before {
+  content: '';
+  position: absolute; left: 12%; right: 12%; top: 1px; height: 40%;
+  z-index: -1;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0));
+  opacity: 0.5;
+  pointer-events: none;
+}
+.glass-pill:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.gp-inner {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255, 255, 255, 0.72);
+}
+
+.live-dot {
+  position: relative; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--akcent); flex-shrink: 0;
+  box-shadow: 0 0 4px rgba(33, 100, 218, 0.45);
+}
 .live-dot::after {
-  content: ''; position: absolute; inset: 0; border-radius: 50%; background: #fff;
+  content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--akcent);
   animation: livePing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 @keyframes livePing { 0% { transform: scale(1); opacity: 0.7; } 75%, 100% { transform: scale(2.8); opacity: 0; } }
+
+/* Hero grid — suptilne linije (nizak opacity), maskirane da su jače gore (uz
+   sliku) i nestaju pre naslova; hero je već pun, pa linije ostaju diskretne. */
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 92px 62px;
+  -webkit-mask-image: radial-gradient(120% 62% at 50% 12%, #000 28%, transparent 78%);
+  mask-image: radial-gradient(120% 62% at 50% 12%, #000 28%, transparent 78%);
+}
+
+/* Hero „shell" — širi od standardne sekcije (max-w-container 1500px) da hero
+   bude veći i bliže ivicama ekrana; ostale sekcije zadržavaju normalnu marginu. */
+.hero-shell {
+  max-width: 1690px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 1.7vw, 1.75rem);
+}
 
 /* Scena sa slojevitim blokovima (Moxom) */
 .hero-stage { position: relative; }
@@ -243,10 +779,10 @@ body.menu-open { overflow: hidden; }
    x-centri: 15.9% (levo) / 84.4% (desno); linije na y 10.8% (gore) / 89.5% (dole). */
 .hero-corner { position: absolute; z-index: 5; }
 .hero-corner--tl, .hero-corner--tr { display: flex; gap: 0.6rem; }
-.hero-corner--tl { left: 15.9%; top: 10.8%; transform: translate(-50%, calc(-100% - 10px)); }
-.hero-corner--tr { left: 84.4%; top: 10.8%; transform: translate(-50%, calc(-100% - 10px)); }
-.hero-corner--bl { left: 15.9%; top: 89.5%; transform: translate(-50%, 10px); }
-.hero-corner--br { left: 84.4%; top: 89.5%; transform: translate(-50%, 10px); }
+.hero-corner--tl { left: 15.9%; top: 10.8%; transform: translate(-50%, calc(-100% - 22px)); }
+.hero-corner--tr { left: 84.4%; top: 10.8%; transform: translate(-50%, calc(-100% - 22px)); }
+.hero-corner--bl { left: 15.9%; top: 89.5%; transform: translate(-50%, 22px); }
+.hero-corner--br { left: 84.4%; top: 89.5%; transform: translate(-50%, 15px); }
 
 @media (max-width: 700px) {
   /* Na malom (skaliranom) hero-u drži uglove unutar slike, centrirane na linije */
@@ -420,6 +956,20 @@ body.menu-open { overflow: hidden; }
 .svc-label {
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--akcent);
+}
+/* Otvorena mreža (Moxom): ukloni spoljni levi border (kol 1: usluge 1,4) i desni
+   (kol 3: usluge 3,6), pa tanke linije (isti stil kao borderi) „izlaze" iz uglovnih
+   kartica ka ivicama ekrana. Samo na lg (3-kolonski raspored). */
+.svc-line {
+  display: none; position: absolute; top: 50%; height: 1px;
+  background: rgba(18, 19, 88, 0.10); pointer-events: none;
+}
+.svc-line--left { right: 100%; width: 50vw; }
+.svc-line--right { left: 100%; width: 50vw; }
+@media (min-width: 1024px) {
+  .svc-grid { border-left: none; }
+  .svc-cell--no-r { border-right: none; }
+  .svc-line { display: block; }
 }
 
 /* --------------------------------------------------------------------------
