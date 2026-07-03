@@ -3,6 +3,22 @@
 ## Always Do First
 - **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
 
+## When given a React / shadcn / Framer Motion component
+Users frequently paste components from 21st.dev, shadcn, Aceternity, mvpblocks, etc. — usually React +
+Tailwind + Framer Motion + lucide, sometimes with an install command. This is a **vanilla HTML +
+Tailwind (CDN) + plain JS** stack with **no build step, no React, no npm component install**. Do **not**
+run `npx shadcn add` / `npx @21st-dev/cli add` and do not drop `.tsx` files anywhere. Instead
+**re-implement the effect** in this stack, **reskinned to the project's own design tokens** (never keep
+the source's palette). Say so in one sentence when you do it. Full playbook + React→vanilla mapping
+table: **`react-to-vanilla.md`** (in this folder).
+
+## Design consistency & CSS gotchas
+Before shipping, apply the consistency rules (a repeated pill/chip must be identical everywhere;
+label→heading spacing uniform across sections; glow/glass/liquid effects only on backgrounds where they
+read well — usually dark, not light) and avoid the animation traps (`box-shadow` transitions need equal
+layer counts in both states; a `.reveal`-style utility's `transition` can clobber an element's own).
+Details, plus the screenshot/verify gotchas on Windows: **`css-and-workflow.md`** (in this folder).
+
 ## Reference Images
 - If a reference image is provided: match layout, spacing, typography, and color exactly. Swap in placeholder content (images via `https://placehold.co/`, generic copy). Do not improve or add to the design.
 - If no reference image: design from scratch with high craft (see guardrails below).
@@ -15,14 +31,13 @@
 - If the server is already running, do not start a second instance.
 
 ## Screenshot Workflow
-- Puppeteer is installed at `C:/Users/nateh/AppData/Local/Temp/puppeteer-test/`. Chrome cache is at `C:/Users/nateh/.cache/puppeteer/`.
-- **Always screenshot from localhost:** `node screenshot.mjs http://localhost:3000`
+- `screenshot.mjs` lives in the project root and **auto-detects any cached Puppeteer Chrome** — no fixed install path. Use it as-is.
+- **Always screenshot from localhost:** `node screenshot.mjs http://localhost:3000 <label> <width>`
 - Screenshots are saved automatically to `./temporary screenshots/screenshot-N.png` (auto-incremented, never overwritten).
-- Optional label suffix: `node screenshot.mjs http://localhost:3000 label` → saves as `screenshot-N-label.png`
-- `screenshot.mjs` lives in the project root. Use it as-is.
 - After screenshotting, read the PNG from `temporary screenshots/` with the Read tool — Claude can see and analyze the image directly.
 - When comparing, be specific: "heading is 32px but reference shows ~24px", "card gap is 16px but should be 24px"
-- Check: spacing/padding, font size/weight/line-height, colors (exact hex), alignment, border-radius, shadows, image sizing
+- Check: spacing/padding, font size/weight/line-height, colors (exact hex), alignment, border-radius, shadows, image sizing.
+- For **cropped / hover / element-only / 2× detail** shots and the **Windows path + viewport-vs-document clip** gotchas, see **`css-and-workflow.md`**. Remember to wait for animations to finish and to capture hover states before shooting.
 
 ## Output Defaults
 - Single `index.html` file, all styles inline, unless user says otherwise
