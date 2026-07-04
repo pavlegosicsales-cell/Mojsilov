@@ -80,11 +80,16 @@ function headerHTML() {
 
       <div class="hidden lg:flex items-center justify-center gap-11 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">${links}</div>
 
+      <!-- Mobilni: dugme sa brojem telefona u centru nav bara -->
+      <a href="tel:${TEL}" aria-label="Pozovite nas" class="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white/90 whitespace-nowrap">
+        ${icon.phone}<span>${TEL_DISPLAY}</span>
+      </a>
+
       <div class="flex items-center justify-end gap-4">
         <a href="tel:${TEL}" class="hidden xl:inline-flex items-center gap-2 text-sm font-medium text-white/85 hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
-        <a href="#kontakt" class="glow-btn hidden sm:inline-flex">Zakažite termin ${icon.sparkles}</a>
+        <a href="#kontakt" class="glow-btn hidden lg:inline-flex">Zakažite termin ${icon.sparkles}</a>
         <button id="menu-open" class="lg:hidden text-white p-2 -mr-2" aria-label="Otvorite meni">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
         </button>

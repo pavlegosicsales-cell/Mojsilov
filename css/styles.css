@@ -840,7 +840,7 @@ body.menu-open { overflow: hidden; }
 .hero-corner--bl { left: 15.9%; top: 89.5%; transform: translate(-50%, 22px); }
 .hero-corner--br { left: 84.4%; top: 89.5%; transform: translate(-50%, 15px); }
 
-@media (max-width: 700px) {
+@media (max-width: 767.98px) {
   /* Na malom (skaliranom) hero-u drži uglove unutar slike, centrirane na linije */
   .hero-corner--tl, .hero-corner--tr,
   .hero-corner--bl, .hero-corner--br { transform: translate(-50%, -50%) scale(0.6); }
@@ -920,6 +920,29 @@ body.menu-open { overflow: hidden; }
   .hero-block--blue { width: 30%; }
   .hero-car { width: 80%; right: auto; left: 50%; transform: translateX(-50%); bottom: 6%; }
   .hero-wordmark { font-size: clamp(3rem, 20vw, 8rem); }
+}
+
+/* Mobilni mail (desni ugao hero-a) — skriven na desktopu */
+.hc-mail-mobile { display: none; }
+
+/* ---- Mobilne korekcije (telefon) ---- */
+@media (max-width: 767.98px) {
+  /* Hero: samo telefon (levo) + mail (desno); bez radnog vremena, skrola, socials, lokacije */
+  .hero-corner--bl, .hero-corner--br { display: none; }
+  .hc-hide-mobile { display: none !important; }
+  .hc-mail-mobile { display: inline-flex; }
+  /* Proširi hero sliku do ivica (poništi padding shell-a) */
+  .hero-stage { margin-inline: -1rem; }
+
+  /* Traka 01–04: duga labela više ne prelazi u susednu kolonu */
+  .feat-item { gap: 0.55rem; }
+  .feat-item > div { min-width: 0; }
+  .feat-num { font-size: 2rem; }
+  .feat-label-main { font-size: 0.9rem; }
+
+  /* Brojke: broj iznad labele → sve staje, divideri ostaju na sredini */
+  .nr-stat { flex-direction: column; gap: 0.35rem; text-align: center; }
+  .nr-stat-label { text-align: center; }
 }
 
 /* --------------------------------------------------------------------------
