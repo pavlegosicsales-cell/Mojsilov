@@ -368,60 +368,61 @@
           </p>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-3 items-stretch">
-          <!-- Poliranje farova — istaknuto -->
-          <div class="card-dark relative p-8 text-white overflow-hidden reveal grain" style="background:linear-gradient(160deg,#293681,#121358);border-color:rgba(255,255,255,0.12)">
-            <span class="absolute top-5 right-5 text-[0.7rem] uppercase tracking-wider bg-akcent text-white px-3 py-1 rounded-full">Potpis usluga</span>
-            <h3 class="font-display uppercase text-2xl mb-1">Poliranje farova</h3>
-            <p class="text-white/60 text-sm mb-6">Mobilna restauracija farova</p>
-            <div class="flex items-end gap-1 mb-6">
-              <span class="text-white/60 text-sm mb-1">od</span>
-              <span class="font-display text-5xl leading-none">3.500</span>
-              <span class="text-white/60 text-sm mb-1">din</span>
-            </div>
-            <ul class="space-y-3 text-sm text-white/80">
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Oba fara, bez keramike — <strong class="text-white">garancija 12 meseci</strong></li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Sa keramičkom zaštitom — <strong class="text-white">4.700 din, garancija 24 meseca</strong></li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Višefazno poliranje (Heavy / Medium / Finish)</li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Trajanje oko 2 sata za oba fara</li>
-            </ul>
-            <a href="#kontakt" class="btn btn-primary w-full mt-8">Zakažite termin</a>
+        <p class="text-center text-sm text-slate-500 mb-6 reveal">
+          Izaberite veličinu vozila — cena dubinskog pranja se prilagođava, poliranje farova ostaje isto.
+        </p>
+
+        <!-- Moxom otvorena bordered mreža + toggle veličine vozila -->
+        <div class="pricing-wrap relative reveal">
+          <!-- ukrasne vertikalne linije (izlaze iz centra spoljnih kolona, gore i dole) -->
+          <span aria-hidden="true" class="pr-vline pr-vline--tl"></span>
+          <span aria-hidden="true" class="pr-vline pr-vline--tr"></span>
+          <span aria-hidden="true" class="pr-vline pr-vline--bl"></span>
+          <span aria-hidden="true" class="pr-vline pr-vline--br"></span>
+
+          <!-- toggle veličine vozila -->
+          <div class="pr-tabs" role="tablist" aria-label="Veličina vozila">
+            <button type="button" class="pr-tab" role="tab" aria-selected="false" data-size="mali">Mali</button>
+            <button type="button" class="pr-tab is-active" role="tab" aria-selected="true" data-size="srednji">Srednji</button>
+            <button type="button" class="pr-tab" role="tab" aria-selected="false" data-size="veliki">Veliki</button>
           </div>
 
-          <!-- Dubinsko pranje automobila -->
-          <div class="card p-8 reveal reveal-delay-1">
-            <h3 class="font-display uppercase text-2xl text-navy mb-1">Dubinsko pranje auta</h3>
-            <p class="text-slate-500 text-sm mb-6">Enterijer i eksterijer</p>
-            <div class="flex items-end gap-1 mb-6 text-navy">
-              <span class="text-slate-500 text-sm mb-1">od</span>
-              <span class="font-display text-5xl leading-none">9.900</span>
-              <span class="text-slate-500 text-sm mb-1">din</span>
+          <div class="pricing-grid">
+            <!-- ===== Kolona 1: Poliranje farova — cena ista bez obzira na veličinu ===== -->
+            <div class="pr-head">
+              <p class="pr-sub">Potpis usluga · restauracija farova</p>
+              <h3 class="pr-title font-display uppercase text-navy">Poliranje farova</h3>
+              <p class="pr-price"><span class="pr-pre">od</span> <span class="pr-amount">3.500</span> <span class="pr-cur">din</span></p>
             </div>
-            <ul class="space-y-3 text-sm text-slate-600">
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Mali / srednji / veliki: <strong class="text-navy">9.900 / 10.900 / 12.900</strong></li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Karcher oprema i premium preparati</li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> UV zaštita plastike, pranje felni i stakala</li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Dolazak na adresu uračunat u cenu</li>
-            </ul>
-            <a href="#kontakt" class="btn btn-outline w-full mt-8">Zatražite cenu</a>
-          </div>
+            <div class="pr-benefit">Oba fara — višefazno poliranje</div>
+            <div class="pr-benefit">Heavy / Medium / Finish</div>
+            <div class="pr-benefit">Garancija 12 meseci</div>
+            <div class="pr-benefit">Sa keramikom — 4.700 din</div>
+            <div class="pr-cta"><a href="#kontakt" class="btn btn-primary">Zakažite termin</a></div>
 
-          <!-- Dubinsko pranje enterijera -->
-          <div class="card p-8 reveal reveal-delay-2">
-            <h3 class="font-display uppercase text-2xl text-navy mb-1">Dubinsko pranje enterijera</h3>
-            <p class="text-slate-500 text-sm mb-6">Fokus na unutrašnjost</p>
-            <div class="flex items-end gap-1 mb-6 text-navy">
-              <span class="text-slate-500 text-sm mb-1">od</span>
-              <span class="font-display text-5xl leading-none">7.900</span>
-              <span class="text-slate-500 text-sm mb-1">din</span>
+            <!-- ===== Kolona 2: Dubinsko pranje auta — cena po veličini ===== -->
+            <div class="pr-head">
+              <p class="pr-sub">Enterijer i eksterijer</p>
+              <h3 class="pr-title font-display uppercase text-navy">Dubinsko pranje auta</h3>
+              <p class="pr-price"><span class="pr-amount" data-svc="auta">10.900</span> <span class="pr-cur">din</span></p>
             </div>
-            <ul class="space-y-3 text-sm text-slate-600">
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Sedišta, pod, nebo, gepek i patosnice</li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Antibakterijski tretman i dezinfekcija</li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Keramička zaštita enterijera</li>
-              <li class="flex gap-2"><span class="text-akcent">✓</span> Ekstrakciono pranje i paročistač</li>
-            </ul>
-            <a href="#kontakt" class="btn btn-outline w-full mt-8">Zatražite cenu</a>
+            <div class="pr-benefit">Kompletno pranje karoserije</div>
+            <div class="pr-benefit">Karcher oprema i preparati</div>
+            <div class="pr-benefit">UV zaštita, felne i stakla</div>
+            <div class="pr-benefit">Dolazak na adresu uračunat</div>
+            <div class="pr-cta"><a href="#kontakt" class="btn btn-outline">Zatražite cenu</a></div>
+
+            <!-- ===== Kolona 3: Dubinsko pranje enterijera — cena po veličini ===== -->
+            <div class="pr-head">
+              <p class="pr-sub">Fokus na unutrašnjost</p>
+              <h3 class="pr-title font-display uppercase text-navy">Dubinsko pranje enterijera</h3>
+              <p class="pr-price"><span class="pr-amount" data-svc="enterijer">8.900</span> <span class="pr-cur">din</span></p>
+            </div>
+            <div class="pr-benefit">Sedišta, pod, nebo i gepek</div>
+            <div class="pr-benefit">Antibakterijski tretman</div>
+            <div class="pr-benefit">Keramička zaštita enterijera</div>
+            <div class="pr-benefit">Ekstrakciono pranje i para</div>
+            <div class="pr-cta"><a href="#kontakt" class="btn btn-outline">Zatražite cenu</a></div>
           </div>
         </div>
 

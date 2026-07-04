@@ -289,6 +289,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* Cenovnik — toggle veličine vozila menja cene za dubinsko pranje auta i enterijera;
+     poliranje farova ostaje isto (nema data-svc). */
+  const prTabs = document.querySelectorAll('.pr-tab');
+  if (prTabs.length) {
+    const PRICES = {
+      auta:      { mali: '9.900',  srednji: '10.900', veliki: '12.900' },
+      enterijer: { mali: '7.900',  srednji: '8.900',  veliki: '9.900'  },
+    };
+    const amounts = document.querySelectorAll('.pr-amount[data-svc]');
+    const setSize = (size) => {
+      prTabs.forEach((t) => {
+        const on = t.dataset.size === size;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      amounts.forEach((el) => {
+        const val = PRICES[el.dataset.svc] && PRICES[el.dataset.svc][size];
+        if (!val || el.textContent === val) return;
+        el.textContent = val;
+        el.classList.remove('is-updating'); void el.offsetWidth; el.classList.add('is-updating');
+      });
+    };
+    prTabs.forEach((t) => t.addEventListener('click', () => setSize(t.dataset.size)));
+    const initial = document.querySelector('.pr-tab.is-active');
+    setSize(initial ? initial.dataset.size : 'srednji');
+  }
+
   /* Liquid ghost dugmad (canvas liquid blobovi + animiran border) — port AICONNECT */
   document.querySelectorAll('.liq-btn').forEach((wrapper) => {
     const canvas = wrapper.querySelector('.liq-btn-canvas');
