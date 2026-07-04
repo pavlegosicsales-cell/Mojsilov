@@ -210,14 +210,23 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
 .card-dark:hover { transform: translateY(-6px); border-color: rgba(33, 100, 218, 0.5); }
 
 /* Kontakt-metod kartice (Telefon / Viber-WA / Email) — bogatiji, responzivniji hover:
-   veci lift, akcent border, box-shadow glow + spring pop ikonice. */
-.contact-card {
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.35s ease;
+   veci lift, akcent border, box-shadow glow + spring pop ikonice.
+   VAZNO: kartice imaju i .reveal, cija transition (samo opacity/transform) je
+   deklarisana kasnije u fajlu → prepisala bi nasu (pa bi box-shadow/border „skakali"
+   bez animacije), a .reveal.in{transform:none} ponistio bi lift. Zato koristimo
+   specificniji .contact-card.reveal (pun transition, 0.7s) i .contact-card.reveal:hover
+   (nadjacava .reveal.in). Isti pristup kao .step-card.reveal iznad. */
+.contact-card.reveal {
+  /* Ravnomerna kriva (ne easeOutQuint) da se lift/senka/border osete postepeno
+     kroz celih 0.7s, a ne da „odskoce" u prvih 0.3s. */
+  transition:
+    opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
-.contact-card:hover {
+.contact-card.reveal:hover {
   transform: translateY(-8px);
   border-color: rgba(33, 100, 218, 0.55);
   box-shadow: 0 22px 46px -14px rgba(0, 0, 0, 0.6),
@@ -236,7 +245,7 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
 }
 .contact-card:hover .contact-card-icon svg { transform: rotate(8deg) scale(1.08); }
 @media (prefers-reduced-motion: reduce) {
-  .contact-card, .contact-card:hover,
+  .contact-card.reveal, .contact-card.reveal:hover,
   .contact-card-icon, .contact-card:hover .contact-card-icon,
   .contact-card:hover .contact-card-icon svg { transform: none; }
 }

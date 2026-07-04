@@ -9,9 +9,22 @@ Hard-won lessons. All brand-agnostic — they apply to any site built in this st
   Fix: give both states the **same count** (pad the hover value with a matching first layer).
 - **A utility class's `transition` shorthand clobbers the element's own.** e.g. a scroll-reveal class
   (`.reveal`) that sets `transition: opacity, transform` will *drop* `box-shadow`/`border-color` from
-  an element that also declares its own transition — so those hover props snap. Fix: restore the full
-  transition on a **more specific selector** (`.card.reveal { transition: opacity, transform,
-  box-shadow, border-color … }`).
+  an element that also declares its own transition — so those hover props snap (change in `0s`). Fix:
+  restore the full transition on a **more specific selector** (`.card.reveal { transition: opacity,
+  transform, box-shadow, border-color … }`).
+- **`.reveal.in { transform: none }` also cancels a hover `transform` lift**, not just the transition.
+  The reveal end-state and your `.card:hover { transform: translateY(-8px) }` have **equal specificity**
+  (both one class + one pseudo/class), and `.reveal.in` is declared *later*, so it wins → the card never
+  moves on hover. Symptom: "cards don't lift". Fix: bump the hover selector's specificity so it beats
+  `.reveal.in`, e.g. `.card.reveal:hover { transform: … }` (two classes + `:hover`). Do the same for the
+  `prefers-reduced-motion` override. Both this and the transition-clobber bug come from `.reveal` sitting
+  *later* in the cascade at equal specificity — always qualify with `.reveal` when an element both reveals
+  and has hover motion.
+- **A 0.7s transition can still *feel* instant if the easing is front-loaded.** `cubic-bezier(0.22,1,0.36,1)`
+  (easeOutQuint) covers ~99% of the distance in the first ~0.35s, so a user asking for "gradual over 0.7s"
+  still sees it "snap". When the *duration itself* should be perceptible, use an evenly-distributed curve
+  like `cubic-bezier(0.4,0,0.2,1)`. Verify by sampling the computed `transform`/`box-shadow` at ~175/350/525ms
+  after a scripted hover — the value should climb across the whole window, not jump early.
 - **Animate only `transform` and `opacity`** for smoothness; never `transition: all`.
 - **Layered hover feels premium when each property has its own duration/easing** — e.g. card lift on a
   slow spring, an accent bar on a medium ease, a number pop on a bounce. Same duration on everything
