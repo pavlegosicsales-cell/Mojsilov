@@ -321,12 +321,19 @@ document.addEventListener('DOMContentLoaded', () => {
     setSize(initial ? initial.dataset.size : 'srednji');
   }
 
-  /* Pre/posle kartice — podrazumevano PRE; klik/tap (i hover na desktopu) prikazuje POSLE. */
+  /* Pre/posle kartice — slider poređenja (prevlačenje/klik pomera granicu PRE|POSLE). */
   document.querySelectorAll('.baf-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const on = card.classList.toggle('is-active');
-      card.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
+    let dragging = false;
+    const setPos = (clientX) => {
+      const r = card.getBoundingClientRect();
+      let pct = ((clientX - r.left) / r.width) * 100;
+      pct = Math.max(0, Math.min(100, pct));
+      card.style.setProperty('--baf-split', pct + '%');
+    };
+    card.addEventListener('pointerdown', (e) => { dragging = true; card.setPointerCapture(e.pointerId); setPos(e.clientX); });
+    card.addEventListener('pointermove', (e) => { if (dragging) setPos(e.clientX); });
+    card.addEventListener('pointerup', () => { dragging = false; });
+    card.addEventListener('pointercancel', () => { dragging = false; });
   });
 
   /* Precizne akcent linije: u razmacima traka|slika1, s1|s2, s2|s3, s3|traka;

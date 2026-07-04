@@ -217,7 +217,7 @@
       <div class="max-w-container mx-auto px-5 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-14 reveal">
           <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Naše usluge</span></span></div>
-          <h2 class="h-section text-4xl md:text-5xl text-navy"><span class="text-akcent-light">Vrhunska nega</span> za vaše vozilo</h2>
+          <h2 class="h-section text-4xl md:text-5xl text-navy"><span class="text-akcent-light">Vrhunska nega</span><br>za vaše vozilo</h2>
           <p class="mt-4 text-slate-600 leading-relaxed">
             Od restauracije farova do dubinskog pranja enterijera — svaki tretman obavljamo profesionalnom
             opremom, na vašoj adresi.
@@ -311,26 +311,29 @@
             <span aria-hidden="true" class="baf-vline" style="left:66.66%"></span>
             <span aria-hidden="true" class="baf-vline" style="left:100%"></span>
 
-            <button type="button" class="baf-card" aria-pressed="false" aria-label="Poliranje farova — prikaži rezultat posle">
+            <div class="baf-card" role="img" aria-label="Poliranje farova — pre i posle, prevucite za poređenje">
               <img class="baf-img baf-img--posle" src="assets/far-1-posle.jpg" alt="Far posle poliranja — proziran i sjajan" loading="lazy" width="1050" height="1400" />
               <img class="baf-img baf-img--pre" src="assets/far-1-pre.jpg" alt="Far pre poliranja — oksidiran i mutan" loading="lazy" width="1050" height="1400" />
               <span class="baf-badge baf-badge--posle">Posle</span>
               <span class="baf-badge baf-badge--pre">Pre</span>
-            </button>
+              <span class="baf-handle" aria-hidden="true"></span>
+            </div>
 
-            <button type="button" class="baf-card" aria-pressed="false" aria-label="Poliranje farova — prikaži rezultat posle">
+            <div class="baf-card" role="img" aria-label="Poliranje farova — pre i posle, prevucite za poređenje">
               <img class="baf-img baf-img--posle" src="assets/far-2-posle.jpg" alt="Far posle poliranja — proziran i sjajan" loading="lazy" width="1400" height="1400" />
               <img class="baf-img baf-img--pre" src="assets/far-2-pre.jpg" alt="Far pre poliranja — oksidiran i mutan" loading="lazy" width="1400" height="1400" />
               <span class="baf-badge baf-badge--posle">Posle</span>
               <span class="baf-badge baf-badge--pre">Pre</span>
-            </button>
+              <span class="baf-handle" aria-hidden="true"></span>
+            </div>
 
-            <button type="button" class="baf-card" aria-pressed="false" aria-label="Poliranje farova — prikaži rezultat posle">
+            <div class="baf-card" role="img" aria-label="Poliranje farova — pre i posle, prevucite za poređenje">
               <img class="baf-img baf-img--posle" src="assets/far-3-posle.jpg" alt="Far posle poliranja — proziran i sjajan" loading="lazy" width="1050" height="1400" />
               <img class="baf-img baf-img--pre" src="assets/far-3-pre.jpg" alt="Far pre poliranja — oksidiran i mutan" loading="lazy" width="1050" height="1400" />
               <span class="baf-badge baf-badge--posle">Posle</span>
               <span class="baf-badge baf-badge--pre">Pre</span>
-            </button>
+              <span class="baf-handle" aria-hidden="true"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -380,6 +383,12 @@
             <div class="pr-cta"><a href="#kontakt" class="btn btn-outline">Zakažite termin</a></div>
 
             <!-- ===== Kolona 2: Dubinsko pranje auta — cena po veličini ===== -->
+            <!-- toggle veličine (mobilni) iznad auta -->
+            <div class="pr-tabs" role="tablist" aria-label="Veličina vozila">
+              <button type="button" class="pr-tab" role="tab" aria-selected="false" data-size="mali">Mali</button>
+              <button type="button" class="pr-tab is-active" role="tab" aria-selected="true" data-size="srednji">Srednji</button>
+              <button type="button" class="pr-tab" role="tab" aria-selected="false" data-size="veliki">Veliki</button>
+            </div>
             <div class="pr-head">
               <p class="pr-sub">Enterijer i eksterijer</p>
               <h3 class="pr-title font-display uppercase text-navy">Dubinsko pranje auta</h3>
@@ -392,16 +401,22 @@
             <div class="pr-cta"><a href="#kontakt" class="btn btn-outline">Zakažite termin</a></div>
 
             <!-- ===== Kolona 3: Dubinsko pranje enterijera — cena po veličini ===== -->
-            <div class="pr-head">
+            <!-- toggle veličine (mobilni) iznad enterijera -->
+            <div class="pr-tabs" role="tablist" aria-label="Veličina vozila">
+              <button type="button" class="pr-tab" role="tab" aria-selected="false" data-size="mali">Mali</button>
+              <button type="button" class="pr-tab is-active" role="tab" aria-selected="true" data-size="srednji">Srednji</button>
+              <button type="button" class="pr-tab" role="tab" aria-selected="false" data-size="veliki">Veliki</button>
+            </div>
+            <div class="pr-head pr-c3">
               <p class="pr-sub">Fokus na unutrašnjost</p>
               <h3 class="pr-title font-display uppercase text-navy">Dubinsko pranje enterijera</h3>
               <p class="pr-price"><span class="pr-amount" data-svc="enterijer">8.900</span> <span class="pr-cur">din</span></p>
             </div>
-            <div class="pr-benefit">Sedišta, pod, nebo i gepek</div>
-            <div class="pr-benefit">Antibakterijski tretman</div>
-            <div class="pr-benefit">Keramička zaštita enterijera</div>
-            <div class="pr-benefit">Ekstrakciono pranje i para</div>
-            <div class="pr-cta"><a href="#kontakt" class="btn btn-outline">Zakažite termin</a></div>
+            <div class="pr-benefit pr-c3">Sedišta, pod, nebo i gepek</div>
+            <div class="pr-benefit pr-c3">Antibakterijski tretman</div>
+            <div class="pr-benefit pr-c3">Keramička zaštita enterijera</div>
+            <div class="pr-benefit pr-c3">Ekstrakciono pranje i para</div>
+            <div class="pr-cta pr-c3"><a href="#kontakt" class="btn btn-outline">Zakažite termin</a></div>
           </div>
         </div>
 
