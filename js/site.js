@@ -334,7 +334,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = showcase.querySelectorAll('.baf-card');
     if (!band || lines.length < 4 || cards.length < 3) return;
     if (getComputedStyle(band).display === 'none') return; // mobilni — linije skrivene
-    const s = showcase.getBoundingClientRect();
+    // Linije su deca .baf-row (offset parent) → sve mere idu relativno na njega,
+    // inače bi showcase padding pomerio linije nadole (asimetrično).
+    const row = showcase.querySelector('.baf-row');
+    const r = row.getBoundingClientRect();
     const b = band.getBoundingClientRect();
     const c = [...cards].map((el) => el.getBoundingClientRect());
     const xs = [
@@ -343,10 +346,10 @@ document.addEventListener('DOMContentLoaded', () => {
       (c[1].right + c[2].left) / 2,
       (c[2].right + b.right) / 2,
     ];
-    const top = (c[0].top + b.top) / 2 - s.top;
-    const bottom = (c[0].bottom + b.bottom) / 2 - s.top;
+    const top = (c[0].top + b.top) / 2 - r.top;
+    const bottom = (c[0].bottom + b.bottom) / 2 - r.top;
     lines.forEach((ln, i) => {
-      ln.style.left = xs[i] - s.left + 'px';
+      ln.style.left = xs[i] - r.left + 'px';
       ln.style.top = top + 'px';
       ln.style.bottom = 'auto';
       ln.style.height = bottom - top + 'px';
