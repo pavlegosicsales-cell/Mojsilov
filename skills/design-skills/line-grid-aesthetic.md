@@ -87,6 +87,41 @@ Layer over `background: radial-gradient(...accent glow...)` on a `bg-navy` secti
 table dividers. To make a grid cell equal a specific on-screen gap, measure the two dividers in JS and set
 `backgroundSize`.
 
+## Recipe: cards (when the design DOES use cards, make them premium)
+
+The line-grid replaces most cards — but some surfaces are genuinely cards (contact methods, the form).
+When you build one, it must feel crafted, never a flat `shadow-md` box. Two house patterns:
+
+**A. Premium hover method-card** (e.g. the contact Telefon/Viber/Email cards — client called these "odlično"):
+- A **dedicated class** (`.contact-card`), never restyle the shared base card globally — other cards on the
+  page (e.g. a pricing highlight) must not inherit the motion.
+- Base: subtle gradient bg, `1px` translucent border, `border-radius:~20px`, `will-change:transform`.
+- Transition **transform + box-shadow + border-color together over 0.7s** with an EVEN curve
+  `cubic-bezier(0.4,0,0.2,1)` (so the lift is felt, not snapped).
+- `:hover` → `transform:translateY(-5px)`, border to accent (`rgba(33,100,218,.55)`), and a **layered**
+  shadow: deep drop + accent glow + inner accent hairline, e.g.
+  `box-shadow: 0 22px 46px -14px rgba(0,0,0,.6), 0 0 34px rgba(33,100,218,.16), 0 0 0 1px rgba(33,100,218,.18) inset;`
+- **Icon spring-pop** on card hover: `.icon { transition: transform .45s cubic-bezier(0.34,1.56,0.64,1), background-color .35s, color .35s, box-shadow .35s; }`
+  and `.card:hover .icon { background:var(--akcent); color:#fff; transform: translateY(-4px) scale(1.1) rotate(-8deg); box-shadow: 0 10px 22px rgba(33,100,218,.5); }`
+  plus the inner `svg { transform: rotate(8deg) scale(1.08); }` — a playful counter-rotate.
+- **Gotcha (bit us here):** if the card also has a scroll-reveal class (`.reveal`), its `transition` (opacity/
+  transform only, declared later) overrides yours so shadow/border snap, and `.reveal.in{transform:none}`
+  cancels the hover lift. Fix by qualifying: `.card.reveal { transition: opacity, transform, box-shadow,
+  border-color 0.7s … }` and `.card.reveal:hover { transform:… }`. Full write-up in css-and-workflow.
+- Add a `prefers-reduced-motion` block that zeroes the transforms.
+
+**B. Glass card with traveling border beams** (the form card): a translucent dark panel
+(`background: rgba(9,11,34,.82); backdrop-filter: blur(28px); border:1px solid rgba(33,100,218,.14)`) with
+(1) light **beams** that run along each edge — an absolutely-positioned 2px gradient segment per side, each on
+a keyframe that sweeps it along that edge with staggered `animation-delay`; (2) **corner pulse dots** — small
+accent circles at the four corners with a scale/opacity pulse; (3) optional subtle **3D tilt** on
+pointer-move (`rotateX/rotateY` from cursor offset via a CSS var). `backdrop-filter` needs real content behind
+it to read — judge it in context, not from an element-only screenshot.
+
+To make a card match the height of a neighbor (form vs a stack of cards): let the grid row stretch
+(`items-stretch`) and center the card's content (`justify-content:center`) so it fills the taller column with
+symmetric padding, instead of leaving dead space.
+
 ## Shapes vocabulary (the "oblika" part)
 
 Layered blocks peeking above/below a hero image; a navy **band** behind portrait image cards with the cards
