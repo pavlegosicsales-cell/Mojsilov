@@ -1005,7 +1005,23 @@ body.menu-open { overflow: hidden; }
     grid-template-columns: repeat(3, 1fr); gap: 24px;
     padding: 0 clamp(18px, 3vw, 44px); z-index: 2;
   }
-  .baf-card { aspect-ratio: 3 / 4; }
+  .baf-card { aspect-ratio: 3 / 4; cursor: default;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease; }
+  /* Desktop: NEMA slidera — hover otkriva POSLE (default PRE). */
+  .baf-card:hover { transform: translateY(-4px); box-shadow: 0 26px 54px rgba(0, 0, 0, 0.42); }
+  .baf-img--posle { clip-path: none; opacity: 0; transition: opacity 0.5s ease; }
+  .baf-card:hover .baf-img--posle { opacity: 1; }
+  .baf-handle { display: none; }
+  .baf-badge { transition: opacity 0.35s ease; }
+  .baf-badge--posle { opacity: 0; }
+  .baf-card:hover .baf-badge--pre { opacity: 0; }
+  .baf-card:hover .baf-badge--posle { opacity: 1; }
+  /* vertikalna crosshair linija (na mobilnom je handle) */
+  .baf-card::before {
+    content: ''; position: absolute; z-index: 3; pointer-events: none;
+    left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.22);
+  }
   /* akcent vertikalne linije — pozicija/dužina se preciznije postavljaju iz JS-a
      (u razmacima traka|slika i sa krajevima između kraja slike i kraja trake). */
   .baf-vline {
