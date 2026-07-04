@@ -1188,6 +1188,50 @@ body.menu-open { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
+   Brojke + recenzije (Moxom) — otvorena bordered mreža na navy sekciji.
+   Ćelije su providne (grid-gradient pozadina se vidi), samo tanke bele linije
+   dele sadržaj. Brojke gore (4), recenzije dole (3 × ime/tekst/zvezdice).
+   -------------------------------------------------------------------------- */
+:root { --nrl: rgba(255, 255, 255, 0.12); }
+
+.nr-stats { display: grid; grid-template-columns: repeat(2, 1fr); border-bottom: 1px solid var(--nrl); }
+.nr-stat { display: flex; align-items: center; justify-content: center; gap: 0.9rem; padding: 1.6rem 1rem; }
+.nr-stat-label {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.6); line-height: 1.15; text-align: left;
+}
+
+.nr-reviews { display: grid; grid-template-columns: 1fr; }
+.nr-name {
+  font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; font-size: 1.1rem; color: #fff; text-align: center;
+  padding: 1.5rem 1.25rem; border-bottom: 1px solid var(--nrl);
+}
+.nr-text {
+  text-align: center; font-style: italic; color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7; padding: 1.6rem 1.5rem;
+}
+.nr-stars { text-align: center; color: #8fbaff; letter-spacing: 0.18em; font-size: 1.05rem; padding: 1.5rem 1.25rem; }
+
+/* mobilni: linije unutar i između recenzija + 2×2 brojke */
+@media (max-width: 1023.98px) {
+  .nr-stat:nth-child(2n) { border-left: 1px solid var(--nrl); }
+  .nr-stat:nth-child(n+3) { border-top: 1px solid var(--nrl); }
+  .nr-stars { border-top: 1px solid var(--nrl); }
+  .nr-name:nth-child(n+4) { border-top: 1px solid var(--nrl); }
+}
+
+@media (min-width: 1024px) {
+  .nr-stats { grid-template-columns: repeat(4, 1fr); }
+  .nr-stat:not(:first-child) { border-left: 1px solid var(--nrl); }
+
+  /* 3 kolone, 3 reda (ime / tekst / zvezdice); column-flow → DOM je „po recenziji". */
+  .nr-reviews { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto 1fr auto; grid-auto-flow: column; }
+  .nr-text { border-bottom: 1px solid var(--nrl); }
+  .nr-reviews > *:nth-child(n+4) { border-left: 1px solid var(--nrl); }
+}
+
+/* --------------------------------------------------------------------------
    FAQ akordeon
    -------------------------------------------------------------------------- */
 .faq-item { border-bottom: 1px solid rgba(18, 19, 88, 0.1); }

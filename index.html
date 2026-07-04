@@ -162,69 +162,47 @@
       </div>
     </section>
 
-    <!-- ===================== STATISTIKA ===================== -->
+    <!-- ===================== BROJKE + RECENZIJE (Moxom stil, bez naslova) ===================== -->
     <section data-count-section class="py-20 lg:py-24 bg-navy text-white relative overflow-hidden grain">
       <div aria-hidden="true" class="hero-grid"></div>
       <div aria-hidden="true" class="absolute inset-0 z-0" style="background: radial-gradient(50% 60% at 50% 50%, rgba(33,100,218,0.16), transparent 70%);"></div>
       <div class="max-w-container mx-auto px-5 lg:px-8 relative z-10">
-        <div class="grid grid-cols-2 lg:grid-cols-4 divide-y divide-white/10 sm:divide-y-0 sm:divide-x sm:divide-white/10">
-          <div class="flex items-center gap-4 py-6 sm:px-8 reveal">
+
+        <!-- Brojke — count-up animacija zadržana -->
+        <div class="nr-stats">
+          <div class="nr-stat reveal">
             <span class="stat-num font-display text-5xl md:text-6xl text-white leading-none"><span class="count-num" data-target="200">0</span><span class="text-akcent">+</span></span>
-            <span class="text-sm uppercase tracking-wider text-white/60 leading-tight">Obavljenih<br/>usluga</span>
+            <span class="nr-stat-label">Obavljenih<br/>usluga</span>
           </div>
-          <div class="flex items-center gap-4 py-6 sm:px-8 reveal reveal-delay-1">
+          <div class="nr-stat reveal reveal-delay-1">
             <span class="stat-num font-display text-5xl md:text-6xl text-white leading-none"><span class="count-num" data-target="70">0</span><span class="text-akcent">+</span></span>
-            <span class="text-sm uppercase tracking-wider text-white/60 leading-tight">Pozitivnih<br/>ocena</span>
+            <span class="nr-stat-label">Pozitivnih<br/>ocena</span>
           </div>
-          <div class="flex items-center gap-4 py-6 sm:px-8 reveal reveal-delay-2">
+          <div class="nr-stat reveal reveal-delay-2">
             <span class="stat-num font-display text-5xl md:text-6xl text-white leading-none"><span class="count-num" data-target="24">0</span></span>
-            <span class="text-sm uppercase tracking-wider text-white/60 leading-tight">Meseci<br/>garancije</span>
+            <span class="nr-stat-label">Meseci<br/>garancije</span>
           </div>
-          <div class="flex items-center gap-4 py-6 sm:px-8 reveal reveal-delay-3">
+          <div class="nr-stat reveal reveal-delay-3">
             <span class="stat-num font-display text-5xl md:text-6xl text-white leading-none"><span class="count-num" data-target="0">0</span></span>
-            <span class="text-sm uppercase tracking-wider text-white/60 leading-tight">Nezadovoljnih<br/>klijenata</span>
+            <span class="nr-stat-label">Nezadovoljnih<br/>klijenata</span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== RECENZIJE ===================== -->
-    <section class="py-20 lg:py-28 bg-[#f5f6fa]">
-      <div class="max-w-container mx-auto px-5 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-14 reveal">
-          <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Utisci klijenata</span></span></div>
-          <h2 class="h-section text-4xl md:text-5xl text-navy">Poverenje koje se gradi <span class="text-akcent-light">rezultatom</span></h2>
-          <p class="mt-4 text-slate-600 leading-relaxed">
-            Iza svake usluge stoji zadovoljan vlasnik — evo šta o poliranju farova kažu naši klijenti.
-          </p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-3 items-stretch">
-          <div class="card p-8 reveal flex flex-col">
-            <div class="flex gap-1 text-akcent mb-4" aria-label="Ocena 5 od 5">★★★★★</div>
-            <p class="text-slate-600 leading-relaxed italic flex-1">„Prezadovoljan sam rezultatom. Momak je jako pedantan, kulturan i profesionalan. Sve pohvale za ljudsku i profesionalnu stranu. Svaka preporuka, od srca."</p>
-            <div class="mt-6">
-              <p class="font-semibold text-navy text-sm">Srđan Medojević</p>
-              <p class="text-slate-400 text-xs">Poliranje farova</p>
-            </div>
-          </div>
-          <div class="card p-8 reveal reveal-delay-1 flex flex-col">
-            <div class="flex gap-1 text-akcent mb-4" aria-label="Ocena 5 od 5">★★★★★</div>
-            <p class="text-slate-600 leading-relaxed italic flex-1">„Izuzetno profesionalna usluga od početka do kraja. Momak je tačan, prijatan i veoma posvećen svom poslu. Farovi su fantastični nakon polimerizacije i farbanja — s obzirom na prethodno stanje, rezultat je daleko iznad mojih očekivanja. Retko se nailazi na tako kvalitetan rad. Čestitam i velika, iskrena preporuka!"</p>
-            <div class="mt-6">
-              <p class="font-semibold text-navy text-sm">Kikela Popović</p>
-              <p class="text-slate-400 text-xs">Poliranje farova</p>
-            </div>
-          </div>
-          <div class="card p-8 reveal reveal-delay-2 flex flex-col">
-            <div class="flex gap-1 text-akcent mb-4" aria-label="Ocena 5 od 5">★★★★★</div>
-            <p class="text-slate-600 leading-relaxed italic flex-1">„Sve pohvale za poliranje mojih starih farova, bukvalno izgledaju kao novi. Mladi majstor je veoma ljubazan, veoma profesionalan i stigao je u dogovoreno vreme. Najviša ocena 🙂"</p>
-            <div class="mt-6">
-              <p class="font-semibold text-navy text-sm">Danijela Pavlović</p>
-              <p class="text-slate-400 text-xs">Poliranje farova</p>
-            </div>
-          </div>
+        <!-- Recenzije — 3 kolone (ime / recenzija / zvezdice) -->
+        <div class="nr-reviews">
+          <div class="nr-name reveal">Srđan Medojević</div>
+          <p class="nr-text reveal">„Prezadovoljan sam rezultatom. Momak je jako pedantan, kulturan i profesionalan. Sve pohvale za ljudsku i profesionalnu stranu. Svaka preporuka, od srca."</p>
+          <div class="nr-stars reveal" aria-label="Ocena 5 od 5">★★★★★</div>
+
+          <div class="nr-name reveal reveal-delay-1">Kikela Popović</div>
+          <p class="nr-text reveal reveal-delay-1">„Izuzetno profesionalna usluga od početka do kraja. Momak je tačan, prijatan i veoma posvećen svom poslu. Farovi su fantastični nakon polimerizacije i farbanja — s obzirom na prethodno stanje, rezultat je daleko iznad mojih očekivanja. Retko se nailazi na tako kvalitetan rad. Čestitam i velika, iskrena preporuka!"</p>
+          <div class="nr-stars reveal reveal-delay-1" aria-label="Ocena 5 od 5">★★★★★</div>
+
+          <div class="nr-name reveal reveal-delay-2">Danijela Pavlović</div>
+          <p class="nr-text reveal reveal-delay-2">„Sve pohvale za poliranje mojih starih farova, bukvalno izgledaju kao novi. Mladi majstor je veoma ljubazan, veoma profesionalan i stigao je u dogovoreno vreme. Najviša ocena 🙂"</p>
+          <div class="nr-stars reveal reveal-delay-2" aria-label="Ocena 5 od 5">★★★★★</div>
         </div>
+
       </div>
     </section>
 
