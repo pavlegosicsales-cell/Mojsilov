@@ -60,7 +60,10 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  line-height: 1.02;
+  /* Razmak između redova za naslove u dva reda — srazmeran veličini fonta
+     (isti odnos kao hero „Vi nastavljate…"). Kod jednorednih naslova nema
+     vidljivog efekta. */
+  line-height: 1.18;
 }
 
 /* Suptilna tekstura zrna preko tamnih sekcija — dubina */
