@@ -9,6 +9,7 @@
   --navy: #121358;
   --plava: #293681;
   --akcent: #2164da;
+  --akcent-svetla: #8fbaff;   /* svetlija plava — akcent u naslovima (ista kao beams) */
   --crna: #000000;
   --siva: #b6bdc2;
   --bela: #ffffff;
@@ -60,11 +61,15 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  /* Razmak između redova za naslove u dva reda — srazmeran veličini fonta
-     (isti odnos kao hero „Vi nastavljate…"). Kod jednorednih naslova nema
-     vidljivog efekta. */
-  line-height: 1.18;
 }
+/* Razmak između redova za naslove u dva reda — srazmeran veličini fonta (isti
+   odnos kao hero „Vi nastavljate…"). Tailwind-ove text-* klase nose sopstveni
+   line-height (~1.0) i pregazile bi običnu .h-section; kvalifikovan selektor
+   (element + klasa) pobeđuje po specifičnosti na svim breakpoint-ima. Jednoredni
+   naslovi nemaju vidljiv efekat. */
+h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
+/* Svetlo-plavi akcenat unutar naslova (highlight dela teksta) */
+.text-akcent-light { color: var(--akcent-svetla); }
 
 /* Suptilna tekstura zrna preko tamnih sekcija — dubina */
 .grain::before {
