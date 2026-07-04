@@ -1214,8 +1214,8 @@ body.menu-open { overflow: hidden; }
 .nr-stars { text-align: center; color: #8fbaff; letter-spacing: 0.2em; font-size: 1.6rem; padding: 1.5rem 1.25rem; }
 /* Grid pozadina ove sekcije — kvadratna kockica (JS na lg postavlja tačan px
    = razmak između linije desno od 200+ i linije pored prvog imena).
-   background-position -10px → prva kolona kockica je uža za 10px. */
-[data-count-section] .hero-grid { background-size: 92px 92px; background-position: -10px 0; }
+   background-position -5px → prva kolona kockica je uža za 5px. */
+[data-count-section] .hero-grid { background-size: 92px 92px; background-position: -5px 0; }
 
 /* Vertikalni divideri koji se produžavaju do ivica sekcije: 3 (stat) do gornje
    ivice, 2 (recenzije) do donje. Dopune popunjavaju vertikalni padding (py-24 = 6rem).
