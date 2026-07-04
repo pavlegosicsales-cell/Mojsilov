@@ -227,7 +227,7 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
   will-change: transform;
 }
 .contact-card.reveal:hover {
-  transform: translateY(-8px);
+  transform: translateY(-5px);
   border-color: rgba(33, 100, 218, 0.55);
   box-shadow: 0 22px 46px -14px rgba(0, 0, 0, 0.6),
               0 0 34px rgba(33, 100, 218, 0.16),
