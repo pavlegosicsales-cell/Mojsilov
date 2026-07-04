@@ -440,6 +440,13 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
   border-color: rgba(33, 100, 218, 0.3);
   box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 48px rgba(33,100,218,0.08), 0 0 0 1px rgba(33,100,218,0.12) inset;
 }
+/* Na lg: staklena forma-kartica popuni visinu leve kolone (3 kartice) i vertikalno
+   centrira formu → jednaka visina + simetričan razmak gore/dole. Grid je
+   lg:items-stretch pa se #cf-card rasteže na visinu reda. */
+@media (min-width: 1024px) {
+  #cf-card { height: 100%; }
+  #cf-card .cf-card-inner { height: 100%; display: flex; flex-direction: column; justify-content: center; }
+}
 .cf-form { display: flex; flex-direction: column; gap: 14px; }
 .cf-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .cf-field { position: relative; display: flex; align-items: center; }
