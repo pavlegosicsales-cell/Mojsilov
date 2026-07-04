@@ -272,6 +272,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* Usluge — hover boji i deljene ivice susednih kartica (leva ivica = desni border
+     levog suseda; gornja ivica = donji border kartice iznad). Samo na lg (3 kolone). */
+  const svcCells = Array.from(document.querySelectorAll('.svc-grid .svc-cell'));
+  svcCells.forEach((cell, i) => {
+    const left = i % 3 !== 0 ? svcCells[i - 1] : null;
+    const above = i >= 3 ? svcCells[i - 3] : null;
+    cell.addEventListener('pointerenter', () => {
+      if (!window.matchMedia('(min-width:1024px)').matches) return;
+      if (left) left.classList.add('lit-right');
+      if (above) above.classList.add('lit-bottom');
+    });
+    cell.addEventListener('pointerleave', () => {
+      if (left) left.classList.remove('lit-right');
+      if (above) above.classList.remove('lit-bottom');
+    });
+  });
+
   /* Liquid ghost dugmad (canvas liquid blobovi + animiran border) — port AICONNECT */
   document.querySelectorAll('.liq-btn').forEach((wrapper) => {
     const canvas = wrapper.querySelector('.liq-btn-canvas');

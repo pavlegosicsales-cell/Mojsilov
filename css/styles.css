@@ -942,17 +942,32 @@ body.menu-open { overflow: hidden; }
   border-right: 1px solid rgba(18, 19, 88, 0.17);
   border-bottom: 1px solid rgba(18, 19, 88, 0.17);
   padding: 2.25rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.7s ease;
   position: relative;
 }
-.svc-cell:hover { background: #f7f9fc; }
-.svc-cell:hover .svc-icon { background: var(--akcent); color: #fff; }
+.svc-cell:hover { background: #f7f9fc; border-color: var(--akcent); }
+/* Deljene ivice susednih kartica — obojene preko JS klasa (leva ivica = desni
+   border levog suseda; gornja ivica = donji border kartice iznad). Bez zadebljanja. */
+.svc-cell.lit-right { border-right-color: var(--akcent); }
+.svc-cell.lit-bottom { border-bottom-color: var(--akcent); }
+/* Izlazne linije te kartice se PUNE akcentom (isti 1px), od kartice ka ivici */
+.svc-cell:hover .svc-line--left,
+.svc-cell:hover .svc-line--right,
+.svc-cell:hover .svc-line--top,
+.svc-cell:hover .svc-line--bottom { background-size: 100% 100%; }
+/* Ikonica — zabavna spring pop animacija na hover */
+.svc-cell:hover .svc-icon {
+  background: var(--akcent); color: #fff;
+  transform: translateY(-4px) scale(1.1) rotate(-8deg);
+}
+.svc-cell:hover .svc-icon svg { transform: rotate(8deg) scale(1.08); }
 .svc-icon {
   width: 56px; height: 56px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
   background: rgba(33, 100, 218, 0.10); color: var(--akcent);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+.svc-icon svg { transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .svc-label {
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--akcent);
@@ -961,17 +976,22 @@ body.menu-open { overflow: hidden; }
    (kol 3: usluge 3,6), pa tanke linije (isti stil kao borderi) „izlaze" iz uglovnih
    kartica ka ivicama ekrana. Samo na lg (3-kolonski raspored). */
 .svc-line {
-  display: none; position: absolute;
-  background: rgba(18, 19, 88, 0.17); pointer-events: none;
+  display: none; position: absolute; pointer-events: none;
+  background-color: rgba(18, 19, 88, 0.17);          /* osnovni tanki potez */
+  background-image: linear-gradient(var(--akcent), var(--akcent)); /* akcent fill */
+  background-repeat: no-repeat;
+  transition: background-size 0.7s ease;
 }
-/* Horizontalne — iz centra uglovnih kartica ka levoj/desnoj ivici */
-.svc-line--left  { top: 50%; right: 100%; height: 1px; width: 50vw; }
-.svc-line--right { top: 50%; left: 100%; height: 1px; width: 50vw; }
-/* Vertikalne — iz gornjeg/donjeg bordera ka vrhu/dnu sekcije */
-.svc-line--top    { left: 50%; bottom: 100%; width: 1px; height: 100vh; }
-.svc-line--bottom { left: 50%; top: 100%; width: 1px; height: 100vh; }
+/* Horizontalne — pune se od kartice (right/left anchor) ka levoj/desnoj ivici */
+.svc-line--left  { top: 50%; right: 100%; height: 1px; width: 50vw; background-position: right center; background-size: 0% 100%; }
+.svc-line--right { top: 50%; left: 100%;  height: 1px; width: 50vw; background-position: left center;  background-size: 0% 100%; }
+/* Vertikalne — pune se od kartice (bottom/top anchor) ka vrhu/dnu sekcije */
+.svc-line--top    { left: 50%; bottom: 100%; width: 1px; height: 100vh; background-position: center bottom; background-size: 100% 0%; }
+.svc-line--bottom { left: 50%; top: 100%;    width: 1px; height: 100vh; background-position: center top;    background-size: 100% 0%; }
 @media (min-width: 1024px) {
-  .svc-grid { border-left: none; }
+  .svc-grid { border-left: none; border-top: none; }
+  /* gornji border prelazi na kartice reda 1 → moguće ga obojiti po kartici */
+  .svc-cell:nth-child(-n+3) { border-top: 1px solid rgba(18, 19, 88, 0.17); }
   .svc-cell--no-r { border-right: none; }
   .svc-line { display: block; }
 }
