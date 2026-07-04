@@ -19,9 +19,17 @@ read well — usually dark, not light) and avoid the animation traps (`box-shado
 layer counts in both states; a `.reveal`-style utility's `transition` can clobber an element's own).
 Details, plus the screenshot/verify gotchas on Windows: **`css-and-workflow.md`** (in this folder).
 
+## The house style (default look for this project)
+When there's no reference image, or the user asks for "our style" / *linijski grid, puno linija i oblika, ne
+generično, sa osećajem* — build in the project's signature **line-grid editorial aesthetic**: thin 1px lines
+everywhere, content in open bordered grids (not floating cards), decorative lines that reach the section
+edges, grid-pattern backgrounds, cold-blue palette, Oswald caps headings, layered shapes, precise computed
+interactions. Full recipe (palette/type tokens, the open-grid pattern, edge-lines, grid backgrounds, shapes,
+interactions, mobile): **`line-grid-aesthetic.md`** (in this folder). Read it before designing from scratch.
+
 ## Reference Images
 - If a reference image is provided: match layout, spacing, typography, and color exactly. Swap in placeholder content (images via `https://placehold.co/`, generic copy). Do not improve or add to the design.
-- If no reference image: design from scratch with high craft (see guardrails below).
+- If no reference image: design in the **house style above** (`line-grid-aesthetic.md`) with high craft (see guardrails below).
 - Screenshot your output, compare against reference, fix mismatches, re-screenshot. Do at least 2 comparison rounds. Stop only when no visible differences remain or user says so.
 
 ## Local Server
