@@ -1211,7 +1211,10 @@ body.menu-open { overflow: hidden; }
   text-align: center; font-style: italic; color: rgba(255, 255, 255, 0.72);
   line-height: 1.7; padding: 1.6rem 1.5rem;
 }
-.nr-stars { text-align: center; color: #8fbaff; letter-spacing: 0.18em; font-size: 1.05rem; padding: 1.5rem 1.25rem; }
+.nr-stars { text-align: center; color: #8fbaff; letter-spacing: 0.2em; font-size: 1.6rem; padding: 1.5rem 1.25rem; }
+/* Grid pozadina ove sekcije — kvadratna kockica (JS na lg postavlja tačan px
+   = razmak između linije desno od 200+ i linije pored prvog imena). */
+[data-count-section] .hero-grid { background-size: 92px 92px; }
 
 /* mobilni: linije unutar i između recenzija + 2×2 brojke */
 @media (max-width: 1023.98px) {

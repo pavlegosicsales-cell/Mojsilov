@@ -361,6 +361,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', layoutBafLines);
   }
 
+  /* Grid pozadina brojke/recenzije: stranica kockice = razmak između linije desno
+     od prve brojke (200+) i linije pored prvog imena (Srđan) → 8.33% kontejnera. */
+  const nrSection = document.querySelector('[data-count-section]');
+  const nrGrid = nrSection && nrSection.querySelector('.hero-grid');
+  const sizeNrGrid = () => {
+    if (!nrGrid) return;
+    const stat1 = nrSection.querySelector('.nr-stat');
+    const name1 = nrSection.querySelector('.nr-name');
+    if (!stat1 || !name1) return;
+    if (!window.matchMedia('(min-width:1024px)').matches) { nrGrid.style.backgroundSize = ''; return; }
+    const d = name1.getBoundingClientRect().right - stat1.getBoundingClientRect().right;
+    if (d > 4) nrGrid.style.backgroundSize = d + 'px ' + d + 'px';
+  };
+  if (nrGrid) {
+    sizeNrGrid();
+    window.addEventListener('load', sizeNrGrid);
+    window.addEventListener('resize', sizeNrGrid);
+  }
+
   /* Liquid ghost dugmad (canvas liquid blobovi + animiran border) — port AICONNECT */
   document.querySelectorAll('.liq-btn').forEach((wrapper) => {
     const canvas = wrapper.querySelector('.liq-btn-canvas');
