@@ -317,45 +317,42 @@
           <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Rezultat koji se vidi</span></span></div>
           <h2 class="h-section text-4xl md:text-5xl text-navy">Pre i posle</h2>
           <p class="mt-4 text-slate-600 leading-relaxed">
-            Povucite klizač i uporedite — fotografije pravimo nakon svake usluge, kao transparentan dokaz kvaliteta.
+            Pređite mišem preko slike (ili je dodirnite) da vidite stanje pre — poliranje farova, fotografisano nakon svake usluge kao transparentan dokaz kvaliteta.
           </p>
         </div>
 
-        <div class="grid gap-8 lg:grid-cols-3">
-          <div class="reveal">
-            <div class="ba-slider" role="img" aria-label="Poliranje farova — pre i posle">
-              <img class="ba-before" src="assets/farovi-pre.jpg" alt="Požuteo i oksidiran far pre poliranja" loading="lazy" width="1200" height="900" />
-              <img class="ba-after" src="assets/farovi-posle.jpg" alt="Prozirni far posle profesionalnog poliranja" loading="lazy" width="1200" height="900" />
-              <span class="ba-label ba-label--pre">Pre</span>
-              <span class="ba-label ba-label--posle">Posle</span>
-              <span class="ba-handle" aria-hidden="true"></span>
-            </div>
-            <h3 class="mt-5 font-semibold text-navy">Poliranje farova</h3>
-            <p class="text-slate-500 text-sm">Vraćena fabrička prozirnost — garancija do 24 meseca.</p>
-          </div>
+        <!-- Moxom showcase — navy traka + 3 portret pre/posle kartice + akcent vertikalne linije -->
+        <div class="baf-showcase reveal">
+          <div class="baf-band" aria-hidden="true"></div>
+          <div class="baf-row">
+            <span aria-hidden="true" class="baf-vline" style="left:0"></span>
+            <span aria-hidden="true" class="baf-vline" style="left:33.33%"></span>
+            <span aria-hidden="true" class="baf-vline" style="left:66.66%"></span>
+            <span aria-hidden="true" class="baf-vline" style="left:100%"></span>
 
-          <div class="reveal reveal-delay-1">
-            <div class="ba-slider" role="img" aria-label="Dubinsko pranje enterijera — pre i posle">
-              <img class="ba-before" src="assets/enterijer-pre.jpg" alt="Prljav i zapušten enterijer pre dubinskog pranja" loading="lazy" width="1200" height="900" />
-              <img class="ba-after" src="assets/enterijer-posle.jpg" alt="Čist i osvežen enterijer posle dubinskog pranja" loading="lazy" width="1200" height="900" />
-              <span class="ba-label ba-label--pre">Pre</span>
-              <span class="ba-label ba-label--posle">Posle</span>
-              <span class="ba-handle" aria-hidden="true"></span>
-            </div>
-            <h3 class="mt-5 font-semibold text-navy">Dubinsko pranje enterijera</h3>
-            <p class="text-slate-500 text-sm">Sveže, higijenski čisto i kao novo.</p>
-          </div>
+            <button type="button" class="baf-card" aria-pressed="false" aria-label="Poliranje farova — prikaži stanje pre">
+              <img class="baf-img baf-img--posle" src="assets/far-1-posle.jpg" alt="Far posle poliranja — proziran i sjajan" loading="lazy" width="1050" height="1400" />
+              <img class="baf-img baf-img--pre" src="assets/far-1-pre.jpg" alt="Far pre poliranja — oksidiran i mutan" loading="lazy" width="1050" height="1400" />
+              <span class="baf-badge baf-badge--posle">Posle</span>
+              <span class="baf-badge baf-badge--pre">Pre</span>
+              <span class="baf-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+            </button>
 
-          <div class="reveal reveal-delay-2">
-            <div class="ba-slider" role="img" aria-label="Zaštita i sjaj karoserije — pre i posle">
-              <img class="ba-before" src="assets/karoserija-pre.jpg" alt="Prljava i matirana karoserija pre tretmana" loading="lazy" width="1200" height="900" />
-              <img class="ba-after" src="assets/karoserija-posle.jpg" alt="Blistava karoserija sa dubokim sjajem posle tretmana" loading="lazy" width="1200" height="900" />
-              <span class="ba-label ba-label--pre">Pre</span>
-              <span class="ba-label ba-label--posle">Posle</span>
-              <span class="ba-handle" aria-hidden="true"></span>
-            </div>
-            <h3 class="mt-5 font-semibold text-navy">Sjaj i zaštita karoserije</h3>
-            <p class="text-slate-500 text-sm">Dubok sjaj i zaštita koja traje.</p>
+            <button type="button" class="baf-card" aria-pressed="false" aria-label="Poliranje farova — prikaži stanje pre">
+              <img class="baf-img baf-img--posle" src="assets/far-2-posle.jpg" alt="Far posle poliranja — proziran i sjajan" loading="lazy" width="1400" height="1400" />
+              <img class="baf-img baf-img--pre" src="assets/far-2-pre.jpg" alt="Far pre poliranja — oksidiran i mutan" loading="lazy" width="1400" height="1400" />
+              <span class="baf-badge baf-badge--posle">Posle</span>
+              <span class="baf-badge baf-badge--pre">Pre</span>
+              <span class="baf-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+            </button>
+
+            <button type="button" class="baf-card" aria-pressed="false" aria-label="Poliranje farova — prikaži stanje pre">
+              <img class="baf-img baf-img--posle" src="assets/far-3-posle.jpg" alt="Far posle poliranja — proziran i sjajan" loading="lazy" width="1050" height="1400" />
+              <img class="baf-img baf-img--pre" src="assets/far-3-pre.jpg" alt="Far pre poliranja — oksidiran i mutan" loading="lazy" width="1050" height="1400" />
+              <span class="baf-badge baf-badge--posle">Posle</span>
+              <span class="baf-badge baf-badge--pre">Pre</span>
+              <span class="baf-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+            </button>
           </div>
         </div>
       </div>

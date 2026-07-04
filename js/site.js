@@ -316,6 +316,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setSize(initial ? initial.dataset.size : 'srednji');
   }
 
+  /* Pre/posle kartice — klik/tap prebacuje posle↔pre (hover to radi na desktopu). */
+  document.querySelectorAll('.baf-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const pre = card.classList.toggle('is-pre');
+      card.setAttribute('aria-pressed', pre ? 'true' : 'false');
+    });
+  });
+
   /* Liquid ghost dugmad (canvas liquid blobovi + animiran border) — port AICONNECT */
   document.querySelectorAll('.liq-btn').forEach((wrapper) => {
     const canvas = wrapper.querySelector('.liq-btn-canvas');
