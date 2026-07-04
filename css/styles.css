@@ -1213,8 +1213,20 @@ body.menu-open { overflow: hidden; }
 }
 .nr-stars { text-align: center; color: #8fbaff; letter-spacing: 0.2em; font-size: 1.6rem; padding: 1.5rem 1.25rem; }
 /* Grid pozadina ove sekcije — kvadratna kockica (JS na lg postavlja tačan px
-   = razmak između linije desno od 200+ i linije pored prvog imena). */
-[data-count-section] .hero-grid { background-size: 92px 92px; }
+   = razmak između linije desno od 200+ i linije pored prvog imena).
+   background-position -10px → prva kolona kockica je uža za 10px. */
+[data-count-section] .hero-grid { background-size: 92px 92px; background-position: -10px 0; }
+
+/* Vertikalni divideri koji se produžavaju do ivica sekcije: 3 (stat) do gornje
+   ivice, 2 (recenzije) do donje. Dopune popunjavaju vertikalni padding (py-24 = 6rem).
+   Samo na lg (gde su 4-kol brojke i 3-kol recenzije). */
+.nr-vline { display: none; }
+@media (min-width: 1024px) {
+  .nr-stats, .nr-reviews { position: relative; }
+  .nr-vline { display: block; position: absolute; width: 1px; background: var(--nrl); pointer-events: none; }
+  .nr-vtop { top: -6rem; height: 6rem; }  /* od gornje ivice sekcije do linije stats */
+  .nr-vbot { top: 100%; height: 6rem; }   /* od linije reviews do donje ivice sekcije */
+}
 
 /* mobilni: linije unutar i između recenzija + 2×2 brojke */
 @media (max-width: 1023.98px) {
@@ -1231,7 +1243,7 @@ body.menu-open { overflow: hidden; }
   /* 3 kolone, 3 reda (ime / tekst / zvezdice); column-flow → DOM je „po recenziji". */
   .nr-reviews { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto 1fr auto; grid-auto-flow: column; }
   .nr-text { border-bottom: 1px solid var(--nrl); }
-  .nr-reviews > *:nth-child(n+4) { border-left: 1px solid var(--nrl); }
+  .nr-reviews > *:nth-child(n+4):not(.nr-vline) { border-left: 1px solid var(--nrl); }
 }
 
 /* --------------------------------------------------------------------------
