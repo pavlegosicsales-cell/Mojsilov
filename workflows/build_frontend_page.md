@@ -8,7 +8,11 @@ brief (and reference image, if any).
 - Any brand assets in `brand_assets/` (logo, palette, fonts)
 
 ## Steps
-1. Invoke the `frontend-design` skill before writing any frontend code (see `Front-end-design.md`).
+1. Invoke the `ui-ux-pro-max` skill before writing any frontend code (see `skills/ui-ux-pro-max/SKILL.md`).
+   This project is **vanilla HTML + Tailwind (CDN) + plain JS, no build step** — ui-ux-pro-max is
+   stack-agnostic, so still read the project-specific companions in `skills/design-skills/`:
+   `line-grid-aesthetic.md` (house style), `react-to-vanilla.md` (re-implement React/shadcn snippets
+   in this stack), `css-and-workflow.md` (Windows screenshot + CSS gotchas).
 2. Check `brand_assets/` — use real assets if present; otherwise placeholders
    (`https://placehold.co/WIDTHxHEIGHT`, generic copy).
 3. Build/edit `index.html` (Tailwind via CDN, mobile-first, inline styles by default).
@@ -24,7 +28,12 @@ brief (and reference image, if any).
 - Screenshots in `temporary screenshots/` documenting the final result
 
 ## Edge Cases / Notes
-- Puppeteer must be installed (`npm install`). The paths in `Front-end-design.md` reference a
-  different user account and do not apply on this machine — use the local `screenshot.mjs`.
-- Never screenshot a `file:///` URL — always serve from localhost.
-- Follow the Anti-Generic Guardrails and Hard Rules in `Front-end-design.md`.
+- Puppeteer must be installed (`npm install`). Use the local `screenshot.mjs`; never screenshot a
+  `file:///` URL — always serve from localhost. Windows-specific gotchas: `css-and-workflow.md`.
+- ui-ux-pro-max ships Python search scripts. **Python 3.12 is installed.** Bare `python` is shadowed
+  by a Windows Store alias in some shells, so invoke with the full path:
+  `"$LOCALAPPDATA/Programs/Python/Python312/python.exe" skills/ui-ux-pro-max/scripts/search.py "<query>" --design-system -p "Mojsilov"`
+  (PowerShell: `& "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe" ...`). Treat its output as a
+  starting point — reskin to the existing navy/blue brand tokens, don't adopt its generic palette.
+- Follow ui-ux-pro-max's Quick Reference (§1–§10) + Pre-Delivery Checklist, plus the project
+  Anti-Generic guardrails documented in `line-grid-aesthetic.md`.

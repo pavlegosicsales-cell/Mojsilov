@@ -233,7 +233,16 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
               0 0 34px rgba(33, 100, 218, 0.16),
               0 0 0 1px rgba(33, 100, 218, 0.18) inset;
 }
+/* Moxom „glass" pločica ikonice — varijanta za tamnu (navy) pozadinu: frosted
+   staklo sa radial sjajem (belo → akcent), providni border, blur, meka senka.
+   Hover pop animacija ispod (bg akcent, bela ikonica) je zadržana. */
 .contact-card-icon {
+  border-radius: 16px; color: #a8c6ff;
+  background-color: rgba(255, 255, 255, 0.08);
+  background-image: radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.5) 16%, rgba(33, 100, 218, 0.3) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 22px -10px rgba(33, 100, 218, 0.55);
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
 }
@@ -354,19 +363,30 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
 /* --------------------------------------------------------------------------
    Count-up brojevi (statistika) — spring + glitch, port iz AICONNECT, akcent boja
    -------------------------------------------------------------------------- */
+/* „Roll" reveal (Avontiv): broj sedi u maski i uklizne odozdo na scroll-in.
+   .stat-num = maska (overflow hidden, blagi padding da se ne kljaštre glifovi),
+   .stat-roll = sadržaj koji klizi. JS dodaje .rolled uz stagger. */
 .stat-num { display: inline-flex; align-items: baseline; }
 .count-num { position: relative; z-index: 1; display: inline-block; }
-@keyframes numGlitch {
-  0%   { clip-path: none; transform: none; color: #fff; }
-  30%  { clip-path: inset(15% 0 45% 0); transform: translateX(-4px); color: rgba(33, 100, 218, 0.95); }
-  50%  { clip-path: inset(55% 0 10% 0); transform: translateX(4px);  color: rgba(127, 176, 255, 0.85); }
-  70%  { clip-path: inset(30% 0 35% 0); transform: translateX(-2px); color: #fff; }
-  100% { clip-path: none; transform: none; color: #fff; }
+/* Po-cifra roll: svaka cifra = maska .dgt (overflow hidden), .dgt-in klizi iz nje.
+   inline-flex → baseline poravnat sa suffiksima (+, –). Susedne cifre u suprotnim
+   smerovima (.dgt--up odozdo / .dgt--down odozgo), stagger preko --i, sporo. */
+.dgt { display: inline-flex; overflow: hidden; line-height: 1.05; }
+.dgt-in {
+  display: block; line-height: 1.05; will-change: transform;
+  transform: translateY(var(--from, 120%));
+  transition: transform 1.05s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 0.07s);
 }
-.stat-num .count-num.glitching { animation: numGlitch 0.2s steps(1) forwards; }
-@media (prefers-reduced-motion: reduce) {
-  .stat-num .count-num.glitching { animation: none; }
-}
+.dgt--up { --from: 120%; }
+.dgt--down { --from: -120%; }
+/* Okidač: kad se brojka otkrije (reveal observer dodaje .in — pouzdano, i
+   screenshot.mjs to forsira) ili preko .rolled (data-count-section backup). */
+.stat-num.rolled .dgt-in,
+.reveal.in .dgt-in { transform: translateY(0); }
+/* Brojke bez standardnog reveal fade-a — otkrivaju se isključivo roll-om cifara. */
+.nr-stat.reveal { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .dgt-in { transition: none; transform: none; } }
 
 /* --------------------------------------------------------------------------
    Glass kontakt kartica sa putujućim svetlosnim zracima (port sign-in-card-2)
@@ -550,16 +570,41 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
 /* --------------------------------------------------------------------------
    Header
    -------------------------------------------------------------------------- */
-#site-header { position: sticky; top: 0; z-index: 50; }
+:root { --header-h: 96px; }
+@media (min-width: 1024px) { :root { --header-h: 124px; } }
+/* Header preklapa prvu sekciju (negativna margina) → transparentan nav se stapa
+   sa hero pozadinom (grid/glow se nastavljaju ispod njega). */
+#site-header { position: sticky; top: 0; z-index: 50; margin-bottom: calc(-1 * var(--header-h)); }
 .header-inner {
-  background-color: var(--navy);
+  background-color: transparent;   /* transparentan na vrhu */
   transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+/* prva sekcija svake strane klizi gore iza (transparentnog) headera; padding je
+   spušta ispod nav-a da sadržaj ne ulazi pod njega. Scroll efekat = nepromenjen. */
+main > section:first-of-type { padding-top: calc(var(--header-h) + 3.25rem); }
+
+/* Foto-hero (poliranje farova, dubinsko pranje) — pozadinska slika + crni
+   gradijent overlay. Veći hero (min-height) da slika bolje diše. Sadržaj je
+   vertikalno centriran u prostoru ispod (transparentnog) nav-a. */
+.hero-photo { background: #06071a; display: flex; align-items: center; min-height: 72vh; }
+@media (min-width: 1024px) { .hero-photo { min-height: 86vh; } }
+.hero-photo > .max-w-container { width: 100%; }
+.hero-photo-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+.hero-photo-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(100deg, rgba(3, 4, 20, 0.95) 0%, rgba(3, 4, 20, 0.80) 40%, rgba(3, 4, 20, 0.34) 100%),
+    linear-gradient(180deg, rgba(3, 4, 20, 0.55) 0%, rgba(3, 4, 20, 0) 26%, rgba(3, 4, 20, 0) 66%, rgba(3, 4, 20, 0.5) 100%);
 }
 .header-scrolled {
   background: rgba(18, 19, 88, 0.92);
   backdrop-filter: blur(10px);
   box-shadow: 0 6px 24px rgba(18, 19, 88, 0.24);
 }
+/* Broj telefona u navu — plavi glow za čitljivost preko foto hero pozadina */
+.nav-phone { text-shadow: 0 0 12px rgba(33, 100, 218, 0.8), 0 1px 4px rgba(0, 0, 0, 0.55); }
+.nav-phone svg { filter: drop-shadow(0 0 6px rgba(33, 100, 218, 0.9)); }
+
 .nav-link { position: relative; transition: color 0.2s ease; }
 .nav-link::after {
   content: '';
@@ -572,6 +617,37 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .nav-link:hover::after, .nav-link.is-active::after { transform: scaleX(1); }
+
+/* Usluge dropdown (desktop) — otvara se na hover/focus */
+.nav-dd { position: relative; display: inline-flex; }
+.nav-dd > .nav-link { display: inline-flex; align-items: center; gap: 6px; }
+.nav-dd-caret { transition: transform 0.25s ease; margin-top: 1px; }
+.nav-dd:hover .nav-dd-caret, .nav-dd:focus-within .nav-dd-caret { transform: rotate(180deg); }
+.nav-dd-panel {
+  position: absolute; top: 100%; left: 50%; transform: translate(-50%, 8px);
+  min-width: 220px; padding: 10px;
+  background: rgba(13, 16, 48, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.6);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.25s;
+  z-index: 60;
+}
+/* nevidljivi „most" preko razmaka između linka i panela da hover ne pukne */
+.nav-dd-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+.nav-dd:hover .nav-dd-panel, .nav-dd:focus-within .nav-dd-panel {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translate(-50%, 4px);
+}
+.nav-dd-link {
+  display: block; padding: 11px 14px; border-radius: 9px;
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em;
+  font-size: 0.95rem; color: rgba(255, 255, 255, 0.85);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-dd-link:hover, .nav-dd-link.is-active { background: rgba(33, 100, 218, 0.18); color: #fff; }
 
 /* Logo: dark logo na tamnoj podlozi → prebaci u čisto belo radi čitljivosti.
    (Za očuvanje brend boja, dostaviti svetlu/belu verziju logotipa.) */
@@ -619,6 +695,23 @@ h1.h-section, h2.h-section, h3.h-section { line-height: 1.18; }
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(125% 125% at 50% 8%, rgba(8, 10, 36, 0.5) 45%, rgba(33, 100, 218, 0.18) 100%);
 }
+/* Moxom „cool linije" — vertikalne vodilje poravnate sa container-om (kao .bg-v-line
+   iz Moxoma, opacity ~.16 belo), dopiru do gornje i donje ivice footera. Sloj je iznad
+   glow-a (0), a ispod sadržaja (10) i velikog MOJSILOV wordmarka (z-[2] → iznad ostaje). */
+.ac-footer-lines {
+  position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+  width: 100%; max-width: 1500px; margin-inline: auto;
+  padding: 0 20px; box-sizing: border-box;
+  z-index: 1; pointer-events: none;
+}
+.ac-footer-lines .afl {
+  position: absolute; top: 0; bottom: 0; width: 1px; margin-left: -0.5px;
+  background: rgba(255, 255, 255, 0.08);
+}
+/* spoljne dve linije blago akcent-tonirane (u duhu ostalih sekcija), unutrašnje diskretnije */
+.ac-footer-lines .afl:first-child,
+.ac-footer-lines .afl:last-child { background: rgba(33, 100, 218, 0.30); }
+@media (min-width: 1024px) { .ac-footer-lines { padding: 0 32px; } }
 .ac-footer-grid {
   display: grid; grid-template-columns: 1.8fr 1fr 1fr 1.3fr;
   gap: 48px; margin-bottom: 44px;
@@ -1005,14 +1098,18 @@ body.menu-open { overflow: hidden; }
     grid-template-columns: repeat(3, 1fr); gap: 24px;
     padding: 0 clamp(18px, 3vw, 44px); z-index: 2;
   }
-  .baf-card { aspect-ratio: 3 / 4; cursor: default;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease; }
+  /* GPU-kompozit (translateZ) + duži even ease → lift na hover bez glitcha. */
+  .baf-card { aspect-ratio: 3 / 4; cursor: default; will-change: transform; transform: translateZ(0);
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.85s cubic-bezier(0.4, 0, 0.2, 1); }
   /* Desktop: NEMA slidera — hover otkriva POSLE (default PRE). */
-  .baf-card:hover { transform: translateY(-4px); box-shadow: 0 26px 54px rgba(0, 0, 0, 0.42); }
-  .baf-img--posle { clip-path: none; opacity: 0; transition: opacity 0.5s ease; }
+  .baf-card:hover { transform: translate3d(0, -6px, 0); box-shadow: 0 26px 54px rgba(0, 0, 0, 0.42); }
+  .baf-img { backface-visibility: hidden; }
+  /* Prelaz PRE→POSLE: umeren (nije spor); LIFT je taj koji je spor/smooth. */
+  .baf-img--posle { clip-path: none; opacity: 0;
+    transition: opacity 0.5s ease; }
   .baf-card:hover .baf-img--posle { opacity: 1; }
   .baf-handle { display: none; }
-  .baf-badge { transition: opacity 0.35s ease; }
+  .baf-badge { transition: opacity 0.45s ease; }
   .baf-badge--posle { opacity: 0; }
   .baf-card:hover .baf-badge--pre { opacity: 0; }
   .baf-card:hover .baf-badge--posle { opacity: 1; }
@@ -1102,6 +1199,174 @@ body.menu-open { overflow: hidden; }
 /* --------------------------------------------------------------------------
    Usluge — Moxom bordered grid (editorial, ne floating kartice)
    -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+   „Kako funkcioniše" — Moxom otvorena mreža (features stil): hairline divideri,
+   veliki broj, bez plutajućih kartica. Isti vizuelni jezik kao .svc-grid.
+   -------------------------------------------------------------------------- */
+.how-grid {
+  display: grid; grid-template-columns: 1fr;
+  border-top: 1px solid rgba(18, 19, 88, 0.17);
+  border-left: 1px solid rgba(18, 19, 88, 0.17);
+}
+.how-cell {
+  border-right: 1px solid rgba(18, 19, 88, 0.17);
+  border-bottom: 1px solid rgba(18, 19, 88, 0.17);
+  padding: 2rem 1.8rem 2.2rem; position: relative;
+  transition: background-color 0.3s ease, border-color 0.7s ease;
+}
+.how-cell:hover { background: #f7f9fc; border-color: rgba(33, 100, 218, 0.5); }
+.how-num {
+  display: block; font-family: 'Oswald', sans-serif; font-weight: 700;
+  font-size: 3.25rem; line-height: 1; color: rgba(33, 100, 218, 0.18);
+  margin-bottom: 0.75rem; transform-origin: left center;
+  transition: color 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.how-cell:hover .how-num { color: var(--akcent); transform: translateY(-3px) scale(1.06); }
+.how-title { font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; }
+.how-desc { font-size: 0.875rem; line-height: 1.65; color: #5a6072; }
+@media (min-width: 640px) { .how-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .how-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* --------------------------------------------------------------------------
+   „Naš put" (O nama) — 4 faze povezane linijom čiji se akcenat postepeno
+   pojačava od faze 1 (bled) ka fazi 4 (pun akcent + glow) — vizuelna metafora
+   rasta, tematski „vraćanje sjaja". Mobilno: vertikalna linija kroz ikonice;
+   desktop (lg): horizontalna kroz centre ikonica. Linija je statična (nema
+   animacije → nema prefers-reduced-motion problema).
+   -------------------------------------------------------------------------- */
+.path-grid { position: relative; display: flex; flex-direction: column; gap: 2.75rem; }
+.path-line {
+  position: absolute; left: 31px; top: 12px; bottom: 12px; width: 2px;
+  background: linear-gradient(180deg, rgba(33, 100, 218, 0.10), rgba(33, 100, 218, 0.40) 55%, var(--akcent));
+  pointer-events: none;
+}
+/* „Sjaj" na kraju puta — blur glow oko završnog segmenta linije */
+.path-line::after {
+  content: ''; position: absolute; left: -4px; bottom: 0; width: 10px; height: 20%;
+  background: var(--akcent); filter: blur(10px); opacity: 0.45; border-radius: 999px;
+}
+.path-cell { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: start; }
+/* Neprozirnija podloga ispod glass gradijenta da linija ne prosijava kroz ikonicu */
+.path-icon { background-color: rgba(255, 255, 255, 0.94); position: relative; z-index: 1; }
+@media (min-width: 1024px) {
+  .path-grid { flex-direction: row; gap: 2.5rem; }
+  .path-cell { flex: 1; display: block; }
+  .path-cell .path-icon { margin-bottom: 1.4rem; }
+  .path-line {
+    left: 0; right: 0; top: 31px; bottom: auto; width: auto; height: 2px;
+    background: linear-gradient(90deg, rgba(33, 100, 218, 0.10), rgba(33, 100, 218, 0.40) 55%, var(--akcent));
+  }
+  .path-line::after { left: auto; right: 0; top: -4px; bottom: auto; width: 18%; height: 10px; }
+}
+
+/* --------------------------------------------------------------------------
+   Osnivač (O nama) — Stitch-inspirisan overlap: slika iza, podignuta tamna
+   glass kartica preko (backdrop-blur daje „fade" tamo gde prekriva sliku).
+   GridCard hover efekat (port React/shadcn komponente u vanilla, brend boje):
+   ugaoni grid pattern koji se pomera na hover + conic glow koji se pali.
+   -------------------------------------------------------------------------- */
+.founder-wrap { position: relative; }
+
+/* Slika + tanke bele linije koje je presecaju — layer ISPOD kartice, ne izlaze
+   iz slike (crosshair kao na Stitch referenci). */
+.founder-img { position: relative; z-index: 0; }
+.founder-img img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  border-radius: 16px; box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.6);
+}
+.fi-line { position: absolute; background: rgba(255, 255, 255, 0.22); pointer-events: none; }
+.fi-line--v { top: 0; bottom: 0; left: 50%; width: 1px; }
+.fi-line--h { left: 0; right: 0; top: 50%; height: 1px; }
+
+/* Kartica — tamna glass + hover lift; z-index iznad slike i njenih linija */
+.founder-card {
+  position: relative; isolation: isolate; overflow: hidden; z-index: 2;
+  border-radius: 20px;
+  background: rgba(13, 16, 48, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.7s ease, box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Sve hover animacije na ovoj kartici traju 0.7s (uklj. ikonice — samo ovde,
+   kontakt sekcija zadržava svoj tempo) */
+.founder-card .contact-card-icon {
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.7s ease, color 0.7s ease, box-shadow 0.7s ease;
+}
+.founder-card .contact-card-icon svg { transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.founder-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(33, 100, 218, 0.35);
+  box-shadow: 0 36px 70px -24px rgba(33, 100, 218, 0.28);
+}
+
+/* GridCard pozadinski slojevi */
+.gc-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.gc-pattern {
+  position: absolute; inset: -25%; transform: skewY(-12deg);
+  -webkit-mask-image: linear-gradient(225deg, #000, transparent 55%);
+  mask-image: linear-gradient(225deg, #000, transparent 55%);
+}
+.gc-pattern svg {
+  position: absolute; inset: 0;
+  transform: translateY(10px);
+  transition: transform 0.7s ease-out;
+}
+.founder-card:hover .gc-pattern svg { transform: translateY(0); }
+.gc-glow {
+  position: absolute; inset: -10%; opacity: 0; filter: blur(50px);
+  transition: opacity 0.7s ease;
+  background: conic-gradient(from 0deg, #2164da 0deg, #2164da 117deg, #7fb0ff 180deg, #293681 240deg, #2164da 360deg);
+}
+.founder-card:hover .gc-glow { opacity: 0.16; }
+
+/* Sadržaj kartice: intro levo + 2×2 vrednosti desno (desktop).
+   Vrednosti su razdvojene suptilnim belim hairline dividerima (bez gap-a),
+   svaka sa svojim paddingom radi čitljivosti. */
+:root { --fcl: rgba(255, 255, 255, 0.10); }
+.founder-card-inner { position: relative; z-index: 1; padding: 32px 26px; display: grid; gap: 36px; }
+.fc-values { display: grid; grid-template-columns: 1fr; align-content: center; }
+.fv-item { display: flex; gap: 16px; align-items: center; padding: 22px 4px; }
+/* mobilno (1 kolona): linija između svake vrednosti */
+.fv-item + .fv-item { border-top: 1px solid var(--fcl); }
+/* Sve 4 ikonice se animiraju kad se KARTICA hoveruje — ublažen pop */
+.founder-card:hover .contact-card-icon {
+  background: var(--akcent); color: #fff;
+  transform: translateY(-2px) scale(1.04) rotate(-3deg);
+  box-shadow: 0 8px 18px rgba(33, 100, 218, 0.4);
+}
+.founder-card:hover .contact-card-icon svg { transform: rotate(3deg) scale(1.03); }
+
+@media (min-width: 640px) {
+  /* 2×2 sa hairline dividerima kroz sredinu (vertikalni + horizontalni) */
+  .fc-values { grid-template-columns: 1fr 1fr; }
+  .fv-item { padding: 22px 20px; }
+  .fv-item + .fv-item { border-top: none; }
+  .fv-item:nth-child(2n) { border-left: 1px solid var(--fcl); }
+  .fv-item:nth-child(n+3) { border-top: 1px solid var(--fcl); }
+  .founder-card-inner { padding: 40px 36px; }
+}
+/* Mobilno: kartica se penje preko donjeg dela slike */
+@media (max-width: 1023.98px) {
+  .founder-card { margin: -48px 12px 0; }
+  .founder-img img { aspect-ratio: 16 / 10; }
+}
+/* Desktop: slika levo (viša od kartice), kartica preklapa veći deo slike */
+@media (min-width: 1024px) {
+  .founder-wrap { display: flex; align-items: center; }
+  .founder-img { flex: 0 0 46%; max-width: 46%; }
+  .founder-img img { aspect-ratio: 4 / 5; }
+  .founder-card { flex: 1; margin-left: -18%; }
+  .founder-card-inner { grid-template-columns: 1fr 1.25fr; gap: 44px; padding: 48px 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .founder-card, .founder-card:hover,
+  .founder-card:hover .contact-card-icon, .founder-card:hover .contact-card-icon svg,
+  .gc-pattern svg { transform: none; }
+}
+
 .svc-grid {
   border-top: 1px solid rgba(18, 19, 88, 0.17);
   border-left: 1px solid rgba(18, 19, 88, 0.17);
@@ -1129,13 +1394,21 @@ body.menu-open { overflow: hidden; }
   transform: translateY(-4px) scale(1.1) rotate(-8deg);
 }
 .svc-cell:hover .svc-icon svg { transform: rotate(8deg) scale(1.08); }
+/* Moxom „glass" pločica ikonice — radial gradient (belo → akcent), providni border,
+   backdrop-blur, meka senka. Reskin na naš akcent, vidljivo na belom. Veličina/glif
+   ostaju semantični za naše usluge; hover pop animacija ispod je netaknuta. */
 .svc-icon {
-  width: 56px; height: 56px; border-radius: 14px;
+  width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(33, 100, 218, 0.10); color: var(--akcent);
+  color: var(--akcent);
+  background-color: rgba(255, 255, 255, 0.5);
+  background-image: radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.9) 20%, rgba(33, 100, 218, 0.22) 100%);
+  border: 1.5px solid rgba(33, 100, 218, 0.18);
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  box-shadow: 0 8px 20px -10px rgba(33, 100, 218, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.75);
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.svc-icon svg { transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.svc-icon > svg { width: 30px; height: 30px; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .svc-label {
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--akcent);
@@ -1217,6 +1490,7 @@ body.menu-open { overflow: hidden; }
 .pr-benefit { font-size: 0.9rem; color: #5a6072; padding: 0.9rem 1.25rem; }
 .pr-cta { padding: 1.5rem 1.25rem; }
 .pr-cta .btn { width: 100%; }
+.pr-cta .glow-btn { width: 100%; }
 
 /* ukrasne vertikalne linije — izlaze iz centra spoljnih kolona (≈1/6 i 5/6),
    gore iznad tabova i dole ispod dugmadi. Samo na lg. */
@@ -1243,6 +1517,53 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 1023.98px) {
   .pricing-wrap > .pr-tabs { display: none; }  /* globalni toggle sakriven na mobilnom */
 }
+
+/* Home cenovnik: svaka kolona ima svoj toggle (poliranje: bez/sa keramikom;
+   dubinsko: veličina vozila) → per-kolona toggle vidljiv i na desktopu, 7 redova. */
+@media (min-width: 1024px) {
+  #cenovnik .pricing-grid { grid-template-rows: repeat(7, auto); }
+  #cenovnik .pricing-grid > .pr-tabs { display: flex; }
+}
+/* Duže labele poliranje toggla (2 opcije) — smanji tracking/veličinu da stanu */
+.pr-tabs--far .pr-tab { letter-spacing: 0.04em; font-size: 0.66rem; padding-left: 0.5rem; padding-right: 0.5rem; }
+
+/* --------------------------------------------------------------------------
+   Cenovnik — DARK varijanta (podstranice, navy sekcija). Ista otvorena
+   bordered mreža, ali bele hairline linije + beli tekst. Postavljanjem
+   --pr-line na .is-dark, sve .pr-* celije nasleđuju svetlu liniju.
+   -------------------------------------------------------------------------- */
+.pricing-wrap.is-dark { --pr-line: rgba(255, 255, 255, 0.14); }
+.pricing-wrap.is-dark .pr-sub { color: rgba(255, 255, 255, 0.5); }
+.pricing-wrap.is-dark .pr-title { color: #fff; }
+.pricing-wrap.is-dark .pr-amount { color: #fff; }
+.pricing-wrap.is-dark .pr-pre,
+.pricing-wrap.is-dark .pr-cur { color: rgba(255, 255, 255, 0.5); }
+.pricing-wrap.is-dark .pr-benefit { color: rgba(255, 255, 255, 0.72); }
+.pricing-wrap.is-dark .pr-tab { color: rgba(255, 255, 255, 0.5); }
+.pricing-wrap.is-dark .pr-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
+.pricing-wrap.is-dark .pr-tab.is-active { color: #8fbaff; background: rgba(33, 100, 218, 0.20); }
+
+/* „flag" u glavi kolone (Preporučeno / Najkompletnije) — suptilan akcenat */
+.pr-flag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: #8fbaff; margin-bottom: 0.15rem;
+}
+.pr-flag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* 2-kolonska mreža (poliranje farova — cena ne zavisi od veličine) */
+@media (min-width: 1024px) {
+  .pricing-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);   /* glava + 3 benefita + dugme */
+    grid-auto-flow: column;
+  }
+  .pricing-grid--2 .pr-col-last { border-right: none; }  /* poslednja kolona otvorena desno */
+  .pricing-grid--2 .pr-head { border-top: 1px solid var(--pr-line); }  /* nema toggle-a → glava daje gornju liniju */
+}
+/* ukrasne vertikalne linije za 2 kolone — centri kolona na 25% i 75% */
+.pricing-wrap--2 .pr-vline--tl, .pricing-wrap--2 .pr-vline--bl { left: 25%; }
+.pricing-wrap--2 .pr-vline--tr, .pricing-wrap--2 .pr-vline--br { left: 75%; }
 
 /* --------------------------------------------------------------------------
    Brojke + recenzije (Moxom) — otvorena bordered mreža na navy sekciji.
@@ -1306,20 +1627,41 @@ body.menu-open { overflow: hidden; }
 /* --------------------------------------------------------------------------
    FAQ akordeon
    -------------------------------------------------------------------------- */
-.faq-item { border-bottom: 1px solid rgba(18, 19, 88, 0.1); }
+/* Moxom editorijalni FAQ — dvokolonski (naslov levo, lista desno), hairline okvir,
+   redni brojevi 01–06 kao overline akcent. */
+.faq-layout { display: grid; grid-template-columns: 1fr; gap: 44px; }
+@media (min-width: 1024px) {
+  .faq-layout { grid-template-columns: 0.85fr 1.15fr; gap: 72px; align-items: start; }
+  .faq-aside { position: sticky; top: 140px; }
+}
+/* Moxom otvoreni bordered okvir — vidljive 1px linije oko liste i između stavki,
+   kao services grid. Bez radijusa (sharp). */
+.faq-list { border: 1px solid rgba(18, 19, 88, 0.16); }
+
+.faq-item { border-bottom: 1px solid rgba(18, 19, 88, 0.16); }
+.faq-item:last-child { border-bottom: none; }
+.faq-item.open { background: #f7f9fc; }
 .faq-q {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.4rem 0;
+  padding: 1.55rem 1.75rem;
   text-align: left;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1.05rem;
   color: var(--navy);
+  transition: color 0.25s ease;
 }
+.faq-q:hover { color: var(--akcent); }
+.faq-qmain { display: flex; align-items: baseline; gap: 1.15rem; min-width: 0; }
+.faq-num {
+  flex-shrink: 0; width: 1.6ch; font-family: 'Oswald', sans-serif; font-weight: 700;
+  font-size: 1.6rem; line-height: 1; letter-spacing: 0.02em; color: var(--akcent);
+  opacity: 0.28; transition: opacity 0.25s ease;
+}
+.faq-item.open .faq-num, .faq-q:hover .faq-num { opacity: 1; }
+.faq-qtext { font-weight: 600; font-size: 1.1rem; line-height: 1.35; }
 .faq-icon { flex-shrink: 0; transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); color: var(--akcent); }
 .faq-item.open .faq-icon { transform: rotate(45deg); }
 .faq-a {
@@ -1329,20 +1671,375 @@ body.menu-open { overflow: hidden; }
   opacity: 0;
 }
 .faq-item.open .faq-a { opacity: 1; }
-.faq-a-inner { padding: 0 0 1.4rem; color: #4a5169; line-height: 1.7; max-width: 60ch; }
+.faq-a-inner { padding: 0 1.75rem 1.65rem 4.4rem; color: #4a5169; line-height: 1.7; max-width: 60ch; }
 
 /* --------------------------------------------------------------------------
-   Scroll reveal (samo transform/opacity)
+   OUTLINE OKVIR sa ćoškastim kockicama (21st.dev DotPattern referenca).
+   Samo tanak border + 4 pune akcent kockice na ćoškovima, bez pozadine kartice
+   i bez dot patterna. ::after nosi sve 4 kockice (multi-background), inset:-4px
+   pa straddluju border. Radi na svetloj i tamnoj podlozi (akcent se vidi na obe).
+   -------------------------------------------------------------------------- */
+.bracket-frame { position: relative; background: none; border: 1px solid rgba(33, 100, 218, 0.35); border-radius: 0; }
+.bracket-frame::after {
+  content: ''; position: absolute; inset: -4px; pointer-events: none; z-index: 6;
+  background-image:
+    linear-gradient(var(--akcent), var(--akcent)),
+    linear-gradient(var(--akcent), var(--akcent)),
+    linear-gradient(var(--akcent), var(--akcent)),
+    linear-gradient(var(--akcent), var(--akcent));
+  background-size: 8px 8px; background-repeat: no-repeat;
+  background-position: left top, right top, left bottom, right bottom;
+}
+
+/* Osnivač kartica → SAMO menja border (oštar outline + ćoškaste kockice).
+   Kartica ostaje ista: glass podloga, preklapanje preko slike, grid pattern,
+   backdrop-blur i hover lift se zadržavaju (menja se samo ivica). */
+.founder-card.bracket-frame {
+  background: rgba(13, 16, 48, 0.72);
+  overflow: visible;                    /* da se vide kockice na ćoškovima */
+  border: 1px solid rgba(33, 100, 218, 0.45);
+}
+.founder-card.bracket-frame .gc-bg { overflow: hidden; }  /* pattern ostaje isečen na karticu */
+
+/* FAQ spisak → outline oko celog spiska, bez pozadine otvorene stavke */
+.faq-list.bracket-frame { border: 1px solid rgba(33, 100, 218, 0.35); }
+.faq-list.bracket-frame .faq-item.open { background: none; }
+
+/* Kontakt forma → SAMO menja border (outline + ćoškaste kockice). Zadržava
+   glass podlogu, 3D tilt hover (udubljivanje) i zrake; okrugle ugaone tačkice
+   zamenjuju kvadratići. */
+.cf-card-outer.bracket-frame .cf-corner { display: none; }
+.cf-card-outer.bracket-frame .cf-card-inner,
+.cf-card-outer.bracket-frame .cf-beams { border-radius: 0; }  /* oštri ćoškovi (bez radiusa) uz outline */
+
+/* --------------------------------------------------------------------------
+   ĆOŠKASTI L-OKVIRI (21st.dev Card „corners" varijanta) — suptilan border +
+   akcent L-zagrade u sva 4 ćoška. Koristi ::before jer .svc-cell/.how-cell
+   već imaju shine-sweep na ::after. Hover na tim karticama ostaje netaknut.
+   -------------------------------------------------------------------------- */
+.corner-frame { position: relative; border: 1px solid rgba(33, 100, 218, 0.22); }
+.corner-frame::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  --l: 16px; --t: 2px; --c: var(--akcent);
+  background-image:
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+    linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c));
+  background-repeat: no-repeat;
+  background-size:
+    var(--l) var(--t), var(--t) var(--l), var(--l) var(--t), var(--t) var(--l),
+    var(--l) var(--t), var(--t) var(--l), var(--l) var(--t), var(--t) var(--l);
+  background-position:
+    left top, left top, right top, right top,
+    left bottom, left bottom, right bottom, right bottom;
+}
+/* „Siguran rezultat" (poliranje) how-grid — razdvoji kartice (ukloni deljene
+   ivice grida + razmak), svaka nosi svoj L-okvir. */
+.how-grid.cf-sep { border: none; gap: 18px; }
+/* Footer kartice (Navigacija/Usluge/Kontakt) — okviru treba unutrašnji prostor. */
+.foot-col.corner-frame { padding: 22px 20px; }
+
+/* --------------------------------------------------------------------------
+   BENEFIT LISTA (21st.dev „category-list" adaptacija) — red-kartice u 2 kolone.
+   Hover: akcent ivica + suptilan tint + senka + L-zagrade (gore-levo/dole-desno)
+   + naslov u akcentu + ikonica uklizne s desna. Prilagođeno navy/akcent brendu.
+   -------------------------------------------------------------------------- */
+.bl-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 640px) { .bl-grid { grid-template-columns: 1fr 1fr; gap: 12px 16px; } }
+.bl-card {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: flex-start; gap: 16px;
+  min-height: 74px; padding: 16px 22px;
+  border: 1px solid rgba(18, 19, 88, 0.14); background: #fff;
+  transition: border-color 0.35s ease, background-color 0.35s ease,
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bl-card:hover {
+  border-color: var(--akcent); background: rgba(33, 100, 218, 0.05);
+  box-shadow: 0 12px 30px -12px rgba(33, 100, 218, 0.3);
+  transform: translateY(-2px);
+}
+.bl-title { font-weight: 600; font-size: 1.02rem; color: var(--navy); line-height: 1.3; transition: color 0.3s ease; }
+.bl-card:hover .bl-title { color: var(--akcent); }
+/* Ikonica levo — ista „glass" pločica kao .svc-icon (belo→akcent gradijent,
+   akcent border, meka senka), samo manja. Uvek vidljiva (sajt lep bez hovera /
+   na telefonu); na hover se pločica popuni akcentom i glif pređe u „stiklirani"
+   check (isti hover jezik kao ostale ikonice na sajtu). */
+.bl-ico {
+  position: relative; width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
+  display: grid; place-items: center; color: var(--akcent);
+  background-color: rgba(255, 255, 255, 0.5);
+  background-image: radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.9) 20%, rgba(33, 100, 218, 0.22) 100%);
+  border: 1.5px solid rgba(33, 100, 218, 0.18);
+  box-shadow: 0 8px 20px -10px rgba(33, 100, 218, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease,
+              transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.bl-card:hover .bl-ico {
+  background-color: var(--akcent); background-image: none; color: #fff; border-color: transparent;
+  transform: translateY(-2px) scale(1.06) rotate(-6deg);
+}
+.bl-ico svg { grid-area: 1 / 1; width: 22px; height: 22px; transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.bl-ico-chk { opacity: 0; transform: scale(0.5); }
+.bl-card:hover .bl-ico-def { opacity: 0; transform: scale(0.5); }
+.bl-card:hover .bl-ico-chk { opacity: 1; transform: none; }
+/* L-zagrade (gore-levo + dole-desno), pojavljuju se na hover */
+.bl-card::before, .bl-card::after {
+  content: ''; position: absolute; width: 15px; height: 15px; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.bl-card::before { top: 9px; left: 9px; border-top: 2px solid var(--akcent); border-left: 2px solid var(--akcent); }
+.bl-card::after { bottom: 9px; right: 9px; border-bottom: 2px solid var(--akcent); border-right: 2px solid var(--akcent); }
+.bl-card:hover::before, .bl-card:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .bl-card, .bl-card:hover { transform: none; } }
+
+/* --------------------------------------------------------------------------
+   Kontakt stranica — info kartice i mapa (forma je deljena cf-card sa početne).
+   4 dugačke kartice: flex:1 → zajedno pune visinu kolone (= visina forme).
+   -------------------------------------------------------------------------- */
+.kf-ic {
+  flex: 1; display: flex; align-items: center; gap: 20px;
+  padding: 18px 26px;
+}
+
+.kf-map {
+  border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(18, 19, 88, 0.12);
+  box-shadow: 0 20px 45px -25px rgba(18, 19, 88, 0.35);
+}
+.kf-map iframe { display: block; width: 100%; height: 420px; border: 0; }
+@media (min-width: 1024px) { .kf-map iframe { height: 480px; } }
+
+/* Checklist (dubinsko pranje) — 10 stavki, check ikonice, hairline divideri */
+.dp-check { list-style: none; }
+.dp-check li {
+  display: flex; align-items: center; gap: 14px;
+  padding: 15px 2px; font-size: 1rem; color: var(--navy); font-weight: 500;
+  border-bottom: 1px solid rgba(18, 19, 88, 0.10);
+}
+.dp-check-ic {
+  flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--akcent); background: rgba(33, 100, 218, 0.12);
+}
+/* na sm+ poslednji red svake kolone bez donje linije */
+@media (min-width: 640px) {
+  .dp-check li:nth-last-child(-n+1) { border-bottom: none; }
+  .dp-check li:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+}
+
+/* ==========================================================================
+   USLUGA STRANICE — Moxom „line-grid" nadogradnja (poliranje/dubinsko).
+   Sve skropovano na .deco da ne dira ostatak sajta. Linije se poravnavaju
+   sa kolonom sadržaja i dopiru do ivica sekcije (nisu nasumične).
+   ========================================================================== */
+
+/* Blueprint ram — vertikalne vodilje na ivicama kolone + ugaone oznake */
+.deco main > section { position: relative; overflow: hidden; }
+
+/* --- Oblici (promišljeni, tematski + edgy) ------------------------------- */
+/* Koncentrični prstenovi — na temu (far/poliranje = krug); maskirani (bez tvrde ivice) */
+.ring-deco {
+  position: absolute; width: 560px; height: 560px; border-radius: 50%;
+  z-index: 0; pointer-events: none;
+  background: repeating-radial-gradient(circle at center, transparent 0 31px, rgba(255, 255, 255, 0.065) 31px 32px);
+  -webkit-mask-image: radial-gradient(circle at center, #000 36%, transparent 70%);
+  mask-image: radial-gradient(circle at center, #000 36%, transparent 70%);
+}
+.ring-deco--light { background: repeating-radial-gradient(circle at center, transparent 0 31px, rgba(18, 19, 88, 0.05) 31px 32px); }
+.ring-deco--tr { top: -190px; right: -170px; }
+.ring-deco--br { bottom: -190px; right: -170px; }
+.ring-deco--bl { bottom: -190px; left: -170px; }
+.ring-deco--tl { top: -190px; left: -170px; }
+
+/* Dijagonalni hatch (edgy tehnički motiv) — kos, maskiran u ugao */
+.hatch-deco {
+  position: absolute; width: 150px; height: 150px; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(-45deg, transparent 0 7px, rgba(33, 100, 218, 0.13) 7px 9px);
+  -webkit-mask-image: radial-gradient(circle at center, #000, transparent 72%);
+  mask-image: radial-gradient(circle at center, #000, transparent 72%);
+}
+.hatch-deco--tr { top: 26px; right: 26px; }
+.hatch-deco--tl { top: 26px; left: 26px; }
+.hatch-deco--br { bottom: 26px; right: 26px; }
+.hatch-deco--bl { bottom: 26px; left: 26px; }
+
+/* „+" node oznake (blueprint) */
+.plus-node { position: absolute; width: 15px; height: 15px; z-index: 0; pointer-events: none; }
+.plus-node::before, .plus-node::after { content: ''; position: absolute; background: rgba(33, 100, 218, 0.5); }
+.plus-node--light::before, .plus-node--light::after { background: rgba(127, 176, 255, 0.55); }
+.plus-node::before { left: 50%; top: 0; bottom: 0; width: 1.5px; transform: translateX(-50%); }
+.plus-node::after { top: 50%; left: 0; right: 0; height: 1.5px; transform: translateY(-50%); }
+.plus-node--tr { top: 32px; right: 42px; }
+.plus-node--tl { top: 32px; left: 42px; }
+.plus-node--br { bottom: 32px; right: 42px; }
+.plus-node--bl { bottom: 32px; left: 42px; }
+
+/* HUD ugaone zagrade (edgy tehnički ram) oko hero slike — 4 oštra ugla */
+.hero-shot { position: relative; }
+.hero-shot::after {
+  content: ''; position: absolute; inset: -12px; z-index: 3; pointer-events: none;
+  --hb: 2px; --hl: 20px; --hc: rgba(33, 100, 218, 0.7);
+  background:
+    linear-gradient(var(--hc) 0 0) 0 0 / var(--hl) var(--hb),
+    linear-gradient(var(--hc) 0 0) 0 0 / var(--hb) var(--hl),
+    linear-gradient(var(--hc) 0 0) 100% 0 / var(--hl) var(--hb),
+    linear-gradient(var(--hc) 0 0) 100% 0 / var(--hb) var(--hl),
+    linear-gradient(var(--hc) 0 0) 0 100% / var(--hl) var(--hb),
+    linear-gradient(var(--hc) 0 0) 0 100% / var(--hb) var(--hl),
+    linear-gradient(var(--hc) 0 0) 100% 100% / var(--hl) var(--hb),
+    linear-gradient(var(--hc) 0 0) 100% 100% / var(--hb) var(--hl);
+  background-repeat: no-repeat;
+}
+/* Sadržaj iznad dekoracija (z-1). Robusno: svi direktni ne-dekorativni,
+   ne-aria-hidden potomci sekcije (ne samo .max-w-container — home hero ima
+   drugačiju strukturu). aria-hidden absolutni overlay-i (grid/gradient) ostaju
+   iza (svoj z-0). */
+.deco main > section > *:not(.uframe):not(.ring-deco):not(.hatch-deco):not(.plus-node):not([aria-hidden="true"]) {
+  position: relative; z-index: 1;
+}
+.uframe { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.uf-col { position: absolute; inset: 0; width: 100%; max-width: 1500px; margin-inline: auto; }
+.uf-line { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(18, 19, 88, 0.07); }
+.uframe--dark .uf-line { background: rgba(255, 255, 255, 0.08); }
+.uf-line--l { left: 20px; }
+.uf-line--r { right: 20px; }
+/* ugaone „tick" oznake (tehnički crtež) na krajevima svake vodilje */
+.uf-line::before, .uf-line::after {
+  content: ''; position: absolute; left: -3px; width: 7px; height: 1px; background: inherit;
+}
+.uf-line::before { top: 0; }
+.uf-line::after { bottom: 0; }
+@media (min-width: 1024px) {
+  .uf-line--l { left: 32px; }
+  .uf-line--r { right: 32px; }
+}
+
+/* Shine sweep na karticama (cool hover) — samo ćelije bez spoljnih elemenata.
+   svc-cell sa .svc-line (početna Usluge, Kontakt) IZUZET: overflow:hidden bi
+   klipovao ukrasne linije koje vire van kartice. */
+.deco .svc-cell:not(:has(.svc-line)), .deco .how-cell { position: relative; overflow: hidden; }
+.deco .svc-cell:not(:has(.svc-line))::after, .deco .how-cell:not(.fill-up)::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: -70%; width: 48%;
+  background: linear-gradient(100deg, transparent, rgba(33, 100, 218, 0.10), transparent);
+  transform: skewX(-16deg); pointer-events: none; opacity: 0;
+  transition: left 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+.deco .svc-cell:not(:has(.svc-line)):hover::after, .deco .how-cell:not(.fill-up):hover::after {
+  left: 135%; opacity: 1;
+}
+
+/* Put brenda (O nama) — hover na bilo koju fazu pali „glow" (box-shadow) na
+   plavoj liniji koja povezuje faze, umesto ranijeg shine-sweep-a preko kartice.
+   Hovered faza dodatno dobija akcentnu ikonicu. */
+.path-line { transition: box-shadow 0.4s ease; }
+.path-grid:has(.path-cell:hover) .path-line {
+  box-shadow: 0 0 16px 2px rgba(33, 100, 218, 0.55), 0 0 4px rgba(33, 100, 218, 0.9);
+}
+.path-cell .path-icon { transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.path-cell:hover .path-icon {
+  border-color: rgba(33, 100, 218, 0.55);
+  box-shadow: 0 8px 22px -8px rgba(33, 100, 218, 0.5);
+  transform: translateY(-3px);
+}
+
+/* Cenovnik kartice (card-dark) — akcent linija na vrhu izraste na hover
+   (bez overflow:hidden zbog „Preporučeno" badge-a koji viri) */
+.deco .card-dark { position: relative; }
+.deco .card-dark::before {
+  content: ''; position: absolute; top: 0; left: 18px; right: 18px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--akcent), #7fb0ff, transparent);
+  transform: scaleX(0); opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.deco .card-dark:hover::before { transform: scaleX(1); opacity: 1; }
+
+/* Pre/posle galerija — ugaone L-zagrade (Moxom framed gallery), 2 nasuprotna ugla */
+.deco .baf-showcase::before, .deco .baf-showcase::after {
+  content: ''; position: absolute; width: 24px; height: 24px; z-index: 3; pointer-events: none;
+}
+.deco .baf-showcase::before {
+  top: -12px; left: -12px;
+  border-top: 2px solid rgba(18, 19, 88, 0.22); border-left: 2px solid rgba(18, 19, 88, 0.22);
+}
+.deco .baf-showcase::after {
+  bottom: -12px; right: -12px;
+  border-bottom: 2px solid rgba(18, 19, 88, 0.22); border-right: 2px solid rgba(18, 19, 88, 0.22);
+}
+
+/* Checklist (dubinsko) — vertikalni divider između dve kolone */
+@media (min-width: 640px) {
+  .deco .dp-check::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px;
+    background: rgba(18, 19, 88, 0.10); transform: translateX(-50%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Grid draw-in appear — port „accent-lines" efekta iz React hero-minimalism
+   komponente u vanilla (reskin na brend). NE menja postojeće grid pozadine:
+   JS (site.js) ubacuje ovaj overlay preko svake .hero-grid pozadine, a linije
+   se iscrtavaju (scaleX/scaleY + akcent shimmer) kad sekcija uđe u vidokrug.
+   -------------------------------------------------------------------------- */
+.gdl { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.gdl span { position: absolute; background: rgba(255, 255, 255, 0.10); opacity: 0; will-change: transform, opacity; }
+.gdl .gdl-h { height: 1px; left: 0; right: 0; transform: scaleX(0); transform-origin: 50% 50%; }
+.gdl .gdl-v { width: 1px; top: 0; bottom: 0; transform: scaleY(0); transform-origin: 50% 0%; }
+.gdl span:nth-child(1) { top: 20%; }
+.gdl span:nth-child(2) { top: 50%; }
+.gdl span:nth-child(3) { top: 80%; }
+.gdl span:nth-child(4) { left: 20%; }
+.gdl span:nth-child(5) { left: 50%; }
+.gdl span:nth-child(6) { left: 80%; }
+/* shimmer preliv dok se linija crta — akcent-light umesto belog iz originala */
+.gdl span::after { content: ''; position: absolute; inset: 0; opacity: 0; }
+.gdl .gdl-h::after { background: linear-gradient(90deg, transparent, rgba(127, 176, 255, 0.35), transparent); }
+.gdl .gdl-v::after { background: linear-gradient(180deg, transparent, rgba(127, 176, 255, 0.35), transparent); }
+/* animacije kreću tek kad JS doda .play (sekcija ušla u vidokrug) */
+.gdl.play .gdl-h { animation: gdlDrawX 800ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
+.gdl.play .gdl-v { animation: gdlDrawY 900ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
+.gdl.play span::after { animation: gdlShimmer 900ms ease-out forwards; }
+.gdl.play span:nth-child(1), .gdl.play span:nth-child(1)::after { animation-delay: 150ms; }
+.gdl.play span:nth-child(2), .gdl.play span:nth-child(2)::after { animation-delay: 280ms; }
+.gdl.play span:nth-child(3), .gdl.play span:nth-child(3)::after { animation-delay: 410ms; }
+.gdl.play span:nth-child(4), .gdl.play span:nth-child(4)::after { animation-delay: 520ms; }
+.gdl.play span:nth-child(5), .gdl.play span:nth-child(5)::after { animation-delay: 640ms; }
+.gdl.play span:nth-child(6), .gdl.play span:nth-child(6)::after { animation-delay: 760ms; }
+@keyframes gdlDrawX {
+  0% { transform: scaleX(0); opacity: 0; }
+  60% { opacity: 0.9; }
+  100% { transform: scaleX(1); opacity: 0.75; }
+}
+@keyframes gdlDrawY {
+  0% { transform: scaleY(0); opacity: 0; }
+  60% { opacity: 0.9; }
+  100% { transform: scaleY(1); opacity: 0.75; }
+}
+@keyframes gdlShimmer {
+  0% { opacity: 0; }
+  30% { opacity: 0.3; }
+  100% { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal — usklađeno sa Moxom appear animacijama (Webflow IX2):
+   SLIDE_EFFECT (slide+fade) trajanje 1000ms, easing outQuart
+   (cubic-bezier(0.165,0.84,0.44,1)); GROW_EFFECT (scale 0.75→1) = .reveal-grow.
    -------------------------------------------------------------------------- */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .reveal.in { opacity: 1; transform: none; }
-.reveal-delay-1 { transition-delay: 0.08s; }
-.reveal-delay-2 { transition-delay: 0.16s; }
-.reveal-delay-3 { transition-delay: 0.24s; }
+/* GROW varijanta (Moxom GROW_EFFECT): izrasta iz scale 0.75 + fade */
+.reveal-grow { transform: scale(0.75); }
+.reveal-grow.in { transform: none; }
+/* Stagger — koraci ~0.12s (usklađeno sa dužim 1s trajanjem) */
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+.reveal-delay-3 { transition-delay: 0.36s; }
 
 /* --------------------------------------------------------------------------
    Pomoćne
@@ -1352,6 +2049,200 @@ body.menu-open { overflow: hidden; }
 
 .link-arrow { display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.25s ease, color 0.2s ease; }
 .link-arrow:hover { gap: 0.7rem; }
+
+/* ==========================================================================
+   AVONTIV ADAPTACIJE (2026-07-08) — reskin na navy/akcent
+   v. research/2026-07-08-avontiv-teardown-full.md
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1) FOTO HERO v2 (poliranje / dubinsko) — sticky „cover" scroll.
+   Slika ostaje statična (sticky, z-0), sledeća sekcija (relative, z-1, puna
+   pozadina) klizi preko nje. Naslov + CTA dole levo, staklena grid-kartica desno.
+   -------------------------------------------------------------------------- */
+.deco main > section.hero2 { position: sticky; top: 0; z-index: 0; overflow: hidden; padding-top: 0; }
+.hero2 {
+  min-height: 100svh;
+  display: flex; align-items: flex-end;
+  background: #06071a;
+  padding: 0;
+}
+.hero2-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; z-index: 0;
+}
+.hero2-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(3,4,20,0.92) 0%, rgba(3,4,20,0.55) 34%, rgba(3,4,20,0.12) 62%, rgba(3,4,20,0.28) 100%),
+    linear-gradient(0deg, rgba(3,4,20,0.90) 0%, rgba(3,4,20,0.15) 42%, rgba(3,4,20,0) 70%);
+}
+/* Ogromna grid mreža (Avontiv) — velike ćelije, suptilne bele linije */
+.hero2-grid {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.13) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.13) 1px, transparent 1px);
+  /* JS (alignHeroGrid) na desktopu prepiše size/position tako da kartica sedi
+     tačno u jednoj ćeliji; ovo je fallback (mobilni / pre skripte). */
+  background-size: clamp(240px, 26vw, 460px) clamp(220px, 24vw, 380px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 32%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 32%);
+  /* Sakriven dok se JS ne poravna (bez vidljivog „snap"-a pri učitavanju);
+     onda se nežno pojavi. */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.hero2-grid.is-aligned { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero2-grid { transition: none; } }
+.hero2-inner {
+  position: relative; z-index: 2; width: 100%;
+  display: grid; grid-template-columns: 1fr; gap: 2.5rem;
+  align-items: end;
+  padding-block: clamp(6rem, 11vh, 10rem) clamp(4.5rem, 10vh, 8rem);
+}
+.hero2-lead { max-width: 40rem; }
+.hero2-eyebrow { margin-bottom: 1.25rem; }
+.hero2-title {
+  font-family: 'Oswald', sans-serif; font-weight: 700; text-transform: uppercase;
+  letter-spacing: -0.02em; line-height: 1.02; color: #fff;
+  font-size: clamp(2.6rem, 6.4vw, 5.5rem);
+  text-shadow: 0 6px 34px rgba(0,0,0,0.5);
+}
+.hero2-lead .glow-btn { margin-top: 2rem; }
+/* Staklena grid kartica desno (Avontiv .fda-cta-box + corner squares → naš bracket-frame) */
+.hero2-card {
+  position: relative;
+  background: rgba(9, 11, 34, 0.42);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  backdrop-filter: blur(22px) saturate(130%);
+  padding: clamp(1.9rem, 3vw, 3rem) clamp(1.6rem, 2.6vw, 2.75rem);
+}
+.hero2-card .hero2-eyebrow { margin-bottom: 1.1rem; }
+.hero2-card-title {
+  font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase;
+  letter-spacing: -0.01em; line-height: 1.12; color: #fff;
+  font-size: clamp(1.5rem, 2.3vw, 2.15rem);
+  margin-bottom: 1.1rem;
+}
+.hero2-card-body { color: rgba(255,255,255,0.78); line-height: 1.7; font-size: 0.975rem; }
+@media (min-width: 1024px) {
+  .hero2-inner { grid-template-columns: 1.05fr 0.95fr; gap: 3rem; align-items: end; }
+  .hero2-card { max-width: 34rem; justify-self: end; }
+}
+/* Sledeća sekcija klizi preko sticky hero-a */
+.hero2 + section { position: relative; z-index: 1; }
+
+/* --------------------------------------------------------------------------
+   2) FILL-UP HOVER na step karticama (Avontiv about) — puni se odozdo navy,
+   tekst i broj postaju beli. Akcent linija: leva u mirovanju, donja na hover.
+   Primenjuje se na .how-cell koje NEMAju .corner-frame (koraci 01–04).
+   -------------------------------------------------------------------------- */
+.how-cell.fill-up {
+  position: relative; overflow: hidden;
+  border-left: 2px solid var(--akcent);              /* akcent linija levo (mirovanje) */
+  isolation: isolate;
+}
+.how-cell.fill-up::after {
+  /* donja akcent linija — izraste sleva na hover (iznad fill sloja) */
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; z-index: 2;
+  background: var(--akcent); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.how-cell.fill-up .fill-bg {
+  /* navy sloj koji se puni odozdo na gore — even easing (oseti se, ne snapuje) */
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, var(--plava), var(--navy));
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.how-cell.fill-up > :not(.fill-bg) { transition: color 0.7s ease; }
+.how-cell.fill-up:hover { background: transparent; border-left-color: var(--akcent); }
+.how-cell.fill-up:hover .fill-bg { transform: scaleY(1); }
+.how-cell.fill-up:hover::after { transform: scaleX(1); }
+.how-cell.fill-up:hover .how-num { color: #fff; }
+.how-cell.fill-up:hover .how-title { color: #fff; }
+.how-cell.fill-up:hover .how-desc { color: rgba(255,255,255,0.82); }
+@media (prefers-reduced-motion: reduce) {
+  .how-cell.fill-up .fill-bg, .how-cell.fill-up::after { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   3) GALERIJA — paginacija (desktop 3-po-3, mobilni 1 sa strelicama).
+   JS (site.js) renderuje kartice po stranici i vezuje kontrole.
+   -------------------------------------------------------------------------- */
+.baf-controls {
+  display: flex; align-items: center; justify-content: center; gap: 1.25rem;
+  margin-top: 2.25rem;
+}
+.baf-controls.is-hidden { display: none; }
+.baf-nav {
+  width: 46px; height: 46px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(18, 19, 88, 0.22); background: transparent; cursor: pointer;
+  color: var(--navy);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.baf-nav:hover { border-color: var(--akcent); color: var(--akcent); }
+.baf-nav:active { transform: scale(0.94); }
+.baf-nav:disabled { opacity: 0.35; cursor: default; }
+.baf-nav svg { width: 20px; height: 20px; }
+/* Varijanta na tamnoj (navy) podlozi */
+.baf-controls--dark .baf-nav { border-color: rgba(255,255,255,0.22); color: #fff; }
+.baf-controls--dark .baf-nav:hover { border-color: var(--akcent); color: #8fbaff; }
+.baf-counter {
+  font-family: 'Oswald', sans-serif; font-weight: 600; letter-spacing: 0.08em;
+  font-size: 0.95rem; color: var(--navy); min-width: 3.5rem; text-align: center;
+}
+.baf-controls--dark .baf-counter { color: rgba(255,255,255,0.75); }
+/* Kratki fade pri promeni stranice + spor/smooth lift na hover.
+   NAPOMENA: ovo pravilo (veća specifičnost) definiše celu `transition` za kartice,
+   pa MORA da sadrži i transform/box-shadow — inače lift ostane bez ease-a. */
+.baf-row.is-swapping .baf-card { opacity: 0; }
+.baf-row .baf-card {
+  transition:
+    opacity 0.28s ease,
+    transform 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Mobilni: jedna kartica po strani (JS renderuje 1), pun širina */
+@media (max-width: 1023.98px) {
+  .baf-row { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   4) DIGIT REEL (odometar) — duži roll: svaka cifra prolazi kroz više 0–9
+   ciklusa pre nego što stane. Brzo pa uspori (ease-out), NE sporo.
+   Zamenjuje raniji jednocifreni .dgt-in slide.
+   -------------------------------------------------------------------------- */
+.dgt {
+  display: inline-block; overflow: hidden;
+  height: 1em; line-height: 1; vertical-align: baseline;
+}
+.dgt-reel {
+  display: flex; flex-direction: column; will-change: transform;
+  transform: translateY(0);
+  transition: transform var(--roll-dur, 2.4s) cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 0.12s);
+}
+.dgt-reel > span { display: block; height: 1em; line-height: 1; text-align: center; }
+.stat-num.rolled .dgt-reel,
+.reveal.in .dgt-reel { transform: translateY(calc(var(--stop, 0) * -1em)); }
+@media (prefers-reduced-motion: reduce) {
+  .dgt-reel { transition: none; transform: translateY(calc(var(--stop, 0) * -1em)); }
+}
+
+/* --------------------------------------------------------------------------
+   5) SEKCIJSKA RADIAL POZADINA (21st.dev bg-snippet, naše boje) — gore svetlije,
+   dole tamnije, smooth. Za pricing (navy) sekcije na podstranicama.
+   -------------------------------------------------------------------------- */
+.sec-radial { position: relative; }
+.sec-radial > .sec-radial-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(130% 105% at 50% 0%, rgba(33,100,218,0.20) 0%, rgba(41,54,129,0.10) 34%, rgba(6,7,26,0) 72%),
+    linear-gradient(180deg, #1a2352 0%, #121358 40%, #0a0b26 100%);
+}
 
 /* Poštuj korisnike koji smanjuju animacije */
 @media (prefers-reduced-motion: reduce) {

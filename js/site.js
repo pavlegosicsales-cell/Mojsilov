@@ -47,14 +47,26 @@ const icon = {
 };
 
 /* --- Navigacija ---------------------------------------------------------- */
+/* Multi-page: hash stavke vode na sekcije početne strane; `page` stavke na
+   zasebne stranice. Sa podstranice se hash linkovi prefiksuju sa index.html. */
+const IS_SUBPAGE = /\/[^/]+\.html$/i.test(location.pathname) && !/index\.html$/i.test(location.pathname);
 const NAV = [
-  { label: 'Početna', href: '#pocetna' },
-  { label: 'Usluge', href: '#usluge' },
-  { label: 'Galerija', href: '#galerija' },
-  { label: 'Cenovnik', href: '#cenovnik' },
-  { label: 'O nama', href: '#o-nama' },
-  { label: 'Kontakt', href: '#kontakt' },
+  { label: 'Početna', hash: '#pocetna' },
+  { label: 'O nama', page: 'o-nama.html' },
+  { label: 'Usluge', hash: '#usluge', dropdown: [
+    { label: 'Dubinsko pranje', page: 'dubinsko-pranje.html' },
+    { label: 'Poliranje farova', page: 'poliranje-farova.html' },
+  ] },
+  { label: 'Kontakt', page: 'kontakt.html' },
 ];
+/* Flat lista za mobilni meni i footer — dropdown roditelj se zamenjuje podstavkama */
+const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
+/* href za nav stavku, ispravan i sa početne i sa podstranice */
+const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? 'index.html' + n.hash : n.hash));
+/* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
+const homeHash = (hash) => (IS_SUBPAGE ? 'index.html' + hash : hash);
+/* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
+const isCurrentPage = (n) => n.page && location.pathname.toLowerCase().endsWith('/' + n.page);
 
 const socialLinks = `
   <a href="#" aria-label="Instagram" class="opacity-80 hover:opacity-100 hover:text-akcent transition">${icon.instagram}</a>
@@ -64,32 +76,46 @@ const socialLinks = `
 
 /* --- Header -------------------------------------------------------------- */
 function headerHTML() {
-  const links = NAV.map(
-    (n) => `<a href="${n.href}" class="nav-link text-[15px] lg:text-base font-medium text-white/85 hover:text-white">${n.label}</a>`
-  ).join('');
-  const mobileLinks = NAV.map(
-    (n) => `<a href="${n.href}" data-close-menu class="font-display uppercase text-2xl text-white/90 hover:text-akcent transition">${n.label}</a>`
+  /* Nav linkovi u Oswald-u (font-display, uppercase) kao naslovi sajta */
+  const linkCls = 'nav-link font-display uppercase tracking-wide text-[15px] lg:text-base text-white/85 hover:text-white';
+  const links = NAV.map((n) => {
+    if (n.dropdown) {
+      const parentActive = n.dropdown.some(isCurrentPage);
+      const items = n.dropdown
+        .map((d) => `<a href="${navHref(d)}" class="nav-dd-link${isCurrentPage(d) ? ' is-active' : ''}">${d.label}</a>`)
+        .join('');
+      return `<div class="nav-dd">
+        <a href="${navHref(n)}" class="${linkCls}${parentActive ? ' is-active' : ''}" aria-haspopup="true">${n.label}
+          <svg class="nav-dd-caret" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <div class="nav-dd-panel">${items}</div>
+      </div>`;
+    }
+    return `<a href="${navHref(n)}" class="${linkCls}${isCurrentPage(n) ? ' is-active' : ''}">${n.label}</a>`;
+  }).join('');
+  const mobileLinks = NAV_FLAT.map(
+    (n) => `<a href="${navHref(n)}" data-close-menu class="font-display uppercase text-2xl text-white/90 hover:text-akcent transition">${n.label}</a>`
   ).join('');
 
   return `
   <div class="header-inner">
     <nav class="max-w-container mx-auto px-5 lg:px-8 h-[96px] lg:h-[124px] relative flex items-center justify-between gap-4">
-      <a href="#pocetna" class="flex items-center shrink-0" aria-label="Mojsilov Detailing — početna">
+      <a href="${homeHash('#pocetna')}" class="flex items-center shrink-0" aria-label="Mojsilov Detailing, početna">
         <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
       </a>
 
       <div class="hidden lg:flex items-center justify-center gap-11 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">${links}</div>
 
       <!-- Mobilni: dugme sa brojem telefona u centru nav bara -->
-      <a href="tel:${TEL}" aria-label="Pozovite nas" class="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white/90 whitespace-nowrap">
+      <a href="tel:${TEL}" aria-label="Pozovite nas" class="nav-phone lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white whitespace-nowrap">
         ${icon.phone}<span>${TEL_DISPLAY}</span>
       </a>
 
       <div class="flex items-center justify-end gap-4">
-        <a href="tel:${TEL}" class="hidden xl:inline-flex items-center gap-2 text-sm font-medium text-white/85 hover:text-white transition">
+        <a href="tel:${TEL}" class="nav-phone hidden xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
-        <a href="#kontakt" class="glow-btn hidden lg:inline-flex">Zakažite termin ${icon.sparkles}</a>
+        <a href="${homeHash('#kontakt')}" class="glow-btn hidden lg:inline-flex">Zakažite termin ${icon.sparkles}</a>
         <button id="menu-open" class="lg:hidden text-white p-2 -mr-2" aria-label="Otvorite meni">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
         </button>
@@ -109,7 +135,7 @@ function headerHTML() {
     <div class="flex flex-col gap-6">${mobileLinks}</div>
     <div class="mt-auto pt-8 border-t border-white/10">
       <a href="tel:${TEL}" class="flex items-center gap-2 text-white/85 mb-4">${icon.phone}<span>${TEL_DISPLAY}</span></a>
-      <a href="#kontakt" data-close-menu class="glow-btn w-full">Zakažite termin ${icon.sparkles}</a>
+      <a href="${homeHash('#kontakt')}" data-close-menu class="glow-btn w-full">Zakažite termin ${icon.sparkles}</a>
       <div class="flex items-center gap-5 text-white mt-6">${socialLinks}</div>
     </div>
   </aside>`;
@@ -117,19 +143,27 @@ function headerHTML() {
 
 /* --- Footer -------------------------------------------------------------- */
 function footerHTML() {
-  const links = NAV.map(
-    (n) => `<li><a href="${n.href}" class="text-white/70 hover:text-white transition text-sm">${n.label}</a></li>`
+  const links = NAV_FLAT.map(
+    (n) => `<li><a href="${navHref(n)}" class="text-white/70 hover:text-white transition text-sm">${n.label}</a></li>`
   ).join('');
 
   return `
   <div class="ac-footer relative overflow-hidden">
     <div class="ac-footer-glow" aria-hidden="true"></div>
+    <!-- Moxom „cool linije" — vertikalne 1px vodilje koje dopiru do ivica sekcije -->
+    <div class="ac-footer-lines" aria-hidden="true">
+      <span class="afl" style="left:0"></span>
+      <span class="afl" style="left:25%"></span>
+      <span class="afl" style="left:50%"></span>
+      <span class="afl" style="left:75%"></span>
+      <span class="afl" style="left:100%"></span>
+    </div>
     <div class="max-w-container mx-auto px-5 lg:px-8 relative z-10 pt-16 lg:pt-20">
       <div class="ac-footer-grid">
         <!-- Brend -->
         <div>
           <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing" class="logo-mark h-12 w-auto mb-4"/>
-          <p class="ac-tagline">Profesionalni mobilni auto-detailing i restauracija farova — na vašoj adresi u Beogradu, bez odlaska u servis.</p>
+          <p class="ac-tagline">Profesionalni mobilni auto-detailing i restauracija farova na vašoj adresi u Beogradu, bez odlaska u servis.</p>
           <div class="ac-socials">
             <a href="#" class="fsoc" aria-label="Instagram">${icon.instagram}</a>
             <a href="#" class="fsoc" aria-label="Facebook">${icon.facebook}</a>
@@ -137,22 +171,22 @@ function footerHTML() {
           </div>
         </div>
 
-        <div class="foot-col">
+        <div class="foot-col corner-frame">
           <h4>Navigacija</h4>
-          <ul>${NAV.map((n) => `<li><a href="${n.href}">${n.label}</a></li>`).join('')}</ul>
+          <ul>${NAV_FLAT.map((n) => `<li><a href="${navHref(n)}">${n.label}</a></li>`).join('')}</ul>
         </div>
 
-        <div class="foot-col">
+        <div class="foot-col corner-frame">
           <h4>Usluge</h4>
           <ul>
-            <li><a href="#usluge">Poliranje farova</a></li>
-            <li><a href="#usluge">Dubinsko pranje auta</a></li>
-            <li><a href="#usluge">Pranje enterijera</a></li>
-            <li><a href="#usluge">Keramička zaštita</a></li>
+            <li><a href="${homeHash('#usluge')}">Poliranje farova</a></li>
+            <li><a href="${homeHash('#usluge')}">Dubinsko pranje auta</a></li>
+            <li><a href="${homeHash('#usluge')}">Pranje enterijera</a></li>
+            <li><a href="${homeHash('#usluge')}">Keramička zaštita</a></li>
           </ul>
         </div>
 
-        <div class="foot-col">
+        <div class="foot-col corner-frame">
           <h4>Kontakt</h4>
           <ul class="ac-contact">
             <li><a href="tel:${TEL}">${icon.phone}<span>${TEL_DISPLAY}</span></a></li>
@@ -163,7 +197,7 @@ function footerHTML() {
         </div>
       </div>
 
-      <p class="ac-seo">Mojsilov Detailing — mobilni car detailing Beograd: poliranje farova, dubinsko pranje auta, čišćenje farova, keramička zaštita i restauracija farova na adresi klijenta (Novi Beograd, Zemun i okolina).</p>
+      <p class="ac-seo">Mojsilov Detailing, mobilni car detailing Beograd: poliranje farova, dubinsko pranje auta, čišćenje farova, keramička zaštita i restauracija farova na adresi klijenta (Novi Beograd, Zemun i okolina).</p>
 
       <div class="ac-footer-bar">
         <div class="ac-copy">© ${new Date().getFullYear()} Mojsilov Detailing. Sva prava zadržana.</div>
@@ -202,6 +236,110 @@ document.addEventListener('DOMContentLoaded', () => {
   const footer = document.getElementById('site-footer');
   if (footer) footer.innerHTML = footerHTML();
 
+  /* Fill-up hover na numerisanim step karticama (Avontiv about) — puni se odozdo
+     navy, tekst/broj postaju beli. Samo .how-cell koje imaju .how-num (koraci). */
+  document.querySelectorAll('.how-cell').forEach((cell) => {
+    if (!cell.querySelector('.how-num')) return;
+    cell.classList.add('fill-up');
+    const bg = document.createElement('span');
+    bg.className = 'fill-bg';
+    bg.setAttribute('aria-hidden', 'true');
+    cell.insertBefore(bg, cell.firstChild);
+  });
+
+  /* Hero grid „uklapanje" (Avontiv gold): kockice grida = dimenzije staklene
+     kartice, poravnate na njene ivice → kartica sedi tačno u jednoj ćeliji.
+     Samo desktop; mobilni koristi CSS fallback. */
+  const alignHeroGrid = () => {
+    document.querySelectorAll('.hero2').forEach((hero) => {
+      const grid = hero.querySelector('.hero2-grid');
+      const card = hero.querySelector('.hero2-card');
+      if (!grid || !card) return;
+      if (!window.matchMedia('(min-width:1024px)').matches) {
+        grid.style.backgroundSize = '';
+        grid.style.backgroundPosition = '';
+        grid.classList.add('is-aligned');
+        return;
+      }
+      const hr = hero.getBoundingClientRect();
+      const cr = card.getBoundingClientRect();
+      /* Kartica ima .reveal (translateY) — oduzmi trenutni transform da bismo
+         poravnali na FINALNU poziciju od prvog frejma (bez „snap"-a kad se
+         reveal slegne). */
+      let tx = 0, ty = 0;
+      const tf = getComputedStyle(card).transform;
+      if (tf && tf !== 'none') {
+        try { const m = new DOMMatrixReadOnly(tf); tx = m.m41; ty = m.m42; } catch (e) {}
+      }
+      grid.style.backgroundSize = cr.width + 'px ' + cr.height + 'px';
+      grid.style.backgroundPosition = ((cr.left - hr.left) - tx) + 'px ' + ((cr.top - hr.top) - ty) + 'px';
+      grid.classList.add('is-aligned');
+    });
+  };
+  if (document.querySelector('.hero2')) {
+    alignHeroGrid();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignHeroGrid);
+    window.addEventListener('load', alignHeroGrid);
+    window.addEventListener('resize', alignHeroGrid);
+  }
+
+  /* Usluga stranice: „blueprint" ram — u svaku sekciju ubaci vertikalne vodilje
+     poravnate sa kolonom sadržaja (dopiru do ivica sekcije) + ugaone oznake.
+     Strukturalno, ne nasumično; sadržaj (.max-w-container) je iznad (z-1). */
+  if (document.body.classList.contains('deco')) {
+    const plusCorners = ['tr', 'bl', 'tl', 'br'];
+    document.querySelectorAll('main > section').forEach((sec, i) => {
+      const dark = sec.classList.contains('bg-navy');
+      const f = document.createElement('div');
+      f.className = 'uframe' + (dark ? ' uframe--dark' : '');
+      f.setAttribute('aria-hidden', 'true');
+      f.innerHTML = '<div class="uf-col"><span class="uf-line uf-line--l"></span><span class="uf-line uf-line--r"></span></div>';
+      sec.insertBefore(f, sec.firstChild);
+
+      /* Koncentrični prstenovi uklonjeni po zahtevu. Dijagonalni hatch (edgy)
+         ostaje na svetlim sekcijama; preskoči tanku traku brojki. */
+      const isStats = !!sec.querySelector('[data-count-section]');
+      if (!isStats && !dark && !sec.querySelector('.baf-showcase')) {
+        const h = document.createElement('span');
+        h.className = 'hatch-deco hatch-deco--' + plusCorners[(i + 1) % 4];
+        h.setAttribute('aria-hidden', 'true');
+        sec.appendChild(h);
+      }
+      /* „+" node oznaka (blueprint) — suptilno, naizmenični ugao po sekciji */
+      const p = document.createElement('span');
+      p.className = 'plus-node plus-node--' + plusCorners[i % 4] + (dark ? ' plus-node--light' : '');
+      p.setAttribute('aria-hidden', 'true');
+      sec.appendChild(p);
+    });
+  }
+
+  /* Grid draw-in appear — u svaku sekciju sa .hero-grid pozadinom ubaci overlay
+     linija (port „accent-lines" iz React hero-minimalism komponente) koje se
+     iscrtavaju kad sekcija uđe u vidokrug. Postojeće grid pozadine se ne diraju. */
+  document.querySelectorAll('.hero-grid').forEach((grid) => {
+    const gdl = document.createElement('div');
+    gdl.className = 'gdl';
+    gdl.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 6; i++) {
+      const s = document.createElement('span');
+      s.className = i < 3 ? 'gdl-h' : 'gdl-v';
+      gdl.appendChild(s);
+    }
+    grid.insertAdjacentElement('afterend', gdl);
+    if ('IntersectionObserver' in window) {
+      /* Nizak threshold: na visokim sekcijama (npr. brojke+osnivač) veći procenat
+         nikad nije u viewportu, pa bi animacija izostala (kao raniji count-up bag). */
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) { gdl.classList.add('play'); io.disconnect(); }
+        });
+      }, { threshold: 0.06 });
+      io.observe(gdl.parentElement || grid);
+    } else {
+      gdl.classList.add('play');
+    }
+  });
+
   /* Veliki MOJSILOV — gradient reveal prati kursor + iscrtavanje na scroll */
   const mojSvg = document.querySelector('.moj-svg');
   if (mojSvg) {
@@ -223,57 +361,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* Count-up brojevi (statistika) — spring fizika + glitch (port iz AICONNECT) */
-  function countUp(el) {
-    const target = +el.dataset.target;
-    const duration = 2;
-    const damping = 20 + 40 * (1 / duration);
-    const stiffness = 100 * (1 / duration);
-    const isStat = !!el.closest('.stat-num');
-    let progress = 0, vel = 0, lastTs = null, glitchTimer = 0;
-    el.textContent = '0';
-    const glitch = () => {
-      el.classList.add('glitching');
-      setTimeout(() => el.classList.remove('glitching'), 220);
+  /* Brojke — PO-CIFRA roll: svaka cifra dobija svoju masku i klizi iz nje, a
+     susedne cifre u SUPROTNIM smerovima (naizmenično odozdo/odozgo), sporo uz
+     stagger. Suffiksi (+, –, h, %, „do") ostaju statični. Svaka cifra: masku
+     .dgt (overflow hidden) sa .dgt-in koji klizi; naizmenično .dgt--up/.dgt--down;
+     --i = globalni indeks cifre (za transition-delay). */
+  /* Odometar reel: svaka cifra = maska .dgt sa .dgt-reel kolonom koja sadrži
+     LEAD_CYCLES punih 0–9 ciklusa pa 0..cifra. --stop = koliko em da klizne gore
+     da stane na ciljnu cifru. Duži roll (prolazi kroz više cifara), brz pa uspori. */
+  const LEAD_CYCLES = 3;
+  const splitStatDigits = (el) => {
+    el.querySelectorAll('.count-num').forEach((c) => { c.textContent = c.dataset.target; });
+    let idx = 0;
+    const makeReel = (digit) => {
+      const d = Number(digit);
+      const mask = document.createElement('span');
+      mask.className = 'dgt';
+      mask.style.setProperty('--i', idx);
+      mask.style.setProperty('--stop', LEAD_CYCLES * 10 + d);
+      const reel = document.createElement('span');
+      reel.className = 'dgt-reel';
+      let html = '';
+      for (let k = 0; k < LEAD_CYCLES; k++) for (let n = 0; n <= 9; n++) html += '<span>' + n + '</span>';
+      for (let n = 0; n <= d; n++) html += '<span>' + n + '</span>';
+      reel.innerHTML = html;
+      mask.appendChild(reel);
+      idx++;
+      return mask;
     };
-    function step(ts) {
-      if (!lastTs) lastTs = ts;
-      const dt = Math.min((ts - lastTs) / 1000, 0.05);
-      lastTs = ts;
-      vel += ((1 - progress) * stiffness - vel * damping) * dt;
-      progress += vel * dt;
-      progress = Math.max(0, Math.min(1.04, progress));
-      el.textContent = String(Math.min(target, Math.round(progress * target)));
-      if (isStat && progress < 0.85) {
-        glitchTimer += dt;
-        if (glitchTimer > 0.18 + Math.random() * 0.22) { glitchTimer = 0; glitch(); }
-      }
-      if (Math.abs(1 - progress) > 0.002 || Math.abs(vel) > 0.01) {
-        requestAnimationFrame(step);
-      } else {
-        el.textContent = String(target);
-        el.classList.remove('glitching');
-      }
-    }
-    requestAnimationFrame(step);
-  }
-  const counted = new Set();
+    const walk = (node) => {
+      Array.from(node.childNodes).forEach((ch) => {
+        if (ch.nodeType === 3) {
+          if (!/\d/.test(ch.textContent)) return;
+          const frag = document.createDocumentFragment();
+          for (const c of ch.textContent) {
+            if (/\d/.test(c)) frag.appendChild(makeReel(c));
+            else frag.appendChild(document.createTextNode(c));
+          }
+          node.replaceChild(frag, ch);
+        } else if (ch.nodeType === 1 && !ch.classList.contains('dgt')) {
+          walk(ch);
+        }
+      });
+    };
+    walk(el);
+  };
+  document.querySelectorAll('.stat-num').forEach((el) => {
+    if (!el.querySelector('.dgt')) splitStatDigits(el);
+  });
+  const rollStat = (sec) => {
+    sec.querySelectorAll('.stat-num').forEach((el, i) => {
+      setTimeout(() => el.classList.add('rolled'), i * 90);
+    });
+  };
   const countSections = document.querySelectorAll('[data-count-section]');
   if (countSections.length) {
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((en) => {
-          if (en.isIntersecting) {
-            en.target.querySelectorAll('.count-num').forEach((el) => {
-              if (!counted.has(el)) { counted.add(el); countUp(el); }
-            });
-            io.unobserve(en.target);
-          }
+          if (en.isIntersecting) { rollStat(en.target); io.unobserve(en.target); }
         });
       }, { threshold: 0.4 });
       countSections.forEach((s) => io.observe(s));
     } else {
-      document.querySelectorAll('.count-num').forEach((el) => { el.textContent = el.dataset.target; });
+      document.querySelectorAll('.stat-num').forEach((el) => el.classList.add('rolled'));
     }
   }
 
@@ -296,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Cenovnik — toggle veličine vozila menja cene za dubinsko pranje auta i enterijera;
      poliranje farova ostaje isto (nema data-svc). */
-  const prTabs = document.querySelectorAll('.pr-tab');
+  const prTabs = document.querySelectorAll('.pr-tab[data-size]');
   if (prTabs.length) {
     const PRICES = {
       auta:      { mali: '9.900',  srednji: '10.900', veliki: '12.900' },
@@ -317,12 +468,41 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
     prTabs.forEach((t) => t.addEventListener('click', () => setSize(t.dataset.size)));
-    const initial = document.querySelector('.pr-tab.is-active');
+    const initial = document.querySelector('.pr-tab[data-size].is-active');
     setSize(initial ? initial.dataset.size : 'srednji');
   }
 
-  /* Pre/posle kartice — slider poređenja (prevlačenje/klik pomera granicu PRE|POSLE). */
-  document.querySelectorAll('.baf-card').forEach((card) => {
+  /* Poliranje farova — toggle bez/sa keramikom (nezavisan od veličine vozila).
+     Menja cenu + garanciju (.far-swap sa data-polir/data-keramika). */
+  const farTabs = document.querySelectorAll('.pr-tab[data-far]');
+  if (farTabs.length) {
+    const farEls = document.querySelectorAll('.far-swap');
+    const setFar = (far) => {
+      farTabs.forEach((t) => {
+        const on = t.dataset.far === far;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      farEls.forEach((el) => {
+        const val = el.dataset[far];
+        if (val == null || el.textContent === val) return;
+        el.textContent = val;
+        if (el.classList.contains('pr-amount')) { el.classList.remove('is-updating'); void el.offsetWidth; el.classList.add('is-updating'); }
+      });
+    };
+    farTabs.forEach((t) => t.addEventListener('click', () => setFar(t.dataset.far)));
+    const initF = document.querySelector('.pr-tab[data-far].is-active');
+    setFar(initF ? initF.dataset.far : 'polir');
+  }
+
+
+  /* Pre/posle galerija — paginacija (desktop 3-po-3, mobilni 1) + strelice.
+     Podaci: <script type="application/json" class="baf-pairs"> unutar .baf-showcase.
+     Kartica zadržava compare-drag (prevlačenje pomera granicu PRE|POSLE). */
+  const bafArrow = (dir) =>
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    (dir < 0 ? '<polyline points="15 18 9 12 15 6"/>' : '<polyline points="9 18 15 12 9 6"/>') + '</svg>';
+  const wireCard = (card) => {
     let dragging = false;
     const setPos = (clientX) => {
       const r = card.getBoundingClientRect();
@@ -334,11 +514,75 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('pointermove', (e) => { if (dragging) setPos(e.clientX); });
     card.addEventListener('pointerup', () => { dragging = false; });
     card.addEventListener('pointercancel', () => { dragging = false; });
+  };
+  const buildBafCard = (pair) => {
+    const el = document.createElement('div');
+    el.className = 'baf-card';
+    el.setAttribute('role', 'img');
+    el.setAttribute('aria-label', pair.alt || 'Pre i posle, prevucite za poređenje');
+    el.innerHTML =
+      '<img class="baf-img baf-img--posle" src="' + pair.posle + '" alt="' + (pair.altPosle || 'Posle') + '" loading="lazy" />' +
+      '<img class="baf-img baf-img--pre" src="' + pair.pre + '" alt="' + (pair.altPre || 'Pre') + '" loading="lazy" />' +
+      '<span class="baf-badge baf-badge--posle">Posle</span>' +
+      '<span class="baf-badge baf-badge--pre">Pre</span>' +
+      '<span class="baf-handle" aria-hidden="true"></span>';
+    wireCard(el);
+    return el;
+  };
+  document.querySelectorAll('.baf-showcase').forEach((showcase) => {
+    const dataEl = showcase.querySelector('.baf-pairs');
+    const row = showcase.querySelector('.baf-row');
+    if (!dataEl || !row) return;
+    let pairs = [];
+    try { pairs = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!pairs.length) return;
+
+    const controls = document.createElement('div');
+    controls.className = 'baf-controls' + (showcase.dataset.controls === 'dark' ? ' baf-controls--dark' : '');
+    controls.innerHTML =
+      '<button class="baf-nav baf-prev" type="button" aria-label="Prethodne slike">' + bafArrow(-1) + '</button>' +
+      '<span class="baf-counter"></span>' +
+      '<button class="baf-nav baf-next" type="button" aria-label="Sledeće slike">' + bafArrow(1) + '</button>';
+    showcase.after(controls);
+    const counter = controls.querySelector('.baf-counter');
+    const prevBtn = controls.querySelector('.baf-prev');
+    const nextBtn = controls.querySelector('.baf-next');
+
+    let page = 0;
+    const perPage = () => (window.matchMedia('(min-width:1024px)').matches ? 3 : 1);
+    const pageCount = () => Math.ceil(pairs.length / perPage());
+
+    const render = (animate) => {
+      const per = perPage();
+      const pc = pageCount();
+      page = Math.max(0, Math.min(page, pc - 1));
+      const slice = pairs.slice(page * per, page * per + per);
+      const draw = () => {
+        row.querySelectorAll('.baf-card').forEach((c) => c.remove());
+        slice.forEach((p) => row.appendChild(buildBafCard(p)));
+        layoutBafLines();
+        row.classList.remove('is-swapping');
+      };
+      if (animate) { row.classList.add('is-swapping'); setTimeout(draw, 200); }
+      else { draw(); }
+      counter.textContent = (page + 1) + ' / ' + pc;
+      controls.classList.toggle('is-hidden', pc <= 1);
+      prevBtn.disabled = page === 0;
+      nextBtn.disabled = page === pc - 1;
+    };
+    prevBtn.addEventListener('click', () => { if (page > 0) { page--; render(true); } });
+    nextBtn.addEventListener('click', () => { if (page < pageCount() - 1) { page++; render(true); } });
+    let wasDesktop = window.matchMedia('(min-width:1024px)').matches;
+    window.addEventListener('resize', () => {
+      const isDesktop = window.matchMedia('(min-width:1024px)').matches;
+      if (isDesktop !== wasDesktop) { wasDesktop = isDesktop; page = 0; render(false); }
+    });
+    render(false);
   });
 
   /* Precizne akcent linije: u razmacima traka|slika1, s1|s2, s2|s3, s3|traka;
      krajevi linija između kraja slike i kraja trake. Samo na lg (traka vidljiva). */
-  const layoutBafLines = () => {
+  function layoutBafLines() {
     const showcase = document.querySelector('.baf-showcase');
     if (!showcase) return;
     const band = showcase.querySelector('.baf-band');
@@ -366,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ln.style.bottom = 'auto';
       ln.style.height = bottom - top + 'px';
     });
-  };
+  }
   if (document.querySelector('.baf-showcase')) {
     layoutBafLines();
     window.addEventListener('load', layoutBafLines);
@@ -501,6 +745,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (a) a.style.maxHeight = isOpen ? '0px' : a.scrollHeight + 'px';
     });
   });
+  /* Item otvoren na učitavanju (class="open") — postavi njegovu visinu odmah */
+  document.querySelectorAll('.faq-item.open .faq-a').forEach((a) => {
+    a.style.maxHeight = a.scrollHeight + 'px';
+  });
 
   /* Pre/posle slajder */
   document.querySelectorAll('.ba-slider').forEach((slider) => {
@@ -556,8 +804,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', onRevealScroll, { passive: true });
   revealCheck();
 
-  /* Scroll spy — aktivni nav link */
-  const sections = NAV.map((n) => document.querySelector(n.href)).filter(Boolean);
+  /* Scroll spy — aktivni nav link (samo hash stavke; na podstranici sekcije ne postoje) */
+  const sections = NAV.filter((n) => n.hash && !n.dropdown).map((n) => document.querySelector(n.hash)).filter(Boolean);
   if (sections.length && 'IntersectionObserver' in window) {
     const spy = new IntersectionObserver(
       (entries) => {
@@ -604,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (key.includes('ZAMENITI')) {
         if (status) {
-          status.textContent = 'Forma još nije povezana — dodajte Web3Forms access key. Do tada nas kontaktirajte telefonom ili preko Vibera.';
+          status.textContent = 'Forma još nije povezana. Dodajte Web3Forms access key. Do tada nas kontaktirajte telefonom ili preko Vibera.';
           status.className = 'text-sm mt-4 text-akcent';
         }
         return;
@@ -621,7 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await res.json();
         if (json.success) {
           form.reset();
-          if (status) { status.textContent = 'Hvala — poruka je poslata. Javljamo se u najkraćem roku.'; status.className = 'text-sm mt-4 text-green-600'; }
+          if (status) { status.textContent = 'Hvala, poruka je poslata. Javljamo se u najkraćem roku.'; status.className = 'text-sm mt-4 text-green-600'; }
         } else {
           throw new Error(json.message || 'Greška');
         }

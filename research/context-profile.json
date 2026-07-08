@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "project": "Mojsilov Detailing — website",
+    "owner": "Dušan Mojsilov (mladi osnivač, ~20g)",
+    "business": "Mobilni car detailing u Beogradu (dolazak na adresu): dubinsko pranje, poliranje farova, keramička zaštita",
+    "language": "Sav sadržaj na SRPSKOM (latinica, sa č ć š ž đ)",
+    "date_of_profile": "2026-07-07",
+    "working_dir": "c:/Users/pavle/Downloads/Claude Code/Mojsilov",
+    "git_remote": "https://github.com/pavlegosicsales-cell/Mojsilov.git (NE AICONNECT — to je zaseban projekat u susednom folderu)",
+    "framework_doc": "CLAUDE.md opisuje WAT framework (Workflows/Agents/Tools) — kontekst u context/, workflows/, tools/. Za front-end ovo je čist statički sajt (v. stack).",
+    "uncommitted": true,
+    "note": "Ništa nije komitovano tokom cele sesije. Server ostaje živ; korisnik interaktivno testira."
+  },
+
+  "stack": {
+    "type": "Vanilla HTML + Tailwind (CDN) + plain JS. BEZ build koraka, BEZ React/shadcn/TS.",
+    "important": "Kad god korisnik pošalje React/shadcn/21st.dev komponentu — NE instaliraj shadcn CLI. Adaptiraj kao CSS/HTML u ovaj vanilla stack (reskin na brend). To je već urađeno 3x.",
+    "css": "css/styles.css (jedan veliki fajl, ~1900+ linija, ručno pisan)",
+    "js": "js/site.js (deljeni header/footer injekcija, reveal observer, FAQ, pre/posle slider, forma, brojke roll)",
+    "pages": ["index.html", "o-nama.html", "poliranje-farova.html", "dubinsko-pranje.html", "kontakt.html"],
+    "shared_header_footer": "Injektuju se iz js/site.js (headerHTML() / footerHTML()). Header wrapper: <header id='site-header'> pa <main> sa sekcijama.",
+    "fonts": "Oswald (display/veliki naslovi, uppercase) + Inter (sve ostalo). @import u CSS."
+  },
+
+  "dev_workflow": {
+    "server": "node serve.mjs (statički). PORT 3000 DRŽI DRUGI PROJEKAT (Next.js, verovatno 20/44). Zato: PORT=3100 node serve.mjs — Mojsilov je na http://localhost:3100.",
+    "screenshots": "node screenshot.mjs <url> <label> <width> → 'temporary screenshots/'. Auto-detektuje cached Puppeteer Chrome preko findCachedChrome() (~/.cache/puppeteer/chrome/*/chrome-win64/chrome.exe).",
+    "screenshot_gotcha": "Custom puppeteer skripte MORAJU koristiti isti findCachedChrome() (default launch ne nalazi Chrome). Skripte drži u .tmp/ unutar projekta (da import 'puppeteer' resolvuje node_modules).",
+    "element_clip": "elementHandle.screenshot() seče na border-box → elementi sa dekoracijom van boksa (inset:-Npx) budu odsečeni; snimaj roditeljsku sekciju da se vide ćoškovi.",
+    "verify_rule": "Uvek podigni server + screenshot + vizuelno uporedi (min 2 runde). Za hover/animacije snimaj sekvencu u vremenu.",
+    "reveal_in_screenshots": "screenshot.mjs forsira .reveal.in na svim .reveal elementima na kraju (da full-page shot uhvati sve sekcije). Zato animacije treba vezati za .reveal.in radi robusnosti."
+  },
+
+  "brand_voice": {
+    "source": "context/Brand-Voice-Profile.md, context/ICP.md, context/Business-Details.md",
+    "address": "'Vi' (formalno), 'mi/naš' (nikad 'ja'). Ton: profesionalan+topao, ne korporativan.",
+    "em_dash_pattern": "Potpis obrazac je tvrdnja + pojašnjenje/korist. ALI korisnik NE VOLI em-dash znak jer deluje AI-generisano (v. memorija 'no-em-dashes-mojsilov') — u praksi izbegavaj em dash u novom copy-ju.",
+    "banned_words": ["'pranje' samostalno za detailing (koristi: dubinsko pranje/detailing/tretman)", "polimerizacija (koristi: keramička zaštita)", "jeftino/najjeftinije", "FOMO/urgentnost", "superlativi", "uzvičnici u body tekstu"],
+    "framing": "Cena = investicija, nikad trošak. Svaka sekcija gasi bar jednu barijeru kupca (vreme/poverenje/kvalitet/vrednost/sumnje).",
+    "signature_phrases": ["Na vašoj adresi", "Bez potrebe da obezbeđujete vodu ili struju", "Bez skrivenih troškova", "Rezultat koji traje"]
+  },
+
+  "design_system": {
+    "source": "context/Design-System.md + skills/design-skills/line-grid-aesthetic.md (house style)",
+    "colors": {
+      "--navy": "#121358 (primarna tamna: hero/footer/tamne sekcije)",
+      "--plava": "#293681 (sekundarna/kartice)",
+      "--akcent": "#2164da (CTA, ključni linkovi, akcenti — ŠTEDLJIVO)",
+      "--akcent-svetla": "#2164da (token; text-akcent-light klasa = akcent)",
+      "line_light": "rgba(18,19,88,0.14)",
+      "line_dark": "rgba(255,255,255,0.14)"
+    },
+    "type": "Oswald (600/700, uppercase, letter-spacing negativan) SAMO za H1/H2/velike brojeve; Inter za sve ostalo. Uppercase samo kratki naslovi/CTA, nikad body.",
+    "house_style": "Line-grid editorial (Moxom-inspirisan): tanke 1px hairline linije, otvorene bordered mreže (ne kartice), linije koje 'beže' iz boksa, grid-pattern pozadine na tamnim sekcijama, hladno-plava paleta, toplina kroz beli prostor i foto (ne boju).",
+    "interactions": "Hover: border se puni akcentom, spring-pop ikonice (cubic-bezier(0.34,1.56,0.64,1)), pozicije računate iz JS-a. Prefers-reduced-motion uvek.",
+    "easing_gotcha": "cubic-bezier(0.22,1,0.36,1) (easeOutQuint) pokrije ~99% u prvih ~0.35s → 'snapne'. Za animacije koje treba da se OSETE koristi even easing cubic-bezier(0.4,0,0.2,1). (Ovo je bio uzrok prve loše brojka-animacije.)"
+  },
+
+  "reusable_components_created_this_session": {
+    ".bracket-frame": "Outline okvir: tanak akcent border (rgba(33,100,218,0.35)) + 4 PUNE akcent kockice na ćoškovima (::after, 4 gradijenta, inset:-4px). Radi na svetloj i tamnoj. Primenjen na: FAQ spisak (ceo, po stranici), kontakt forme (cf-card-outer), 'Osoba iza brenda' founder kartica. Za founder/formu: SAMO menja border, čuva glass pozadinu + hover/tilt (override-ovi u CSS). Forma: radius 0, sakrivene okrugle cf-corner tačkice.",
+    ".corner-frame": "Ćoškaste L-zagrade (21st.dev 'corners' varijanta): suptilan border + akcent L u sva 4 ćoška (::before, 8 gradijenata — ::before jer .svc-cell/.how-cell koriste ::after za shine-sweep). Primenjen na: 'Profesionalna oprema' kartice (dubinsko svc-cell), 'Siguran rezultat svaki put' (poliranje how-grid.cf-sep, razdvojene), footer kolone (Navigacija/Usluge/Kontakt).",
+    ".bl-grid/.bl-card": "Benefit lista (21st.dev 'category-list' adaptacija) na dubinsko 'Sve što dobijate' — 10 benefita u 2 kolone, row-kartice. Hover: akcent border+tint+senka+lift, L-zagrade (::before top-left/::after bottom-right), naslov u akcent. Svaka kartica ima .bl-ico = mini glass pločica (kao .svc-icon, belo→akcent radial gradijent) sa relevantnom ikonicom levo; na hover pločica se popuni akcentom i glif pređe u check-circle (.bl-ico-def → .bl-ico-chk swap). Ikonice OBAVEZNO u .svc-icon glass stilu (ne bare SVG).",
+    ".hero-photo/.hero-photo-bg/.hero-photo-overlay": "Foto-hero: pozadinska slika (object-fit cover) + crni gradijent overlay (leva strana + vrh tamniji za tekst/nav). min-height 72vh mobilni / 86vh desktop, display:flex align-items:center. Koristi se na poliranje-farova (assets/poliranje farova hero.jpg) i dubinsko-pranje (assets/dubinsko pranje hero.jpg). Jedna kolona, pre/posle kartica uklonjena iz hero-a.",
+    "brojke_digit_roll": ".stat-num sadrži .count-num[data-target]. JS (site.js) deli svaku CIFRU u masku .dgt sa .dgt-in koji klizi; susedne cifre naizmenično .dgt--up (odozdo 120%) / .dgt--down (odozgo -120%); stagger --i*0.07s; 1.05s even easing. Suffiksi (+,–,h,'do') statični. Okidač: .reveal.in .dgt-in (pouzdano) + .stat-num.rolled backup. Stari count-up (spring+glitch) UKLONJEN."
+  },
+
+  "key_decisions": [
+    "Pricing sekcije na podstranama: navy dark varijanta line-grida (ne bela kao početna) — čuva ritam svetlo→tamno→svetlo. .pricing-wrap.is-dark, .pricing-grid--2 (2 kol poliranje bez toggle), 3 kol dubinsko sa toggle veličine vozila (JS PRICES mapa auta/enterijer). Održavanje 2.900 fiksno.",
+    "Grid pozadina (.hero-grid) UKLONJENA sa: oba pricing-a, 'brojke i recenzije' (početna), 'Osoba iza brenda' sekcija (o-nama). (Ranije proban 'grid samo okolo/rupa' pa neprovidna podloga — odbačeno jer je zatamnilo karticu; na kraju grid potpuno sklonjen.)",
+    "Founder & kontakt forma: outline okvir SAMO menja border, NE dira karticu (glass pozadina + hover/tilt ostaju). Korisnik izričito: 'samo menjaš border, ne karticu'.",
+    "Koncentrični krugovi (.ring-deco, JS injekcija na tamnim sekcijama/galeriji) POTPUNO UKLONJENI sa celog sajta. Dijagonalni hatch na svetlim sekcijama ostaje.",
+    "Navbar transparentan na vrhu (stapa se sa hero pozadinom), scroll stanje nepromenjeno. #site-header sticky + margin-bottom: -var(--header-h) (96px/124px) da preklopi prvu sekciju; main>section:first-of-type dobija padding-top za nav clearance. .header-inner background transparent (bio navy).",
+    "Heading-i u dva reda + akcent (#2164DA preko .text-akcent-light) na traženom redu — mnogo primera na dubinsko/poliranje.",
+    "'Kako smo stigli dovde' (o-nama) hover: izbačen shine-sweep; sada glow (box-shadow) na plavoj .path-line + hovered faza .path-icon se podigne.",
+    "Brojke animacija: po-cifra roll, susedne u suprotnim smerovima, sporo (v. komponente). Prethodne 2 verzije (count-up; pa jedinstveni roll sa easeOutQuint) odbačene."
+  ],
+
+  "avontiv_teardown": {
+    "file": "research/2026-07-07-avontiv-teardown.md",
+    "summary": "Avontiv (Webflow, 'fda-' klase, IX2 deklarativne animacije, jQuery). Dark + narandžasti akcenat #ff4d24 (mapira na naš #2164DA), #1f1915/#000 → navy. Font Inter Tight, tesan letter-spacing (-0.04/-0.06rem). Animacije = stock Webflow fade-up (nema custom JS za krasti). Counter 'roll' = .fda-counter-box (height fiksna, overflow clip) + IX2 slide odozdo.",
+    "distinctive_components": {
+      ".fda-big-text": "Veliki naslovi u zagradama '[Maintenance]' clamp(35px,10.7vw,180px); zagrade bukvalno kucane, akcent boja. NAJVEĆA vrednost — nemamo analog. Kandidat: '[Poliranje][Dubinsko pranje][Keramika]' sa foto između.",
+      "ghost_numbers": ".fda-text-style-h1 + color #ffffff59 (35%), stepenasto razbacani.",
+      "stats_glow_line": "vertikalna akcent 1px×2.7rem između brojki.",
+      "button_text_swap": ".fda-button-text-two position:absolute inset:0 → vertikalni roll na hover.",
+      "faq_plus_minus": "dve ukrštene crtice '+', vertikalna se skuplja → '−'.",
+      "cta_glass_squares": ".fda-cta-box backdrop-blur + .fda-cta-square akcent kvadrati u ćoškovima ≈ naš .bracket-frame."
+    },
+    "downloaded_assets": "CSS+JS skinuti u scratchpad/avontiv/ (avontiv.css, wf1/2/3.js). 3 screenshota u assets/ (avontiv1.png Home, avontiv2.png About, 'avontiv 3.png' Services)."
+  },
+
+  "assets": {
+    "hero_photos": ["assets/poliranje farova hero.jpg", "assets/dubinsko pranje hero.jpg"],
+    "pre_posle": ["assets/far-1..3-pre/posle.jpg", "assets/enterijer-pre/posle.jpg", "assets/karoserija-*", "assets/farovi-*"],
+    "founder": "assets/osnivac-auto.jpg",
+    "logo": "brand_assets/mojsilov-logo 1.png (footer), MD logo u headeru"
+  },
+
+  "open_items_next_priorities": [
+    "NIŠTA NIJE KOMITOVANO — kad korisnik kaže, napraviti commit na Mojsilov.git (grana ako je na default).",
+    "Avontiv: korisnik želi da 'pokupi par novih stvari'. Nije finalno izabrano šta. Najjači kandidat = bracket big-text sekcija usluga '[...]' (nemamo analog). Ostali: ghost-number staggered usluge, numbered accordion, button text-swap hover.",
+    "Sve nove komponente reskinirati na navy/akcent (narandžasta #ff4d24 → #2164DA).",
+    "Proveriti mobilni za sve nove hero-e / roll / okvire kad se prilika ukaže."
+  ],
+
+  "gotchas_learned": [
+    "Port 3000 zauzet → koristi PORT=3100.",
+    "Nalepljeni 'kod' može biti jQuery biblioteka ili odsečen (50k limit) — traži pravi CSS/JS link u <head>/<body> i skini curl-om.",
+    "Even easing (0.4,0,0.2,1) za animacije koje treba da se OSETE; easeOutQuint snapuje.",
+    "Animacije vezati za .reveal.in (screenshot.mjs to forsira; reveal observer pouzdan) da elementi ne ostanu skriveni.",
+    ".svc-cell/.how-cell već koriste ::after (shine-sweep) → nove dekoracije preko ::before.",
+    "Element-clip screenshot seče dekoraciju van boksa → snimaj roditeljsku sekciju.",
+    "Ikonice u novim sekcijama moraju biti u .svc-icon glass stilu (korisnik zvao bare SVG 'AI odvratne')."
+  ]
+}
