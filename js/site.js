@@ -288,15 +288,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* Put brenda / proces (path-grid) — mobilni: scroll-highlight vertikalne linije
-     + zoom ikonice faze koja je dostignuta. */
+  /* Mobilni scroll-highlight (isti princip):
+     - path-grid: vertikalna linija se „pali" + zoom ikonice dostignute faze
+     - .how-cell.fill-up (numerisane step kartice): broj + kartica prelaze u navy
+       kumulativno, u zavisnosti dokle je korisnik skrolovao. */
   const pathGrids = document.querySelectorAll('.path-grid');
-  if (pathGrids.length) {
-    let pTick = false;
-    const updatePaths = () => {
-      pTick = false;
+  const litCells = document.querySelectorAll('.how-cell.fill-up');
+  if (pathGrids.length || litCells.length) {
+    let sTick = false;
+    const updateScrollFx = () => {
+      sTick = false;
       const mobile = window.matchMedia('(max-width: 1023.98px)').matches;
-      const anchor = window.innerHeight * 0.55;
+      const vh = window.innerHeight;
+      const anchor = vh * 0.55;
       pathGrids.forEach((grid) => {
         if (!mobile) {
           grid.style.removeProperty('--path-progress');
@@ -317,11 +321,18 @@ document.addEventListener('DOMContentLoaded', () => {
           cell.classList.toggle('is-reached', (ir.top + ir.height / 2) <= anchor);
         });
       });
+      litCells.forEach((cell) => {
+        if (!mobile) { cell.classList.remove('is-reached'); return; }
+        const num = cell.querySelector('.how-num');
+        const ref = num || cell;
+        const r = ref.getBoundingClientRect();
+        cell.classList.toggle('is-reached', r.top < vh * 0.72);
+      });
     };
-    const onPathScroll = () => { if (!pTick) { pTick = true; requestAnimationFrame(updatePaths); } };
-    window.addEventListener('scroll', onPathScroll, { passive: true });
-    window.addEventListener('resize', onPathScroll, { passive: true });
-    updatePaths();
+    const onScrollFx = () => { if (!sTick) { sTick = true; requestAnimationFrame(updateScrollFx); } };
+    window.addEventListener('scroll', onScrollFx, { passive: true });
+    window.addEventListener('resize', onScrollFx, { passive: true });
+    updateScrollFx();
   }
 
   /* Usluga stranice: „blueprint" ram — u svaku sekciju ubaci vertikalne vodilje

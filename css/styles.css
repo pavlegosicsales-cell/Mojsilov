@@ -2275,9 +2275,16 @@ body.menu-open { overflow: hidden; }
     border-color: rgba(33, 100, 218, 0.6);
     box-shadow: 0 10px 24px -6px rgba(33, 100, 218, 0.6);
   }
+
+  /* Numerisane step kartice — broj i kartica prelaze u navy dok se skroluje
+     (isti princip kao linija; kumulativno do dokle je korisnik stigao). */
+  .how-cell.fill-up.is-reached { border-left-color: var(--akcent); background: rgba(33, 100, 218, 0.05); }
+  .how-cell.fill-up.is-reached .how-num { color: var(--navy); transform: translateY(-2px) scale(1.05); }
+  .how-cell.fill-up.is-reached .how-title { color: var(--navy); }
 }
 @media (prefers-reduced-motion: reduce) {
   .path-cell.is-reached .path-icon { transform: none; }
+  .how-cell.fill-up.is-reached .how-num { transform: none; }
 }
 
 /* Poštuj korisnike koji smanjuju animacije */
