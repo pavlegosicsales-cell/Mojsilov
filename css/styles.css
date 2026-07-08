@@ -2251,6 +2251,9 @@ body.menu-open { overflow: hidden; }
   /* Bez pozadinskog grida i „+" blueprint oznaka na malom ekranu (smetaju) */
   .hero-grid, .gdl { display: none; }
   .plus-node { display: none; }
+  /* Eyebrow pill UNUTAR hero kartice (Više od pranja / Rezultat koji traje /
+     Brzo i bez obaveze / Naša priča) — sakriven na telefonu (lead eyebrow ostaje). */
+  .hero2-card .hero2-eyebrow { display: none; }
 }
 
 /* Put brenda / proces (path-grid) — na mobilnom se vertikalna linija progresivno
