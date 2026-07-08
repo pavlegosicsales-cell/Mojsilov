@@ -55,6 +55,7 @@ const NAV = [
   { label: 'Usluge', hash: '#usluge', dropdown: [
     { label: 'Dubinsko pranje', page: 'dubinsko-pranje.html' },
     { label: 'Poliranje farova', page: 'poliranje-farova.html' },
+    { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
   { label: 'Kontakt', page: 'kontakt.html' },
 ];
@@ -181,6 +182,7 @@ function footerHTML() {
             <li><a href="poliranje-farova.html">Poliranje farova</a></li>
             <li><a href="dubinsko-pranje.html">Dubinsko pranje auta</a></li>
             <li><a href="dubinsko-pranje.html">Pranje enterijera</a></li>
+            <li><a href="namestaj.html">Pranje nameštaja</a></li>
             <li><a href="poliranje-farova.html">Keramička zaštita</a></li>
           </ul>
         </div>
