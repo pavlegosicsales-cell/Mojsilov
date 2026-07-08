@@ -290,6 +290,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* Home hero (#pocetna): na telefonu je sadržaj (pill, naslov, CTA, traka 01–04)
+     ispod velike hero slike, pa ga je reveal observer ostavljao skrivenim do skrola.
+     Prikaži ga odmah na mobilnom/tabletu. (Desktop zadržava stagger reveal.) */
+  const homeHero = document.getElementById('pocetna');
+  if (homeHero && window.matchMedia('(max-width: 1023.98px)').matches) {
+    requestAnimationFrame(() => {
+      homeHero.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+    });
+  }
+
   /* Mobilni scroll-highlight (isti princip):
      - path-grid: vertikalna linija se „pali" + zoom ikonice dostignute faze
      - .how-cell.fill-up (numerisane step kartice): broj + kartica prelaze u navy
