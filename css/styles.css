@@ -2244,6 +2244,42 @@ body.menu-open { overflow: hidden; }
     linear-gradient(180deg, #1a2352 0%, #121358 40%, #0a0b26 100%);
 }
 
+/* --------------------------------------------------------------------------
+   MOBILNE DORADE — declutter (bez grida i „+" oznaka) + scroll highlight puta
+   -------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  /* Bez pozadinskog grida i „+" blueprint oznaka na malom ekranu (smetaju) */
+  .hero-grid, .gdl { display: none; }
+  .plus-node { display: none; }
+}
+
+/* Put brenda / proces (path-grid) — na mobilnom se vertikalna linija progresivno
+   „pali" u zavisnosti od skrola, a ikonica dostignute faze zumira.
+   (Desktop zadržava horizontalnu liniju + hover.) */
+@media (max-width: 1023.98px) {
+  .path-line { background: rgba(33, 100, 218, 0.15); }
+  .path-line::after { display: none; }
+  .path-line::before {
+    content: ''; position: absolute; left: 0; top: 0; width: 100%;
+    height: calc(var(--path-progress, 0) * 100%);
+    background: linear-gradient(180deg, var(--akcent), #7fb0ff);
+    box-shadow: 0 0 12px rgba(33, 100, 218, 0.55);
+    border-radius: 999px;
+  }
+  .path-cell .path-icon {
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .path-cell.is-reached .path-icon {
+    transform: scale(1.14);
+    border-color: rgba(33, 100, 218, 0.6);
+    box-shadow: 0 10px 24px -6px rgba(33, 100, 218, 0.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .path-cell.is-reached .path-icon { transform: none; }
+}
+
 /* Poštuj korisnike koji smanjuju animacije */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

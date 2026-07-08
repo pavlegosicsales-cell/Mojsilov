@@ -37,7 +37,6 @@ const icon = {
   phone: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
   instagram: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>',
   facebook: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
-  tiktok: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M16 8.245a6.5 6.5 0 0 0 3.75 1.19V6.66a3.75 3.75 0 0 1-2.02-1.19 3.75 3.75 0 0 1-1.02-2.47H14v11.98a2.31 2.31 0 1 1-1.62-2.2V9.94a5.16 5.16 0 1 0 3.62 4.92z"/></svg>',
   whatsapp: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.24.68-1.4 1.3-1.94 1.35-.5.05-1.1.24-3.7-.78-3.13-1.23-5.12-4.4-5.28-4.6-.15-.2-1.25-1.66-1.25-3.16s.79-2.24 1.07-2.55c.28-.3.6-.38.8-.38l.58.01c.19.01.44-.07.68.52.24.6.83 2.06.9 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5l-.44.5c-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.35 1.46.29.15.46.13.63-.08.17-.2.73-.85.92-1.14.2-.29.39-.24.66-.15.27.1 1.7.8 2 .95.28.15.47.22.54.34.07.12.07.68-.17 1.35z"/></svg>',
   arrow: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
   clock: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
@@ -65,13 +64,14 @@ const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
 const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? 'index.html' + n.hash : n.hash));
 /* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
 const homeHash = (hash) => (IS_SUBPAGE ? 'index.html' + hash : hash);
+/* CTA „Zakažite termin": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
+const ctaHref = IS_SUBPAGE ? 'kontakt.html#kanali' : '#kontakt';
 /* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
 const isCurrentPage = (n) => n.page && location.pathname.toLowerCase().endsWith('/' + n.page);
 
 const socialLinks = `
   <a href="#" aria-label="Instagram" class="opacity-80 hover:opacity-100 hover:text-akcent transition">${icon.instagram}</a>
   <a href="#" aria-label="Facebook" class="opacity-80 hover:opacity-100 hover:text-akcent transition">${icon.facebook}</a>
-  <a href="#" aria-label="TikTok" class="opacity-80 hover:opacity-100 hover:text-akcent transition">${icon.tiktok}</a>
 `;
 
 /* --- Header -------------------------------------------------------------- */
@@ -115,7 +115,7 @@ function headerHTML() {
         <a href="tel:${TEL}" class="nav-phone hidden xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
-        <a href="${homeHash('#kontakt')}" class="glow-btn hidden lg:inline-flex">Zakažite termin ${icon.sparkles}</a>
+        <a href="${ctaHref}" class="glow-btn hidden lg:inline-flex">Zakažite termin ${icon.sparkles}</a>
         <button id="menu-open" class="lg:hidden text-white p-2 -mr-2" aria-label="Otvorite meni">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
         </button>
@@ -135,7 +135,7 @@ function headerHTML() {
     <div class="flex flex-col gap-6">${mobileLinks}</div>
     <div class="mt-auto pt-8 border-t border-white/10">
       <a href="tel:${TEL}" class="flex items-center gap-2 text-white/85 mb-4">${icon.phone}<span>${TEL_DISPLAY}</span></a>
-      <a href="${homeHash('#kontakt')}" data-close-menu class="glow-btn w-full">Zakažite termin ${icon.sparkles}</a>
+      <a href="${ctaHref}" data-close-menu class="glow-btn w-full">Zakažite termin ${icon.sparkles}</a>
       <div class="flex items-center gap-5 text-white mt-6">${socialLinks}</div>
     </div>
   </aside>`;
@@ -167,7 +167,6 @@ function footerHTML() {
           <div class="ac-socials">
             <a href="#" class="fsoc" aria-label="Instagram">${icon.instagram}</a>
             <a href="#" class="fsoc" aria-label="Facebook">${icon.facebook}</a>
-            <a href="#" class="fsoc" aria-label="TikTok">${icon.tiktok}</a>
           </div>
         </div>
 
@@ -179,10 +178,10 @@ function footerHTML() {
         <div class="foot-col corner-frame">
           <h4>Usluge</h4>
           <ul>
-            <li><a href="${homeHash('#usluge')}">Poliranje farova</a></li>
-            <li><a href="${homeHash('#usluge')}">Dubinsko pranje auta</a></li>
-            <li><a href="${homeHash('#usluge')}">Pranje enterijera</a></li>
-            <li><a href="${homeHash('#usluge')}">Keramička zaštita</a></li>
+            <li><a href="poliranje-farova.html">Poliranje farova</a></li>
+            <li><a href="dubinsko-pranje.html">Dubinsko pranje auta</a></li>
+            <li><a href="dubinsko-pranje.html">Pranje enterijera</a></li>
+            <li><a href="poliranje-farova.html">Keramička zaštita</a></li>
           </ul>
         </div>
 
@@ -281,6 +280,48 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignHeroGrid);
     window.addEventListener('load', alignHeroGrid);
     window.addEventListener('resize', alignHeroGrid);
+    /* Hero2 sadržaj je uvek iznad preloma → prikaži ga ODMAH (uz fade). Reveal
+       observer bi na nižim ekranima promašio donji sadržaj (naslov/kartica) jer
+       je poravnat na dno, pa bi ostao nevidljiv dok se ne skroluje. */
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.hero2 .reveal').forEach((el) => el.classList.add('in'));
+    });
+  }
+
+  /* Put brenda / proces (path-grid) — mobilni: scroll-highlight vertikalne linije
+     + zoom ikonice faze koja je dostignuta. */
+  const pathGrids = document.querySelectorAll('.path-grid');
+  if (pathGrids.length) {
+    let pTick = false;
+    const updatePaths = () => {
+      pTick = false;
+      const mobile = window.matchMedia('(max-width: 1023.98px)').matches;
+      const anchor = window.innerHeight * 0.55;
+      pathGrids.forEach((grid) => {
+        if (!mobile) {
+          grid.style.removeProperty('--path-progress');
+          grid.querySelectorAll('.path-cell.is-reached').forEach((c) => c.classList.remove('is-reached'));
+          return;
+        }
+        const line = grid.querySelector('.path-line');
+        if (line) {
+          const lr = line.getBoundingClientRect();
+          let p = lr.height ? (anchor - lr.top) / lr.height : 0;
+          p = Math.max(0, Math.min(1, p));
+          grid.style.setProperty('--path-progress', p.toFixed(4));
+        }
+        grid.querySelectorAll('.path-cell').forEach((cell) => {
+          const icon = cell.querySelector('.path-icon');
+          if (!icon) return;
+          const ir = icon.getBoundingClientRect();
+          cell.classList.toggle('is-reached', (ir.top + ir.height / 2) <= anchor);
+        });
+      });
+    };
+    const onPathScroll = () => { if (!pTick) { pTick = true; requestAnimationFrame(updatePaths); } };
+    window.addEventListener('scroll', onPathScroll, { passive: true });
+    window.addEventListener('resize', onPathScroll, { passive: true });
+    updatePaths();
   }
 
   /* Usluga stranice: „blueprint" ram — u svaku sekciju ubaci vertikalne vodilje
