@@ -52,22 +52,24 @@
   <header id="site-header" class="min-h-[96px] lg:min-h-[124px]"></header>
 
   <main>
-    <!-- ============================ HERO (navy, lakši — sporedna usluga) ============================ -->
-    <section class="relative bg-navy text-white overflow-hidden grain py-20 lg:py-28">
-      <div aria-hidden="true" class="hero-grid"></div>
-      <div aria-hidden="true" class="absolute inset-0 z-0 pointer-events-none" style="background: radial-gradient(55% 60% at 70% 20%, rgba(33,100,218,0.20), transparent 70%);"></div>
-      <div class="max-w-container mx-auto px-5 lg:px-8 relative z-10">
-        <div class="max-w-3xl">
-          <div class="mb-5 reveal"><span class="eyebrow-pill eyebrow-pill--dark"><span class="ep-dot"></span><span class="eyebrow text-akcent">Dodatna usluga</span></span></div>
-          <h1 class="h-section text-5xl md:text-6xl lg:text-7xl reveal">Dubinsko pranje<br><span class="text-akcent-light">nameštaja</span></h1>
-          <p class="mt-5 text-white/75 leading-relaxed text-lg max-w-2xl reveal reveal-delay-1">
-            Peremo sofe, ugaone garniture, dušeke i stolice i uklanjamo prljavštinu, fleke i neprijatne
-            mirise, kako bi vaš nameštaj ponovo bio čist, svež i prijatan za korišćenje. Uslugu vršimo
-            na vašoj adresi širom Beograda i okoline, uz <strong class="text-white">besplatan dolazak</strong>.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-4 reveal reveal-delay-2">
-            <a href="kontakt.html#kanali" class="glow-btn">Zatražite procenu <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg></a>
-            <a href="https://wa.me/381621523470" target="_blank" rel="noopener" class="btn btn-ghost">Pošaljite slike</a>
+    <!-- ============================ HERO (sticky „cover", kao ostale stranice) ============================ -->
+    <section class="hero2">
+      <img src="assets/namestaj%20hero.jpg" alt="" aria-hidden="true" class="hero2-bg" />
+      <div aria-hidden="true" class="hero2-overlay"></div>
+      <div aria-hidden="true" class="hero2-grid"></div>
+      <div class="max-w-container mx-auto px-5 lg:px-8">
+        <div class="hero2-inner">
+          <!-- Naslov + CTA dole levo -->
+          <div class="hero2-lead">
+            <div class="hero2-eyebrow reveal"><span class="eyebrow-pill eyebrow-pill--dark"><span class="ep-dot"></span><span class="eyebrow text-akcent">Dodatna usluga</span></span></div>
+            <h1 class="hero2-title reveal">Pranje<br>nameštaja</h1>
+            <a href="kontakt.html#kanali" class="glow-btn hero2-cta">Zatražite procenu <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg></a>
+          </div>
+          <!-- Staklena grid-kartica desno -->
+          <div class="hero2-card bracket-frame reveal reveal-delay-1">
+            <div class="hero2-eyebrow"><span class="eyebrow-pill eyebrow-pill--dark"><span class="ep-dot"></span><span class="eyebrow text-akcent">Sveže i čisto</span></span></div>
+            <h2 class="hero2-card-title">Uklanjamo fleke, prljavštinu i mirise</h2>
+            <p class="hero2-card-body">Peremo sofe, ugaone garniture, dušeke i stolice profesionalnom Karcher opremom, na vašoj adresi širom Beograda. Dolazak je besplatan, a novi klijenti dobijaju 15% popusta.</p>
           </div>
         </div>
       </div>
