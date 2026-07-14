@@ -65,7 +65,7 @@ const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
 const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? 'index.html' + n.hash : n.hash));
 /* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
 const homeHash = (hash) => (IS_SUBPAGE ? 'index.html' + hash : hash);
-/* CTA „Zakažite termin": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
+/* CTA „Pozovite nas": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
 const ctaHref = IS_SUBPAGE ? 'kontakt.html#kanali' : '#kontakt';
 /* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
 const isCurrentPage = (n) => n.page && location.pathname.toLowerCase().endsWith('/' + n.page);
@@ -116,7 +116,7 @@ function headerHTML() {
         <a href="tel:${TEL}" class="nav-phone hidden xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
-        <a href="${ctaHref}" class="glow-btn hidden lg:inline-flex">Zakažite termin ${icon.sparkles}</a>
+        <a href="${ctaHref}" class="glow-btn hidden lg:inline-flex">Pozovite nas ${icon.sparkles}</a>
         <button id="menu-open" class="lg:hidden text-white p-2 -mr-2" aria-label="Otvorite meni">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
         </button>
@@ -136,7 +136,7 @@ function headerHTML() {
     <div class="flex flex-col gap-6">${mobileLinks}</div>
     <div class="mt-auto pt-8 border-t border-white/10">
       <a href="tel:${TEL}" class="flex items-center gap-2 text-white/85 mb-4">${icon.phone}<span>${TEL_DISPLAY}</span></a>
-      <a href="${ctaHref}" data-close-menu class="glow-btn w-full">Zakažite termin ${icon.sparkles}</a>
+      <a href="${ctaHref}" data-close-menu class="glow-btn w-full">Pozovite nas ${icon.sparkles}</a>
       <div class="flex items-center gap-5 text-white mt-6">${socialLinks}</div>
     </div>
   </aside>`;
