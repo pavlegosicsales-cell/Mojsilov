@@ -2109,6 +2109,9 @@ body.menu-open { overflow: hidden; }
   font-size: clamp(2.6rem, 6.4vw, 5.5rem);
   text-shadow: 0 6px 34px rgba(0,0,0,0.5);
 }
+/* Duži naslovi (npr. „Dubinsko pranje" / „Poliranje farova") — malo manji da
+   svaki red stane bez prelamanja (2 reda umesto 3 na desktopu). */
+.hero2-title--fit { font-size: clamp(2.3rem, 5vw, 4.4rem); }
 .hero2-lead .glow-btn { margin-top: 2rem; }
 /* Staklena grid kartica desno (Avontiv .fda-cta-box + corner squares → naš bracket-frame) */
 .hero2-card {
