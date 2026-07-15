@@ -700,6 +700,101 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', sizeNrGrid);
   }
 
+  /* Recenzije — pager (3 po strani) sa strelicama levo/desno.
+     Dizajn i šema linija ostaju netaknuti; menja se samo sadržaj (ime + komentar). */
+  /* Sve Google recenzije (5/5). Imena i komentari doslovno kako stoje na Google-u.
+     Redosled: grupisano po dužini teksta, da strane budu ujednačene visine. */
+  const HOME_REVIEWS = [
+    { n: 'Strahinja Marković', t: 'С обзиром да је ауто стар 23 године, фарови изгледају као да сам ставио нове. Чак сам добио жељу да ставим лед лампе. Свака част мајстору.' },
+    { n: 'Igor Filipovic', t: 'Свака препорука за овог момка! Млад је, али више него професионалан. Верујем да ће за неколико година имати свој тим! Фарови су као нови. Извукао је максимум из њих. Свака препорука, и дефинитивно ћу ускоро пробати дубинско прање!' },
+    { n: 'Zoran Petkovic', t: 'Све похвале за професионализам и квалитет! Душан је дошао тачно на договорену адресу и врхунски исполирао фарове. Фарови сада изгледају као нови. Препоручујем свима који желе брзу и педантну услугу без одласка у сервис.' },
+    { n: 'Kikela Popovic', t: 'Изузетно професионална услуга од почетка до краја. Момак је тачан, пријатан и веома посвећен свом послу. Фарови су фантастични након полимеризације и фарбања, с обзиром на претходно стање, резултат је далеко изнад мојих очекивања. Ретко се наилази на тако квалитетан рад. Честитам и велика, искрена препорука!' },
+    { n: 'V V', t: 'Одличан рад. Фарови изгледају као нови (аутомобил стар 20 година и сада са новим делом ;)). Све препоруке. Долазак на адресу заиста штеди време, а резултат је фантастичан по веома приступачној цени. Професионалан приступ, пријатна комуникација. Хвала пуно. Вукица' },
+    { n: 'Ivan Petrovic', t: 'Професионалан, педантно педантан, ефикасан, детаљан и брз. Веома културан младић, што је реткост ових дана. Све је урађено како је договорено, стигао је на адресу на време, крајњи резултат је за сваку похвалу! Честитам Душане, желим ти још много задовољних купаца!' },
+    { n: 'Dušan Mirković', t: 'Све похвале за момка који ради дубинско прање! Изузетно је тачан, прецизан, вредан и веома одговоран. Ретко се сретне неко ко свом послу приступа са толико пажње и посвећености. Аутомобил је очишћен до најситнијих детаља, од седишта, са којих су мрље потпуно уклоњене, преко темељно освежених патоси, до неприступачних места око педала и у доњем делу кабине где се прљавштина највише накупља. Сва тврдокорна прљавштина је уклоњена, а унутрашњост аутомобила сада изгледа и мирише буквално као нова. Сваки детаљ је испоштован до крајњих граница, посао је урађен без иједне грешке, педантно и тачно на време. Ако вам је потребан неко ко је изузетно поуздан и ко се труди у ономе што ради, имате моју топлу препоруку!' },
+    { n: 'Vuk Jarčov', t: 'Све похвале за дечка, млад је и веома пријатан. Ауто је био потпуно очишћен, а услуга преузимања је феноменална, веома аутентично искуство.' },
+    { n: 'DANIJELA PAVLOVIĆ', t: 'Све похвале за полирање мојих старих фарова, буквално изгледају као нови. Млади мајстор је веома љубазан, веома професионалан и стигао је у договорено време. Највиша оцена 🙂' },
+    { n: 'Srdjan Medojevic', t: 'Презадовољан сам резултатом. Момак је јако педантан, културан и професионалан. Све похвале за људску и професионалну страну. Свака препорука, од срца.' },
+    { n: 'Vladimir Milakovic', t: 'Одличан момак. Полирање фарова, урађено на Пежоу 3008, врхунски. Флексибилан по питању времена доласка и увече. Топло препоручујем.' },
+    { n: 'Aleksandar Kitic', t: 'Фарови савршено полирани и заштићени. Све је урађено на време и како је договорено. Велика уштеда времена и веома позитивно искуство.' },
+    { n: 'Marko Kekic', t: 'Професионално урађен посао. Све препоруке за момка. Полирање фарова на вашој адреси је одлична идеја, само напред. Подршка млађој генерацији!' },
+    { n: 'Zoric Marko', t: 'Све похвале за обављени посао! Професионалан, фин, културан, васпитан момак. Договор је у потпуности поштовао. За сваку препоруку!' },
+    { n: 'Uros Cvetkovic', t: 'Момак који је изузетно посвећен свом послу и што је најважније, воли оно што ради. Све препоруке.' },
+    { n: 'Milan Radeka', t: 'Честитам на добро обављеном послу. Млад и перспективан. Фарови су сада као нови, моја искрена препорука.' },
+    { n: 'bosko cvorkov', t: 'Врхунски мајстор, долази на адресу и ради врхунске фарове са керамичком заштитом, све похвале...' },
+    { n: 'Andjela Petrovic', t: 'Свака част момку! Све је урадио савршено, заиста немам речи за услугу и брзину. Све препоруке 😃' },
+    { n: 'DZOKER97', t: 'Све препоруке за момка. Професионално урађен посао. Фарови су сада као нови!!! Срећно у будућем раду.' },
+    { n: 'Andrej H', t: 'Све похвале за одличан посао, моји фарови сада изгледају као нови. Препоручио бих свима!!!' },
+    { n: 'Ivan Terzic', t: 'Све препоруке за савршено полирање фарова! Човек ради са љубављу, што се ретко где виђа.' },
+    { n: 'Milica Štrbac', t: 'Веома љубазан и фин момак, урадио је фантастичан посао, све похвале ❤️' },
+    { n: 'Damir Seha', t: 'Одлична услуга, веома квалитетна обрада и полирање фарова. Топло препоручујем.' },
+    { n: 'Zdenka Moric', t: 'Одличан посао...брзо...у договорено време. Срећно у даљем раду...све препоруке.' },
+    { n: 'Zafir Butuc', t: 'Задовољан момак, добро ради свој посао, препоручујем га.' },
+    { n: 'Pavle', t: 'Веома добар момак, одлично полира, млад је али искусан, све похвале' },
+    { n: 'Petar Bjelic', t: 'Браво! Свака препорука за човека је оцена 5/5!' },
+    { n: 'Nikola Belada', t: 'Након полирања, фарови су као нови. Свака препорука' },
+    { n: 'Grzi', t: 'За сваку препоруку! Ажурно, темељно, професионално.' },
+    { n: 'Tena Nekretnine', t: 'Договор испуњен. Професионално обављен посао.' },
+    { n: 'Branislav Platiša', t: 'Веома професионално! Топло препоручујем! Препоручујем.' },
+    { n: 'IVAN KUZMANOVIC', t: 'Добар момак, јако сам задовољан услугом.' },
+    { n: 'Aleksandar Lasica', t: 'Одлично полирање, топло препоручујем' },
+    { n: 'Mateja Stankovic', t: 'Врхунска услуга, свака препорука.' },
+    { n: 'Irina Zlatkovic', t: 'Све похвале, одлична услуга' },
+    { n: 'Dejan Đorđević', t: 'Веома задовољан услугом, хвала!!!' },
+    { n: 'Marko Vučinić', t: 'Одлично полирање фарова' },
+    { n: 'Dusan Djuric', t: 'Веома задовољан услугом' },
+    { n: 'david maric', t: 'Одлична услуга, топло препоручујем' },
+    { n: 'Emilija Radić', t: 'Сајт је фантастичан!' },
+    { n: 'Stanko Sorajic', t: 'Добра препорука' },
+    { n: 'Nikola Lazović', t: 'добар дечко' },
+    { n: 'Aleksandar Maletic', t: 'Top' },
+    { n: 'Dušan Jakovljević', t: 'Свака препорука!' },
+  ];
+  const nrReviews = document.querySelector('.nr-reviews[data-reviews]');
+  if (nrReviews && HOME_REVIEWS.length) {
+    const rPer = 3;
+    const rPages = Math.ceil(HOME_REVIEWS.length / rPer);
+    const rc = document.createElement('div');
+    rc.className = 'baf-controls baf-controls--dark nr-controls';
+    rc.innerHTML =
+      '<button class="baf-nav nr-prev" type="button" aria-label="Prethodne recenzije">' + bafArrow(-1) + '</button>' +
+      '<span class="baf-counter"></span>' +
+      '<button class="baf-nav nr-next" type="button" aria-label="Sledeće recenzije">' + bafArrow(1) + '</button>';
+    nrReviews.after(rc);
+    const rCounter = rc.querySelector('.baf-counter');
+    const rPrev = rc.querySelector('.nr-prev');
+    const rNext = rc.querySelector('.nr-next');
+    let rPage = 0;
+    const rDraw = () => {
+      nrReviews.querySelectorAll('.nr-name, .nr-text, .nr-stars').forEach((e) => e.remove());
+      // Poslednja strana se poravnava na kraj liste (44 nije deljivo sa 3) — uvek 3
+      // kolone, bez prazne treće; cena je da se jedna recenzija ponovi na kraju.
+      const rStart = Math.min(rPage * rPer, Math.max(0, HOME_REVIEWS.length - rPer));
+      HOME_REVIEWS.slice(rStart, rStart + rPer).forEach((r) => {
+        const name = document.createElement('div'); name.className = 'nr-name'; name.textContent = r.n;
+        const text = document.createElement('p'); text.className = 'nr-text'; text.textContent = '„' + r.t + '"';
+        const stars = document.createElement('div'); stars.className = 'nr-stars'; stars.setAttribute('aria-label', 'Ocena 5 od 5'); stars.textContent = '★★★★★';
+        nrReviews.append(name, text, stars);
+      });
+      // Linije moraju ostati POSLEDNJA deca — nth-child pravila (border-left kolona,
+      // border-top na mobilnom) računaju od prve recenzije, kao u statičkom markupu.
+      nrReviews.querySelectorAll('.nr-vline').forEach((v) => nrReviews.appendChild(v));
+      rCounter.textContent = (rPage + 1) + ' / ' + rPages;
+      rPrev.disabled = rPage === 0;
+      rNext.disabled = rPage === rPages - 1;
+      nrReviews.classList.remove('nr-swapping');
+      sizeNrGrid();
+    };
+    const rGo = (p) => {
+      rPage = Math.max(0, Math.min(p, rPages - 1));
+      nrReviews.classList.add('nr-swapping');
+      setTimeout(rDraw, 180);
+    };
+    rPrev.addEventListener('click', () => { if (rPage > 0) rGo(rPage - 1); });
+    rNext.addEventListener('click', () => { if (rPage < rPages - 1) rGo(rPage + 1); });
+    rDraw();
+  }
+
   /* Liquid ghost dugmad (canvas liquid blobovi + animiran border) — port AICONNECT */
   document.querySelectorAll('.liq-btn').forEach((wrapper) => {
     const canvas = wrapper.querySelector('.liq-btn-canvas');
