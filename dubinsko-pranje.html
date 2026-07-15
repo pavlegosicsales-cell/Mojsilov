@@ -216,78 +216,47 @@
       </div>
     </section>
 
-    <!-- ===================== ŠTA SVE ULAZI (checklist 10 stavki) ===================== -->
+    <!-- ===================== POREĐENJE PAKETA (tabela razlika) ===================== -->
     <section class="relative py-20 lg:py-28 bg-white overflow-hidden border-t border-[rgba(18,19,88,0.08)]">
       <div class="max-w-container mx-auto px-5 lg:px-8 relative z-10">
-        <div class="text-center max-w-2xl mx-auto mb-14 reveal">
-          <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Sadržaj paketa</span></span></div>
+        <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+          <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Poređenje paketa</span></span></div>
           <h2 class="h-section text-4xl md:text-5xl text-navy">Šta uključuje<br><span class="text-akcent-light">svaki paket</span></h2>
-          <p class="mt-4 text-slate-600 leading-relaxed">Sve navedeno je uključeno u cenu, bez doplata i bez skrivenih stavki.</p>
+          <p class="mt-4 text-slate-600 leading-relaxed">Sve je uključeno u cenu, bez doplata i skrivenih stavki. Uporedite tačno šta koji paket obuhvata.</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6 reveal">
-          <!-- Dubinsko pranje automobila -->
-          <div class="corner-frame p-7">
-            <p class="svc-label mb-1">Najkompletnije</p>
-            <h3 class="pr-title font-display uppercase text-navy text-2xl">Dubinsko pranje automobila</h3>
-            <ul class="pkg-list">
-              <li>Pranje felni</li>
-              <li>Pranje guma</li>
-              <li>Zaštita guma i vraćanje fabričke crne boje</li>
-              <li>Pranje karoserije</li>
-              <li>Zaštita karoserije od prašine i UV zračenja, uz veći sjaj</li>
-              <li>Dubinsko pranje poda</li>
-              <li>Dubinsko pranje sedišta</li>
-              <li>Dubinsko pranje kontrolne table i volana</li>
-              <li>Pranje plastičnih površina</li>
-              <li>UV zaštita svih plastičnih površina</li>
-              <li>Vraćanje fabričke crne boje plastici</li>
-              <li>Pranje vrata i mehanizma za vrata</li>
-              <li>Pranje okvira i teško dostupnih mesta vrata</li>
-              <li>Pranje sitnih i teško dostupnih mesta</li>
-              <li>Dubinsko pranje gepeka</li>
-              <li>Dubinsko pranje svih naslona</li>
-              <li class="pkg-free">Pranje dečijih sedišta (besplatno)</li>
-              <li>Brisanje prozora</li>
-              <li>Pranje ventilacije paročistačem</li>
-              <li>Dezinfekcija enterijera paročistačem</li>
-            </ul>
-          </div>
-          <!-- Dubinsko pranje enterijera -->
-          <div class="corner-frame p-7">
-            <p class="svc-label mb-1">Fokus na unutrašnjost</p>
-            <h3 class="pr-title font-display uppercase text-navy text-2xl">Dubinsko pranje enterijera</h3>
-            <ul class="pkg-list">
-              <li>Dubinsko pranje poda</li>
-              <li>Dubinsko pranje sedišta</li>
-              <li>Dubinsko pranje kontrolne table i volana</li>
-              <li>Pranje plastičnih površina</li>
-              <li>UV zaštita svih plastičnih površina</li>
-              <li>Vraćanje fabričke crne boje plastici</li>
-              <li>Pranje vrata i mehanizma za vrata</li>
-              <li>Pranje okvira i teško dostupnih mesta vrata</li>
-              <li>Pranje sitnih i teško dostupnih mesta</li>
-              <li>Dubinsko pranje gepeka</li>
-              <li>Pranje svih naslona</li>
-              <li class="pkg-free">Pranje dečijih sedišta (besplatno)</li>
-              <li>Pranje prozora</li>
-              <li>Pranje ventilacije paročistačem</li>
-              <li>Dezinfekcija enterijera paročistačem</li>
-            </ul>
-          </div>
-          <!-- Brzo pranje -->
-          <div class="corner-frame p-7">
-            <p class="svc-label mb-1">Redovno održavanje</p>
-            <h3 class="pr-title font-display uppercase text-navy text-2xl">Brzo pranje</h3>
-            <ul class="pkg-list">
-              <li>Pranje karoserije</li>
-              <li>Pranje felni i guma</li>
-              <li>Usisavanje enterijera</li>
-              <li>Pranje plastičnih površina</li>
-              <li>Usisavanje gepeka</li>
-              <li>Brisanje prozora</li>
-            </ul>
-          </div>
+        <div class="cmp-wrap reveal">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th class="cmp-feat"><span class="cmp-name">Usluga</span></th>
+                <th><span class="cmp-name">Brzo pranje</span><span class="cmp-price">2.900 din</span></th>
+                <th><span class="cmp-name">Dubinsko enterijera</span><span class="cmp-price">od 7.900 din</span></th>
+                <th class="cmp-hl"><span class="cmp-flag">Najkompletnije</span><span class="cmp-name">Dubinsko automobila</span><span class="cmp-price">od 9.900 din</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="cmp-feat">Pranje karoserije</td><td><span class="cmp-yes"></span></td><td><span class="cmp-no"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Pranje felni i guma</td><td><span class="cmp-yes"></span></td><td><span class="cmp-no"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Zaštita guma i vraćanje fabričke crne boje</td><td><span class="cmp-no"></span></td><td><span class="cmp-no"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Zaštita karoserije od prašine i UV zračenja, uz veći sjaj</td><td><span class="cmp-no"></span></td><td><span class="cmp-no"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Usisavanje enterijera i gepeka</td><td><span class="cmp-yes"></span></td><td><span class="cmp-no"></span></td><td class="cmp-hl"><span class="cmp-no"></span></td></tr>
+              <tr><td class="cmp-feat">Dubinsko pranje poda</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Dubinsko pranje sedišta</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Dubinsko pranje gepeka</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Pranje svih naslona</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Kontrolna tabla i volan</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Pranje plastičnih površina</td><td><span class="cmp-yes"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">UV zaštita plastičnih površina</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Vraćanje fabričke crne boje plastici</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Pranje vrata i mehanizma za vrata</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Okviri i teško dostupna mesta</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Pranje ventilacije paročistačem</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Dezinfekcija enterijera paročistačem</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Pranje dečijih sedišta (besplatno)</td><td><span class="cmp-no"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+              <tr><td class="cmp-feat">Brisanje prozora</td><td><span class="cmp-yes"></span></td><td><span class="cmp-yes"></span></td><td class="cmp-hl"><span class="cmp-yes"></span></td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
