@@ -20,8 +20,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+  <!-- Leaflet (mapa zone rada) — CDN, bez build koraka -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/site.js"></script>
 </head>
 
@@ -461,6 +464,43 @@
               <div class="faq-a" style="max-height:0"><div class="faq-a-inner">Na poliranje farova dajemo garanciju do 24 meseca. Ako rezultat ne ispuni uslove garancije, dobijate besplatan ponovni tretman.</div></div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ZONA RADA (mapa Leaflet) ===================== -->
+    <section id="zona" class="py-20 lg:py-28 bg-[#f5f6fa] relative overflow-hidden border-t border-[rgba(18,19,88,0.08)]">
+      <div class="max-w-container mx-auto px-5 lg:px-8 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+          <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Zona rada</span></span></div>
+          <h2 class="h-section text-4xl md:text-5xl text-navy">Dokle <span class="text-akcent-light">dolazimo</span></h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">Radimo na celoj teritoriji grada Beograda i u široj okolini — sve unutar označene granice na mapi. Niste sigurni da li pokrivamo vašu lokaciju? Samo nas pozovite.</p>
+        </div>
+
+        <div class="zona-map-frame reveal">
+          <div id="mapa-zona" role="img" aria-label="Mapa zone rada — grad Beograd i šira okolina"></div>
+          <div class="zona-legend" aria-hidden="true">
+            <span class="zona-legend-swatch"></span> Zona u kojoj dolazimo na vašu adresu
+          </div>
+        </div>
+
+        <div class="zona-areas reveal">
+          <div class="zona-col">
+            <p class="zona-col-title">Grad Beograd — sve opštine</p>
+            <div class="zona-chips">
+              <span class="zona-chip">Barajevo</span><span class="zona-chip">Voždovac</span><span class="zona-chip">Vračar</span><span class="zona-chip">Grocka</span><span class="zona-chip">Zvezdara</span><span class="zona-chip">Zemun</span><span class="zona-chip">Lazarevac</span><span class="zona-chip">Mladenovac</span><span class="zona-chip">Novi Beograd</span><span class="zona-chip">Obrenovac</span><span class="zona-chip">Palilula</span><span class="zona-chip">Rakovica</span><span class="zona-chip">Savski venac</span><span class="zona-chip">Sopot</span><span class="zona-chip">Stari grad</span><span class="zona-chip">Surčin</span><span class="zona-chip">Čukarica</span>
+            </div>
+          </div>
+          <div class="zona-col">
+            <p class="zona-col-title">Šira okolina Beograda</p>
+            <div class="zona-chips">
+              <span class="zona-chip">Bečmen</span><span class="zona-chip">Jakovo</span><span class="zona-chip">Mala Moštanica</span><span class="zona-chip">Sremčica</span><span class="zona-chip">Vrčin</span><span class="zona-chip">Boleč</span><span class="zona-chip">Vinča</span><span class="zona-chip">Veliko selo</span><span class="zona-chip">Padinska skela</span><span class="zona-chip">Vrbovski</span><span class="zona-chip">Stari Banovci</span><span class="zona-chip">Novi Banovci</span><span class="zona-chip">Nova Pazova</span><span class="zona-chip">Stara Pazova</span><span class="zona-chip">Vojka</span><span class="zona-chip">Ugrinovci</span><span class="zona-chip">Krnješevci</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-12 reveal">
+          <a href="#kontakt" class="btn btn-primary inline-flex">Pozovite nas</a>
         </div>
       </div>
     </section>

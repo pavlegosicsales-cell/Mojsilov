@@ -1040,5 +1040,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* Zona rada — Leaflet mapa sa granicom pokrivenosti (grad Beograd + šira okolina).
+     Poligon je „hull" oko svih mesta koja je klijent naveo; centralni pin = Beograd.
+     Leaflet je učitan preko CDN-a u <head> pre ovog skripta. */
+  const zonaEl = document.getElementById('mapa-zona');
+  if (zonaEl && window.L) {
+    // Granica zone (lat, lng), u smeru kazaljke — obuhvata sva navedena mesta:
+    // Vojka/St. Pazova (SZ) → Banovci → Padinska skela → Vinča/V. selo → Grocka →
+    // Mladenovac (J) → Sopot → Lazarevac/Barajevo (JZ) → Obrenovac → Jakovo → nazad.
+    const zona = [
+      [45.03, 20.17], [45.00, 20.31], [44.94, 20.47], [44.82, 20.62], [44.68, 20.75],
+      [44.50, 20.78], [44.40, 20.68], [44.35, 20.50], [44.34, 20.25], [44.55, 20.12],
+      [44.72, 20.13], [44.88, 20.11], [44.99, 20.12],
+    ];
+    const map = L.map(zonaEl, {
+      scrollWheelZoom: false, // da ne otima skrol stranice
+      zoomControl: true, attributionControl: true,
+      minZoom: 8, maxZoom: 16,
+    });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd', maxZoom: 19,
+    }).addTo(map);
+    const poly = L.polygon(zona, {
+      color: '#2164DA', weight: 2.5, opacity: 0.95,
+      fillColor: '#2164DA', fillOpacity: 0.1,
+    }).addTo(map);
+    const pin = L.divIcon({ className: 'zona-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] });
+    L.marker([44.8176, 20.4569], { icon: pin }).addTo(map)
+      .bindPopup('<b>Mojsilov Detailing</b><br>Dolazimo na vašu adresu');
+    const fit = () => { map.invalidateSize(); map.fitBounds(poly.getBounds(), { padding: [26, 26] }); };
+    fit();
+    window.addEventListener('load', fit);
+    // Leaflet zna dimenzije tek kad je vidljiv — osveži pri prvom ulasku u vidokrug.
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach((e) => { if (e.isIntersecting) { fit(); obs.disconnect(); } });
+      }, { threshold: 0.15 });
+      io.observe(zonaEl);
+    }
+  }
+
   /* Godina u footeru je već postavljena kroz template. */
 });

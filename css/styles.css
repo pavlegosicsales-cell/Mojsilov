@@ -2290,6 +2290,53 @@ body.menu-open { overflow: hidden; }
 .cmp-no { width: 14px; height: 2.5px; border-radius: 2px; background: rgba(18, 19, 88, 0.22); }
 
 /* --------------------------------------------------------------------------
+   ZONA RADA — Leaflet mapa sa granicom pokrivenosti (sharp, brend akcent)
+   -------------------------------------------------------------------------- */
+.zona-map-frame {
+  position: relative; border: 1px solid rgba(18, 19, 88, 0.14);
+  box-shadow: 0 24px 60px rgba(18, 19, 88, 0.10); background: #fff;
+}
+#mapa-zona { height: 340px; width: 100%; background: #eef0f5; z-index: 0; }
+@media (min-width: 1024px) { #mapa-zona { height: 500px; } }
+/* Leaflet kontrole i popup u brend maniru */
+#mapa-zona .leaflet-control-zoom a {
+  color: var(--navy); border-color: rgba(18, 19, 88, 0.12);
+}
+#mapa-zona .leaflet-bar { border-radius: 0; box-shadow: 0 6px 16px rgba(18, 19, 88, 0.16); }
+#mapa-zona .leaflet-bar a { border-radius: 0 !important; }
+#mapa-zona .leaflet-popup-content-wrapper, #mapa-zona .leaflet-popup-tip { border-radius: 0; }
+#mapa-zona .leaflet-popup-content { font-family: inherit; color: var(--navy); }
+/* Centralni pin (bez eksternih slika — brend akcent) */
+.zona-pin span {
+  display: block; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--akcent); border: 3px solid #fff;
+  box-shadow: 0 0 0 2px rgba(33, 100, 218, 0.35), 0 6px 14px rgba(33, 100, 218, 0.45);
+}
+.zona-legend {
+  position: absolute; left: 14px; bottom: 14px; z-index: 500;
+  background: rgba(255, 255, 255, 0.94); border: 1px solid rgba(18, 19, 88, 0.12);
+  padding: 0.5rem 0.75rem; font-size: 0.78rem; font-weight: 600; color: var(--navy);
+  display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(18, 19, 88, 0.12);
+}
+.zona-legend-swatch {
+  width: 16px; height: 12px; background: rgba(33, 100, 218, 0.14);
+  border: 1.5px solid var(--akcent); display: inline-block;
+}
+.zona-areas {
+  margin-top: 2.5rem; display: grid; grid-template-columns: 1fr; gap: 1.75rem;
+}
+@media (min-width: 768px) { .zona-areas { grid-template-columns: 1fr 1fr; gap: 2.5rem; } }
+.zona-col-title {
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; font-weight: 600;
+  font-size: 0.82rem; letter-spacing: 0.08em; color: var(--akcent); margin-bottom: 0.9rem;
+}
+.zona-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.zona-chip {
+  display: inline-block; padding: 0.34rem 0.7rem; font-size: 0.8rem; font-weight: 500;
+  color: #3a4059; background: #fff; border: 1px solid rgba(18, 19, 88, 0.14);
+}
+
+/* --------------------------------------------------------------------------
    MOBILNE DORADE — declutter (bez grida i „+" oznaka) + scroll highlight puta
    -------------------------------------------------------------------------- */
 @media (max-width: 767.98px) {
