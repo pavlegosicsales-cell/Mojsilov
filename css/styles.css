@@ -2469,6 +2469,9 @@ body.menu-open { overflow: hidden; }
   /* Bez pozadinskog grida i „+" blueprint oznaka na malom ekranu (smetaju) */
   .hero-grid, .gdl { display: none; }
   .plus-node { display: none; }
+  /* IZUZETAK: hero slajder na početnoj zadržava glavni gdl grid (16 polja).
+     Samo slajd-nivo (ne i sekcijski), da ne dobijemo dva preklopljena grida. */
+  #pocetna .hero-slide .gdl { display: block; }
   /* Eyebrow pill UNUTAR hero kartice (Više od pranja / Rezultat koji traje /
      Brzo i bez obaveze / Naša priča) — sakriven na telefonu (lead eyebrow ostaje). */
   .hero2-card .hero2-eyebrow { display: none; }
