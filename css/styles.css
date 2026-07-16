@@ -897,8 +897,12 @@ body.menu-open { overflow: hidden; }
   content: ""; position: absolute; inset: 0;
   background:
     linear-gradient(90deg, rgba(9,10,45,0.94) 0%, rgba(9,10,45,0.78) 40%, rgba(9,10,45,0.40) 100%),
-    linear-gradient(0deg, rgba(9,10,45,0.85), transparent 55%);
+    /* vrh zatamnjen (nav čitljiv) + dno zatamnjeno (tačke/CTA) */
+    linear-gradient(180deg, rgba(9,10,45,0.55) 0%, rgba(9,10,45,0) 22%, rgba(9,10,45,0) 58%, rgba(9,10,45,0.85) 100%);
 }
+/* Home hero: slajder ide skroz do vrha, IZA transparentnog nav-a (bez navy trake
+   od gornjeg paddinga koji dobija svaka prva sekcija). Nav preklapa prvu sliku. */
+#pocetna { padding-top: 0; }
 .hero-slide .hero-grid { z-index: 1; opacity: 0.5; }
 .hero-slide-inner { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; }
 .hs-content { max-width: 640px; }
