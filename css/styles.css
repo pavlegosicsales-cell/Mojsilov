@@ -1149,6 +1149,13 @@ body.menu-open { overflow: hidden; }
    se prelije na PRE. Linije/traka samo na lg.
    -------------------------------------------------------------------------- */
 .baf-showcase { position: relative; }
+/* Naslov grupe iznad galerije (početna: Poliranje farova / Dubinsko pranje) */
+.baf-group-title {
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; font-weight: 600;
+  letter-spacing: 0.09em; font-size: 0.82rem; color: var(--akcent);
+  text-align: center; margin: 0 0 1.25rem;
+}
+.baf-group-title--next { margin-top: 3.5rem; }
 .baf-band, .baf-vline { display: none; }
 .baf-row { position: relative; display: grid; grid-template-columns: 1fr; gap: 20px; }
 .baf-card {

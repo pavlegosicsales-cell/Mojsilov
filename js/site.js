@@ -647,32 +647,33 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Precizne akcent linije: u razmacima traka|slika1, s1|s2, s2|s3, s3|traka;
      krajevi linija između kraja slike i kraja trake. Samo na lg (traka vidljiva). */
   function layoutBafLines() {
-    const showcase = document.querySelector('.baf-showcase');
-    if (!showcase) return;
-    const band = showcase.querySelector('.baf-band');
-    const lines = showcase.querySelectorAll('.baf-vline');
-    const cards = showcase.querySelectorAll('.baf-card');
-    if (!band || lines.length < 4 || cards.length < 3) return;
-    if (getComputedStyle(band).display === 'none') return; // mobilni — linije skrivene
-    // Linije su deca .baf-row (offset parent) → sve mere idu relativno na njega,
-    // inače bi showcase padding pomerio linije nadole (asimetrično).
-    const row = showcase.querySelector('.baf-row');
-    const r = row.getBoundingClientRect();
-    const b = band.getBoundingClientRect();
-    const c = [...cards].map((el) => el.getBoundingClientRect());
-    const xs = [
-      (b.left + c[0].left) / 2,
-      (c[0].right + c[1].left) / 2,
-      (c[1].right + c[2].left) / 2,
-      (c[2].right + b.right) / 2,
-    ];
-    const top = (c[0].top + b.top) / 2 - r.top;
-    const bottom = (c[0].bottom + b.bottom) / 2 - r.top;
-    lines.forEach((ln, i) => {
-      ln.style.left = xs[i] - r.left + 'px';
-      ln.style.top = top + 'px';
-      ln.style.bottom = 'auto';
-      ln.style.height = bottom - top + 'px';
+    /* Više galerija po strani (početna: farovi + dubinsko) → obradi svaku. */
+    document.querySelectorAll('.baf-showcase').forEach((showcase) => {
+      const band = showcase.querySelector('.baf-band');
+      const lines = showcase.querySelectorAll('.baf-vline');
+      const cards = showcase.querySelectorAll('.baf-card');
+      if (!band || lines.length < 4 || cards.length < 3) return;
+      if (getComputedStyle(band).display === 'none') return; // mobilni — linije skrivene
+      // Linije su deca .baf-row (offset parent) → sve mere idu relativno na njega,
+      // inače bi showcase padding pomerio linije nadole (asimetrično).
+      const row = showcase.querySelector('.baf-row');
+      const r = row.getBoundingClientRect();
+      const b = band.getBoundingClientRect();
+      const c = [...cards].map((el) => el.getBoundingClientRect());
+      const xs = [
+        (b.left + c[0].left) / 2,
+        (c[0].right + c[1].left) / 2,
+        (c[1].right + c[2].left) / 2,
+        (c[2].right + b.right) / 2,
+      ];
+      const top = (c[0].top + b.top) / 2 - r.top;
+      const bottom = (c[0].bottom + b.bottom) / 2 - r.top;
+      lines.forEach((ln, i) => {
+        ln.style.left = xs[i] - r.left + 'px';
+        ln.style.top = top + 'px';
+        ln.style.bottom = 'auto';
+        ln.style.height = bottom - top + 'px';
+      });
     });
   }
   if (document.querySelector('.baf-showcase')) {
