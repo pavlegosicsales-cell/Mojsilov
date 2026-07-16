@@ -66,7 +66,8 @@ const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? 'index.html' + n.hash : 
 /* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
 const homeHash = (hash) => (IS_SUBPAGE ? 'index.html' + hash : hash);
 /* CTA „Pozovite nas": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
-const ctaHref = IS_SUBPAGE ? 'kontakt.html#kanali' : '#kontakt';
+/* „Pozovite nas" dugmad (nav + mobilni meni) vode direktno u dialer, ne na sekciju. */
+const ctaHref = 'tel:' + TEL;
 /* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
 const isCurrentPage = (n) => n.page && location.pathname.toLowerCase().endsWith('/' + n.page);
 
@@ -138,7 +139,6 @@ function headerHTML() {
     <div class="mt-auto pt-8 border-t border-white/10">
       <a href="tel:${TEL}" class="flex items-center gap-2 text-white/85 mb-4">${icon.phone}<span>${TEL_DISPLAY}</span></a>
       <a href="${ctaHref}" data-close-menu class="glow-btn w-full">Pozovite nas ${icon.sparkles}</a>
-      <div class="flex items-center gap-5 text-white mt-6">${socialLinks}</div>
     </div>
   </aside>`;
 }
@@ -166,10 +166,6 @@ function footerHTML() {
         <div>
           <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing" class="logo-mark h-12 w-auto mb-4"/>
           <p class="ac-tagline">Profesionalni mobilni auto-detailing i restauracija farova na vašoj adresi u Beogradu, bez odlaska u servis.</p>
-          <div class="ac-socials">
-            <a href="#" class="fsoc" aria-label="Instagram">${icon.instagram}</a>
-            <a href="#" class="fsoc" aria-label="Facebook">${icon.facebook}</a>
-          </div>
         </div>
 
         <div class="foot-col corner-frame">
@@ -184,7 +180,6 @@ function footerHTML() {
             <li><a href="dubinsko-pranje.html">Dubinsko pranje auta</a></li>
             <li><a href="dubinsko-pranje.html">Pranje enterijera</a></li>
             <li><a href="namestaj.html">Pranje nameštaja</a></li>
-            <li><a href="poliranje-farova.html">Keramička zaštita</a></li>
           </ul>
         </div>
 
@@ -797,6 +792,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     rPrev.addEventListener('click', () => { if (rPage > 0) rGo(rPage - 1); });
     rNext.addEventListener('click', () => { if (rPage < rPages - 1) rGo(rPage + 1); });
+    /* Prevlačenje prstom (telefon) — ne samo strelice. Horizontalni swipe menja
+       stranu; vertikalni pokret ostaje skrol stranice (zato poredimo dx i dy). */
+    let rsx = null, rsy = null;
+    nrReviews.addEventListener('touchstart', (e) => {
+      rsx = e.touches[0].clientX; rsy = e.touches[0].clientY;
+    }, { passive: true });
+    nrReviews.addEventListener('touchend', (e) => {
+      if (rsx === null) return;
+      const dx = e.changedTouches[0].clientX - rsx;
+      const dy = e.changedTouches[0].clientY - rsy;
+      rsx = null; rsy = null;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return; // skrol, ne swipe
+      const n = rPage + (dx < 0 ? 1 : -1);
+      if (n >= 0 && n < rPages) rGo(n);
+    }, { passive: true });
     rDraw();
   }
 

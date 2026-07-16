@@ -915,6 +915,9 @@ body.menu-open { overflow: hidden; }
    od gornjeg paddinga koji dobija svaka prva sekcija). Nav preklapa prvu sliku. */
 #pocetna { padding-top: 0; }
 .hero-slide .hero-grid { z-index: 1; opacity: 0.9; }
+/* Home hero: bez finog („sporednog") grida od 92×62 kockica — ostaje samo glavni
+   gdl grid (3+3 linije = 16 polja). Element ostaje jer se gdl ubacuje kraj njega. */
+#pocetna .hero-grid { background-image: none; }
 .hero-slide-inner { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; }
 .hs-content { max-width: 640px; }
 .hs-title {
@@ -981,6 +984,10 @@ body.menu-open { overflow: hidden; }
   .hs-arrow { display: none; }
   .hs-sub { display: none; } /* na telefonu čist minimalan hero: pill + naslov + CTA */
   .hs-title { margin-top: 1rem; }
+  /* Sadržaj je centriran u celoj visini slajda, ali gornjih ~96px prekriva nav →
+     vizuelno deluje previsoko uz višak praznog prostora dole. Padding vraća
+     centriranje u stvarno vidljivi deo i spušta sadržaj niže. */
+  .hero-slide-inner { padding-top: 4rem; }
 }
 
 /* Hero „shell" — širi od standardne sekcije (max-w-container 1500px) da hero

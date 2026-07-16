@@ -20,8 +20,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+  <!-- Leaflet (mapa zone rada) — CDN, bez build koraka -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/site.js"></script>
 </head>
 
@@ -146,10 +149,10 @@
                     <select name="service" class="cf-input cf-select" required>
                       <option value="" disabled selected>Izaberite uslugu</option>
                       <option>Poliranje farova</option>
-                      <option>Dubinsko pranje automobila</option>
+                      <option>Dubinsko pranje auta</option>
                       <option>Dubinsko pranje enterijera</option>
-                      <option>Keramička zaštita</option>
                       <option>Brzo pranje</option>
+                      <option>Dubinsko pranje nameštaja</option>
                     </select>
                     <span class="cf-select-arr">&#x25BE;</span>
                   </div>
@@ -211,26 +214,39 @@
       </div>
     </section>
 
-    <!-- ===================== MAPA ===================== -->
-    <section class="relative py-20 lg:py-28 bg-white overflow-hidden">
+    <!-- ===================== ZONA RADA (mapa Leaflet — ista kao na početnoj) ===================== -->
+    <section id="zona" class="relative py-20 lg:py-28 bg-white overflow-hidden">
       <div class="dots-bg" aria-hidden="true"></div>
       <div class="max-w-container mx-auto px-5 lg:px-8 relative z-10">
         <div class="max-w-2xl mb-10 reveal">
-          <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Lokacija</span></span></div>
+          <div class="mb-5"><span class="eyebrow-pill"><span class="ep-dot"></span><span class="eyebrow text-akcent">Zona rada</span></span></div>
+          <h2 class="h-section text-4xl md:text-5xl text-navy mb-4">Dokle <span class="text-akcent-light">dolazimo</span></h2>
           <p class="text-slate-600 leading-relaxed text-lg">
-            Nalazimo se na Ledinama, Novi Beograd, ali ne morate da dolazite kod nas.
-            <strong class="text-navy block">Mi dolazimo na vašu adresu.</strong>
+            Ne morate da dolazite kod nas — <strong class="text-navy">mi dolazimo na Vašu adresu</strong>,
+            svuda unutar označene granice: cela teritorija grada Beograda i šira okolina.
           </p>
         </div>
-        <!-- Google Maps embed (search po adresi). NAPOMENA za vlasnika: zameniti src
-             tačnim embed linkom Google Business lokacije (Share → Embed a map). -->
-        <div class="kf-map reveal">
-          <iframe
-            src="https://www.google.com/maps?q=Novobeogradskih%20graditelja%2023a%2C%20Ledine%2C%20Beograd&output=embed"
-            title="Mapa: Mojsilov Detailing, Novobeogradskih graditelja 23a, Ledine, Beograd"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen></iframe>
+
+        <div class="zona-map-frame reveal">
+          <div id="mapa-zona" role="img" aria-label="Mapa zone rada — grad Beograd i šira okolina"></div>
+          <div class="zona-legend" aria-hidden="true">
+            <span class="zona-legend-swatch"></span> Zona u kojoj dolazimo na vašu adresu
+          </div>
+        </div>
+
+        <div class="zona-areas reveal">
+          <div class="zona-col">
+            <p class="zona-col-title">Grad Beograd — sve opštine</p>
+            <div class="zona-chips">
+              <span class="zona-chip">Barajevo</span><span class="zona-chip">Voždovac</span><span class="zona-chip">Vračar</span><span class="zona-chip">Grocka</span><span class="zona-chip">Zvezdara</span><span class="zona-chip">Zemun</span><span class="zona-chip">Lazarevac</span><span class="zona-chip">Mladenovac</span><span class="zona-chip">Novi Beograd</span><span class="zona-chip">Obrenovac</span><span class="zona-chip">Palilula</span><span class="zona-chip">Rakovica</span><span class="zona-chip">Savski venac</span><span class="zona-chip">Sopot</span><span class="zona-chip">Stari grad</span><span class="zona-chip">Surčin</span><span class="zona-chip">Čukarica</span>
+            </div>
+          </div>
+          <div class="zona-col">
+            <p class="zona-col-title">Šira okolina Beograda</p>
+            <div class="zona-chips">
+              <span class="zona-chip">Bečmen</span><span class="zona-chip">Jakovo</span><span class="zona-chip">Mala Moštanica</span><span class="zona-chip">Sremčica</span><span class="zona-chip">Vrčin</span><span class="zona-chip">Boleč</span><span class="zona-chip">Vinča</span><span class="zona-chip">Veliko selo</span><span class="zona-chip">Padinska skela</span><span class="zona-chip">Vrbovski</span><span class="zona-chip">Stari Banovci</span><span class="zona-chip">Novi Banovci</span><span class="zona-chip">Nova Pazova</span><span class="zona-chip">Stara Pazova</span><span class="zona-chip">Vojka</span><span class="zona-chip">Ugrinovci</span><span class="zona-chip">Krnješevci</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
