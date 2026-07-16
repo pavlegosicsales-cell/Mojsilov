@@ -903,7 +903,7 @@ body.menu-open { overflow: hidden; }
 /* Home hero: slajder ide skroz do vrha, IZA transparentnog nav-a (bez navy trake
    od gornjeg paddinga koji dobija svaka prva sekcija). Nav preklapa prvu sliku. */
 #pocetna { padding-top: 0; }
-.hero-slide .hero-grid { z-index: 1; opacity: 0.5; }
+.hero-slide .hero-grid { z-index: 1; opacity: 0.9; }
 .hero-slide-inner { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; }
 .hs-content { max-width: 640px; }
 .hs-title {
