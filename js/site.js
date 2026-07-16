@@ -101,8 +101,9 @@ function headerHTML() {
   return `
   <div class="header-inner">
     <nav class="max-w-container mx-auto px-5 lg:px-8 h-[96px] lg:h-[124px] relative flex items-center justify-between gap-4">
-      <a href="${homeHash('#pocetna')}" class="flex items-center shrink-0" aria-label="Mojsilov Detailing, početna">
+      <a href="${homeHash('#pocetna')}" class="flex items-center gap-3 shrink-0" aria-label="Mojsilov Detailing, početna">
         <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
+        ${!IS_SUBPAGE ? '<span class="nav-wordmark font-display">MOJSILOV</span>' : ''}
       </a>
 
       <div class="hidden lg:flex items-center justify-center gap-11 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">${links}</div>
@@ -353,6 +354,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.body.classList.contains('deco')) {
     const plusCorners = ['tr', 'bl', 'tl', 'br'];
     document.querySelectorAll('main > section').forEach((sec, i) => {
+      // Home hero (#pocetna) je pun-širinski slajder + traka 01–04 — blueprint
+      // uframe vodilje bi presekle spoljne ćelije trake (na širem hero-shell-u),
+      // pa preskačemo dekoraciju za ovu sekciju.
+      if (sec.id === 'pocetna') return;
       const dark = sec.classList.contains('bg-navy');
       const f = document.createElement('div');
       f.className = 'uframe' + (dark ? ' uframe--dark' : '');
