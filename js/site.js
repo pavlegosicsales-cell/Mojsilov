@@ -1040,6 +1040,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* Hero slajder — auto-rotirajući carousel (crossfade + progres tačke).
+     Sadržaj se pojavljuje preko .is-active klase (ne .reveal) → vidljiv odmah,
+     bez „ne učitava dok se ne skroluje" buga. */
+  const heroSlider = document.querySelector('.hero-slider');
+  if (heroSlider) {
+    const slides = [...heroSlider.querySelectorAll('.hero-slide')];
+    const dots = [...heroSlider.querySelectorAll('.hs-dot')];
+    const prevBtn = heroSlider.querySelector('.hs-prev');
+    const nextBtn = heroSlider.querySelector('.hs-next');
+    const N = slides.length;
+    const DUR = 6000;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0, timer = null;
+    const setActive = (n) => {
+      cur = (n + N) % N;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === cur));
+      dots.forEach((d, i) => { d.classList.toggle('is-active', i === cur); d.setAttribute('aria-selected', i === cur ? 'true' : 'false'); });
+    };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const play = () => { if (reduce || N < 2) return; stop(); timer = setInterval(() => setActive(cur + 1), DUR); };
+    const goTo = (n) => { setActive(n); play(); };
+    nextBtn && nextBtn.addEventListener('click', () => goTo(cur + 1));
+    prevBtn && prevBtn.addEventListener('click', () => goTo(cur - 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+    heroSlider.addEventListener('mouseenter', () => { heroSlider.classList.add('is-paused'); stop(); });
+    heroSlider.addEventListener('mouseleave', () => { heroSlider.classList.remove('is-paused'); play(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else play(); });
+    heroSlider.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(cur - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
+    });
+    let sx = null;
+    heroSlider.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; stop(); }, { passive: true });
+    heroSlider.addEventListener('touchend', (e) => {
+      if (sx === null) return;
+      const dx = e.changedTouches[0].clientX - sx; sx = null;
+      if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1)); else play();
+    }, { passive: true });
+    setActive(0);
+    play();
+  }
+
   /* Zona rada — Leaflet mapa sa granicom pokrivenosti (grad Beograd + šira okolina).
      Poligon je „hull" oko svih mesta koja je klijent naveo; centralni pin = Beograd.
      Leaflet je učitan preko CDN-a u <head> pre ovog skripta. */
