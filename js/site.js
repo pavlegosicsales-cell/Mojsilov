@@ -290,11 +290,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* Home hero (#pocetna): na telefonu je sadržaj (pill, naslov, CTA, traka 01–04)
-     ispod velike hero slike, pa ga je reveal observer ostavljao skrivenim do skrola.
-     Prikaži ga odmah na mobilnom/tabletu. (Desktop zadržava stagger reveal.) */
+  /* Home hero (#pocetna): traka 01–04 je deo hero prostora (delom vidljiva već pri
+     učitavanju), pa treba da se pojavi ODMAH sa hero-om, a ne tek na skrol. Reveal
+     observer bi je inače držao skrivenom dok se ne skroluje — na svim ekranima. */
   const homeHero = document.getElementById('pocetna');
-  if (homeHero && window.matchMedia('(max-width: 1023.98px)').matches) {
+  if (homeHero) {
     requestAnimationFrame(() => {
       homeHero.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
     });
