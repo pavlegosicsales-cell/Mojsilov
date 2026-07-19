@@ -103,7 +103,7 @@ function headerHTML() {
   <div class="header-inner">
     <nav class="max-w-container mx-auto px-5 lg:px-8 h-[96px] lg:h-[124px] relative flex items-center justify-between gap-4">
       <a href="${homeHash('#pocetna')}" class="flex items-center gap-3 shrink-0" aria-label="Mojsilov Detailing, početna">
-        <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
+        <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" width="334" height="187" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
         ${!IS_SUBPAGE ? '<span class="nav-wordmark font-display">MOJSILOV</span>' : ''}
       </a>
 
@@ -130,7 +130,7 @@ function headerHTML() {
   <div id="menu-overlay" class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"></div>
   <aside class="mobile-menu fixed top-0 right-0 bottom-0 w-[86%] max-w-sm bg-navy z-[70] p-7 flex flex-col">
     <div class="flex items-center justify-between mb-10">
-      <img src="brand_assets/mojsilov-logo.png" alt="Mojsilov Detailing" class="logo-img h-12 w-auto"/>
+      <img src="brand_assets/mojsilov-logo.png" alt="Mojsilov Detailing" width="600" height="414" class="logo-img h-12 w-auto"/>
       <button id="menu-close" class="text-white p-2 -mr-2" aria-label="Zatvorite meni">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
       </button>
@@ -164,7 +164,7 @@ function footerHTML() {
       <div class="ac-footer-grid">
         <!-- Brend -->
         <div>
-          <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing" class="logo-mark h-12 w-auto mb-4"/>
+          <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing" width="334" height="187" class="logo-mark h-12 w-auto mb-4"/>
           <p class="ac-tagline">Profesionalni mobilni auto-detailing i restauracija farova na vašoj adresi u Beogradu, bez odlaska u servis.</p>
         </div>
 

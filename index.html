@@ -4,17 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Mojsilov Detailing | Mobilni car detailing i poliranje farova u Beogradu</title>
-  <meta name="description" content="Profesionalni mobilni auto-detailing na vašoj adresi u Beogradu: poliranje farova, dubinsko pranje auta i keramička zaštita. Bez vode i struje, garancija do 24 meseca. Pozovite nas." />
+  <title>Mojsilov Detailing – mobilni car detailing u Beogradu</title>
+  <meta name="description" content="Mobilni auto-detailing na vašoj adresi u Beogradu: poliranje farova, dubinsko pranje auta i keramička zaštita. Bez vode i struje sa vaše strane. Pozovite nas." />
   <meta name="theme-color" content="#121358" />
   <link rel="canonical" href="https://mojsilov.com/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Mojsilov Detailing | Mobilni car detailing u Beogradu" />
-  <meta property="og:description" content="Poliranje farova, dubinsko pranje auta i keramička zaštita na vašoj adresi. Bez vode i struje, sa garancijom do 24 meseca." />
-  <meta property="og:image" content="assets/hero-car.jpg" />
+  <meta property="og:site_name" content="Mojsilov Detailing" />
+  <meta property="og:url" content="https://mojsilov.com/" />
+  <meta property="og:title" content="Mojsilov Detailing – mobilni car detailing u Beogradu" />
+  <meta property="og:description" content="Poliranje farova, dubinsko pranje auta i keramička zaštita na vašoj adresi u Beogradu. Bez vode i struje, garancija do 24 meseca." />
+  <meta property="og:image" content="https://mojsilov.com/assets/hero-car.jpg" />
+  <meta property="og:image:alt" content="Mojsilov Detailing – mobilni car detailing u Beogradu" />
   <meta property="og:locale" content="sr_RS" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mojsilov Detailing – mobilni car detailing u Beogradu" />
+  <meta name="twitter:description" content="Poliranje farova, dubinsko pranje auta i keramička zaštita na vašoj adresi u Beogradu. Pozovite nas." />
+  <meta name="twitter:image" content="https://mojsilov.com/assets/hero-car.jpg" />
 
   <link rel="icon" href="brand_assets/mojsilov-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,6 +34,98 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/site.js"></script>
+
+  <!-- Structured data: LocalBusiness (mobilni auto-detailing) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["AutoRepair", "LocalBusiness"],
+    "@id": "https://mojsilov.com/#business",
+    "name": "Mojsilov Detailing",
+    "description": "Mobilni auto-detailing na vašoj adresi u Beogradu: poliranje farova, dubinsko pranje automobila, dubinsko pranje enterijera i keramička zaštita. Dolazimo sa sopstvenom vodom, strujom i opremom.",
+    "url": "https://mojsilov.com/",
+    "telephone": "+381621523470",
+    "email": "MojsilovDetailing@gmail.com",
+    "image": "https://mojsilov.com/assets/hero-car.jpg",
+    "logo": "https://mojsilov.com/brand_assets/mojsilov-logo%201.png",
+    "priceRange": "2.900–12.900 RSD",
+    "currenciesAccepted": "RSD",
+    "paymentAccepted": "Gotovina",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Novobeogradskih graditelja 23a, Ledine",
+      "addressLocality": "Beograd",
+      "addressRegion": "Beograd",
+      "addressCountry": "RS"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Beograd" },
+      { "@type": "AdministrativeArea", "name": "Barajevo" },
+      { "@type": "AdministrativeArea", "name": "Voždovac" },
+      { "@type": "AdministrativeArea", "name": "Vračar" },
+      { "@type": "AdministrativeArea", "name": "Grocka" },
+      { "@type": "AdministrativeArea", "name": "Zvezdara" },
+      { "@type": "AdministrativeArea", "name": "Zemun" },
+      { "@type": "AdministrativeArea", "name": "Lazarevac" },
+      { "@type": "AdministrativeArea", "name": "Mladenovac" },
+      { "@type": "AdministrativeArea", "name": "Novi Beograd" },
+      { "@type": "AdministrativeArea", "name": "Obrenovac" },
+      { "@type": "AdministrativeArea", "name": "Palilula" },
+      { "@type": "AdministrativeArea", "name": "Rakovica" },
+      { "@type": "AdministrativeArea", "name": "Savski venac" },
+      { "@type": "AdministrativeArea", "name": "Sopot" },
+      { "@type": "AdministrativeArea", "name": "Stari grad" },
+      { "@type": "AdministrativeArea", "name": "Surčin" },
+      { "@type": "AdministrativeArea", "name": "Čukarica" },
+      { "@type": "AdministrativeArea", "name": "Stara Pazova" },
+      { "@type": "AdministrativeArea", "name": "Nova Pazova" }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Usluge",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Poliranje farova" }, "priceCurrency": "RSD", "price": "3500" },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dubinsko pranje automobila" }, "priceCurrency": "RSD", "price": "9900" },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dubinsko pranje enterijera" }, "priceCurrency": "RSD", "price": "7900" },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brzo pranje" }, "priceCurrency": "RSD", "price": "2900" },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dubinsko pranje nameštaja" } }
+      ]
+    }
+  }
+  </script>
+  <!-- Structured data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://mojsilov.com/#website",
+    "name": "Mojsilov Detailing",
+    "url": "https://mojsilov.com/",
+    "inLanguage": "sr-RS",
+    "publisher": { "@id": "https://mojsilov.com/#business" }
+  }
+  </script>
+  <!-- Structured data: FAQ (poklapa se 1:1 sa vidljivim FAQ tekstom niže) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Da li su potrebni voda ili struja?", "acceptedAnswer": { "@type": "Answer", "text": "Ne. Koristimo sopstvene rezervoare za vodu i agregat za napajanje. Sve što je potrebno donosimo sa sobom." } },
+      { "@type": "Question", "name": "Da li moram da budem prisutan tokom tretmana?", "acceptedAnswer": { "@type": "Answer", "text": "Ne morate. Možete predati ključeve i nastaviti sa svojim obavezama. Ako želite, možete i prisustvovati celom procesu." } },
+      { "@type": "Question", "name": "Koliko traje efekat poliranja farova?", "acceptedAnswer": { "@type": "Answer", "text": "Dvanaest meseci bez keramičke zaštite, odnosno do 24 meseca sa keramičkom zaštitom, uz garanciju na uslugu." } },
+      { "@type": "Question", "name": "Koliko traje dubinsko pranje automobila?", "acceptedAnswer": { "@type": "Answer", "text": "U proseku 4 do 5 sati, u zavisnosti od stanja i veličine vozila. Vaše aktivno vreme ostaje svega 10–15 minuta." } },
+      { "@type": "Question", "name": "Kako da zakažem termin?", "acceptedAnswer": { "@type": "Answer", "text": "Pozovite nas ili pošaljite poruku preko Vibera ili WhatsApp-a, uz slike vozila za procenu. Dobijate tačnu cenu i prvi slobodan termin za 5–10 minuta." } },
+      { "@type": "Question", "name": "Šta ako rezultat nije zadovoljavajući?", "acceptedAnswer": { "@type": "Answer", "text": "Na poliranje farova dajemo garanciju do 24 meseca. Ako rezultat ne ispuni uslove garancije, dobijate besplatan ponovni tretman." } }
+    ]
+  }
+  </script>
 </head>
 
 <body class="bg-white deco">
