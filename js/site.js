@@ -227,6 +227,17 @@ function footerHTML() {
 }
 
 /* --- Interakcije --------------------------------------------------------- */
+/* Google Ads — praćenje konverzija (nalog AW-17733929811, akcija „Kontakt").
+   Okida se na STVARNE kontakt akcije jer nemamo posebnu „hvala" stranicu:
+   uspešno poslata forma + klik na telefon / Viber / WhatsApp (poziv je glavni
+   način kontakta za mobilnu uslugu). Ako gtag nije učitan, tiho ne radi ništa. */
+const AW_CONVERSION = 'AW-17733929811/qcoZCInYuNMcENOWmYhC';
+function trackKontaktConversion() {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'conversion', { send_to: AW_CONVERSION });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = headerHTML();
@@ -1044,6 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await res.json();
         if (json.success) {
           form.reset();
+          trackKontaktConversion(); // Google Ads: uspešno poslata forma = konverzija
           if (status) { status.textContent = 'Hvala, poruka je poslata. Javljamo se u najkraćem roku.'; status.className = 'text-sm mt-4 text-green-600'; }
         } else {
           throw new Error(json.message || 'Greška');
@@ -1138,6 +1150,13 @@ document.addEventListener('DOMContentLoaded', () => {
       io.observe(zonaEl);
     }
   }
+
+  /* Google Ads konverzija na klik kontakt akcija (telefon / Viber / WhatsApp).
+     Delegirano na document → hvata i dugmad koja se ubacuju kroz header/footer. */
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="tel:"], a[href^="viber:"], a[href*="wa.me/"]');
+    if (a) trackKontaktConversion();
+  });
 
   /* Godina u footeru je već postavljena kroz template. */
 });
