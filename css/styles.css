@@ -938,6 +938,17 @@ body.menu-open { overflow: hidden; }
   transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
 }
 .hs-btn2:hover { border-color: #fff; background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+
+/* QR landing (popust-10) — bedž „-10%" */
+.popust-badge {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 168px; height: 168px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #2f6fe0, #16247e);
+  border: 3px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 0 6px rgba(33, 100, 218, 0.14), 0 22px 55px rgba(33, 100, 218, 0.42);
+}
+.popust-badge-num { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 3.4rem; line-height: 1; color: #fff; }
+.popust-badge-sub { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.82rem; color: #a9c8ff; margin-top: 0.3rem; }
 /* Ken Burns na aktivnom slajdu */
 @media (prefers-reduced-motion: no-preference) {
   .hero-slide.is-active .hero-slide-media { animation: hsKen 7s ease-out both; }
