@@ -408,24 +408,29 @@
           </script>
         </div>
 
-        <!-- Karakteristike + cene -->
-        <div class="grid gap-10 lg:grid-cols-2 lg:items-center mt-14 reveal">
-          <ul class="pkg-list">
-            <li>Hemijsko čišćenje</li>
-            <li>Odmašćivanje površina</li>
-            <li>Čišćenje teško dostupnih mesta</li>
-            <li>UV zaštita plastike</li>
-          </ul>
-          <div>
-            <p class="svc-label mb-3">Cena po veličini vozila</p>
-            <div class="flex flex-wrap gap-3 mb-7">
-              <span class="motor-price"><span class="motor-price-size">Mali</span><span class="motor-price-amt">4.000 din</span></span>
-              <span class="motor-price"><span class="motor-price-size">Srednji</span><span class="motor-price-amt">5.000 din</span></span>
-              <span class="motor-price"><span class="motor-price-size">Veliki</span><span class="motor-price-amt">6.000 din</span></span>
+        <!-- Karakteristike + cene — uokviren panel -->
+        <div class="motor-panel reveal">
+          <div class="motor-panel-grid">
+            <div class="motor-panel-feats">
+              <p class="svc-label mb-4">Šta obuhvata</p>
+              <ul class="pkg-list">
+                <li>Hemijsko čišćenje</li>
+                <li>Odmašćivanje površina</li>
+                <li>Čišćenje teško dostupnih mesta</li>
+                <li>UV zaštita plastike</li>
+              </ul>
             </div>
-            <a href="tel:+381621523470" class="glow-btn inline-flex">Pozovite nas
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg>
-            </a>
+            <div class="motor-panel-price">
+              <p class="svc-label mb-3">Cena po veličini vozila</p>
+              <div class="motor-prices mb-6">
+                <div class="mp-col"><span class="mp-size">Mali</span><span class="mp-amt">4.000<span class="mp-cur">din</span></span></div>
+                <div class="mp-col"><span class="mp-size">Srednji</span><span class="mp-amt">5.000<span class="mp-cur">din</span></span></div>
+                <div class="mp-col"><span class="mp-size">Veliki</span><span class="mp-amt">6.000<span class="mp-cur">din</span></span></div>
+              </div>
+              <a href="tel:+381621523470" class="glow-btn w-full justify-center">Pozovite nas
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>

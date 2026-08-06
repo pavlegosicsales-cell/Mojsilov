@@ -2439,10 +2439,27 @@ body.menu-open { overflow: hidden; }
 }
 .cmp-no { width: 14px; height: 2.5px; border-radius: 2px; background: rgba(18, 19, 88, 0.22); }
 
-/* Cene za dubinsko pranje motora (čipovi po veličini vozila) */
-.motor-price { display: inline-flex; flex-direction: column; gap: 0.15rem; padding: 0.65rem 1.05rem; background: #fff; border: 1px solid rgba(18, 19, 88, 0.14); }
-.motor-price-size { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.09em; font-size: 0.68rem; color: var(--akcent); }
-.motor-price-amt { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 1.2rem; line-height: 1; color: var(--navy); }
+/* Dubinsko pranje motora — uokviren panel (karakteristike + cene) ispod galerije */
+.motor-panel {
+  max-width: 940px; margin: 3.5rem auto 0; background: #fff;
+  border: 1px solid rgba(18, 19, 88, 0.12);
+  box-shadow: 0 22px 55px rgba(18, 19, 88, 0.07);
+  padding: clamp(1.6rem, 4vw, 3rem);
+}
+.motor-panel-grid { display: grid; gap: 2rem; }
+@media (min-width: 768px) {
+  .motor-panel-grid { grid-template-columns: 1.05fr 1fr; gap: 3rem; align-items: center; }
+  .motor-panel-price { border-left: 1px solid rgba(18, 19, 88, 0.10); padding-left: 3rem; }
+}
+.motor-panel .pkg-list li { margin-bottom: 0.65rem; }
+
+/* Traka cena — 3 jednake kolone (uvek u jednom redu, ne prelama se) */
+.motor-prices { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(18, 19, 88, 0.14); overflow: hidden; }
+.mp-col { text-align: center; padding: 0.85rem 0.4rem; }
+.mp-col + .mp-col { border-left: 1px solid rgba(18, 19, 88, 0.1); }
+.mp-size { display: block; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.66rem; color: var(--akcent); }
+.mp-amt { display: block; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 1.25rem; line-height: 1.1; color: var(--navy); margin-top: 0.2rem; }
+.mp-cur { font-size: 0.62rem; font-weight: 500; color: #6b7280; margin-left: 0.15rem; }
 /* Kratka zaglavlja se pale samo na telefonu */
 .cmp-short { display: none; }
 
