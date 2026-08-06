@@ -953,7 +953,7 @@ body.menu-open { overflow: hidden; }
 /* Animirana „squares" pozadina (vanilla port React komponente) — klizeći grid +
    glow polje pod kursorom + vinjeta. JS crta na canvas; ne blokira klik (buttoni). */
 /* QR hero: sadržaj vertikalno centriran u prostoru ispod header-a (76px) */
-.popust-hero { position: relative; min-height: calc(100vh - 76px); min-height: calc(100svh - 76px); }
+.popust-hero { position: relative; min-height: 100vh; min-height: 100svh; }
 .popust-hero-center { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; padding: 2.5rem 1rem; }
 
 /* Suptilna foto iza animirane pozadine — vidljivija desno (gde je far), a ka

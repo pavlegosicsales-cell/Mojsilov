@@ -35,16 +35,6 @@
 </head>
 
 <body class="bg-white">
-  <!-- Minimalni header (samo logo, bez navigacije — landing za QR) -->
-  <header class="bg-navy">
-    <div class="max-w-container mx-auto px-5 lg:px-8 h-[76px] flex items-center">
-      <a href="/" class="flex items-center gap-3" aria-label="Mojsilov Detailing, početna">
-        <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" width="334" height="187" class="h-[40px] w-auto" />
-        <span class="font-display uppercase text-white text-2xl tracking-wide">Mojsilov</span>
-      </a>
-    </div>
-  </header>
-
   <main>
     <!-- ===================== ČESTITKA + 10% POPUST ===================== -->
     <section class="popust-hero relative bg-navy text-white overflow-hidden grain">
@@ -55,6 +45,11 @@
       <div aria-hidden="true" class="sq-bg" data-squares-bg></div>
       <div class="popust-hero-center">
       <div class="max-w-container mx-auto px-5 lg:px-8 text-center">
+        <!-- Brend: logo pa MOJSILOV, iznad sadržaja (umesto header-a) -->
+        <a href="/" class="inline-block mb-9" aria-label="Mojsilov Detailing, početna">
+          <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" width="334" height="187" class="h-16 lg:h-20 w-auto mx-auto" />
+          <span class="block font-display uppercase text-white text-3xl lg:text-4xl tracking-wide mt-3">Mojsilov</span>
+        </a>
         <div class="mb-6 flex justify-center reveal"><span class="glass-pill"><span class="gp-inner"><span class="live-dot"></span>Vaš popust je aktiviran</span></span></div>
 
         <!-- Bedž -10% -->
