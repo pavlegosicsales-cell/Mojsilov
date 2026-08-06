@@ -949,6 +949,23 @@ body.menu-open { overflow: hidden; }
 }
 .popust-badge-num { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 3.4rem; line-height: 1; color: #fff; }
 .popust-badge-sub { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.82rem; color: #a9c8ff; margin-top: 0.3rem; }
+
+/* Animirana „squares" pozadina (vanilla port React komponente) — klizeći grid +
+   glow polje pod kursorom + vinjeta. JS crta na canvas; ne blokira klik (buttoni). */
+/* Suptilna foto iza animirane pozadine — auto se jedva nazire */
+.sq-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; opacity: 0.28; }
+/* .sq-bg je poluproziran veo preko fotke (a ne pun navy) da auto ostane vidljiv */
+.sq-bg { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; background: rgba(11, 12, 51, 0.62); }
+.sq-bg .sq-canvas { position: absolute; inset: 0; display: block; }
+.sq-bg::before { /* meki reflektor u vrhu (ispod grida) */
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(circle 620px at 50% 170px, rgba(33, 100, 218, 0.35), transparent 70%);
+}
+.sq-bg .sq-canvas { z-index: 1; }
+.sq-bg::after { /* donja vinjeta ka tamnoj */
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(to bottom, transparent 55%, rgba(6, 7, 30, 0.6));
+}
 /* Ken Burns na aktivnom slajdu */
 @media (prefers-reduced-motion: no-preference) {
   .hero-slide.is-active .hero-slide-media { animation: hsKen 7s ease-out both; }

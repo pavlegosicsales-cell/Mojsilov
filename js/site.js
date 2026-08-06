@@ -1151,6 +1151,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* Animirana „squares" pozadina (vanilla port React komponente): klizeći grid
+     (dijagonalno) + glow polje pod kursorom + radijalna vinjeta. Crta na canvas.
+     Ne blokira klik (host je pointer-events:none) — hover se sluša na sekciji. */
+  document.querySelectorAll('[data-squares-bg]').forEach((host) => {
+    const canvas = document.createElement('canvas');
+    canvas.className = 'sq-canvas';
+    canvas.setAttribute('aria-hidden', 'true');
+    host.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const CELL = 44, SPEED = 0.6, AKC = '33,100,218', VIGN = '7,8,34';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(pointer:fine)').matches;
+    let dpr = 1, cw = 0, ch = 0, raf = 0, visible = true;
+    const off = { x: 0, y: 0 };
+    let hover = null;
+    const originOf = (o, c) => ({ x: -(((o.x % c) + c) % c), y: -(((o.y % c) + c) % c) });
+    const resize = () => {
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      cw = host.clientWidth; ch = host.clientHeight;
+      canvas.width = Math.floor(cw * dpr); canvas.height = Math.floor(ch * dpr);
+      canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const draw = () => {
+      ctx.clearRect(0, 0, cw, ch);
+      const origin = originOf(off, CELL);
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let x = origin.x; x < cw + CELL; x += CELL) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, ch); }
+      for (let y = origin.y; y < ch + CELL; y += CELL) { ctx.moveTo(0, y + 0.5); ctx.lineTo(cw, y + 0.5); }
+      ctx.stroke();
+      if (hover) {
+        const cx = origin.x + hover.x * CELL, cy = origin.y + hover.y * CELL;
+        ctx.save();
+        ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(' + AKC + ',0.45)';
+        ctx.fillStyle = 'rgba(' + AKC + ',0.22)';
+        ctx.fillRect(cx, cy, CELL, CELL);
+        ctx.restore();
+        ctx.lineWidth = 1.25; ctx.strokeStyle = 'rgba(' + AKC + ',0.85)';
+        ctx.strokeRect(cx + 0.5, cy + 0.5, CELL - 1, CELL - 1);
+        const g = ctx.createLinearGradient(cx, cy, cx, cy + CELL);
+        g.addColorStop(0, 'rgba(255,255,255,0.20)'); g.addColorStop(1, 'rgba(255,255,255,0.05)');
+        ctx.fillStyle = g; ctx.fillRect(cx, cy, CELL, CELL);
+      }
+      const rad = Math.sqrt(cw * cw + ch * ch) / 2;
+      const grad = ctx.createRadialGradient(cw / 2, ch / 2, 0, cw / 2, ch / 2, rad);
+      grad.addColorStop(0, 'rgba(' + VIGN + ',0)'); grad.addColorStop(1, 'rgba(' + VIGN + ',0.85)');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, cw, ch);
+    };
+    const tick = () => {
+      off.x = (off.x - SPEED + CELL) % CELL;
+      off.y = (off.y - SPEED + CELL) % CELL;
+      draw();
+      raf = requestAnimationFrame(tick);
+    };
+    const start = () => { if (!raf && !reduce) raf = requestAnimationFrame(tick); };
+    const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+    resize();
+    draw();
+    if (!reduce) start();
+    window.addEventListener('resize', () => { resize(); draw(); });
+    // Pauza kad hero izađe iz vidokruga (štednja baterije)
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((es) => {
+        visible = es[0].isIntersecting;
+        if (visible) start(); else stop();
+      }, { threshold: 0 }).observe(host);
+    }
+    // Hover glow — samo desktop; sluša se na sekciji da ne blokira dugmad
+    if (fine) {
+      const sec = host.parentElement;
+      sec.addEventListener('mousemove', (e) => {
+        const r = canvas.getBoundingClientRect();
+        const mx = e.clientX - r.left, my = e.clientY - r.top;
+        if (mx < 0 || my < 0 || mx > r.width || my > r.height) { hover = null; return; }
+        const origin = originOf(off, CELL);
+        hover = { x: Math.floor((mx - origin.x) / CELL), y: Math.floor((my - origin.y) / CELL) };
+      });
+      sec.addEventListener('mouseleave', () => { hover = null; });
+    }
+  });
+
   /* Google Ads konverzija na klik kontakt akcija (telefon / Viber / WhatsApp).
      Delegirano na document → hvata i dugmad koja se ubacuju kroz header/footer. */
   document.addEventListener('click', (e) => {
