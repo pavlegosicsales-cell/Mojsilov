@@ -2438,6 +2438,11 @@ body.menu-open { overflow: hidden; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
 }
 .cmp-no { width: 14px; height: 2.5px; border-radius: 2px; background: rgba(18, 19, 88, 0.22); }
+
+/* Cene za dubinsko pranje motora (čipovi po veličini vozila) */
+.motor-price { display: inline-flex; flex-direction: column; gap: 0.15rem; padding: 0.65rem 1.05rem; background: #fff; border: 1px solid rgba(18, 19, 88, 0.14); }
+.motor-price-size { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.09em; font-size: 0.68rem; color: var(--akcent); }
+.motor-price-amt { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 1.2rem; line-height: 1; color: var(--navy); }
 /* Kratka zaglavlja se pale samo na telefonu */
 .cmp-short { display: none; }
 

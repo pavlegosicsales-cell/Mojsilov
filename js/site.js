@@ -527,6 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const PRICES = {
       auta:      { mali: '9.900',  srednji: '10.900', veliki: '12.900' },
       enterijer: { mali: '7.900',  srednji: '8.900',  veliki: '9.900'  },
+      motor:     { mali: '4.000',  srednji: '5.000',  veliki: '6.000'  },
     };
     const amounts = document.querySelectorAll('.pr-amount[data-svc]');
     const setSize = (size) => {
