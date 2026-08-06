@@ -1161,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     host.appendChild(canvas);
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const CELL = 44, SPEED = 0.6, AKC = '33,100,218', VIGN = '7,8,34';
+    const CELL = 60, SPEED = 0.6, AKC = '33,100,218', VIGN = '7,8,34';
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fine = window.matchMedia('(pointer:fine)').matches;
     let dpr = 1, cw = 0, ch = 0, raf = 0, visible = true;
