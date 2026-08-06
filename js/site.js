@@ -48,7 +48,12 @@ const icon = {
 /* --- Navigacija ---------------------------------------------------------- */
 /* Multi-page: hash stavke vode na sekcije početne strane; `page` stavke na
    zasebne stranice. Sa podstranice se hash linkovi prefiksuju sa index.html. */
-const IS_SUBPAGE = /\/[^/]+\.html$/i.test(location.pathname) && !/index\.html$/i.test(location.pathname);
+/* Podstranica = sve što nije početna. VAŽNO: Vercel cleanUrls uklanja „.html" iz
+   URL-a (npr. /poliranje-farova), pa se NE sme oslanjati na „.html" u putanji —
+   inače se sve podstranice pogrešno tretiraju kao početna i „Početna" u meniju
+   ne vodi kući. Početna = „/" ili „/index(.html)". */
+const _navPath = location.pathname.replace(/\/+$/, '') || '/';
+const IS_SUBPAGE = !(_navPath === '/' || /\/index(\.html)?$/i.test(_navPath));
 const NAV = [
   { label: 'Početna', hash: '#pocetna' },
   { label: 'O nama', page: 'o-nama.html' },
@@ -62,14 +67,18 @@ const NAV = [
 /* Flat lista za mobilni meni i footer — dropdown roditelj se zamenjuje podstavkama */
 const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
 /* href za nav stavku, ispravan i sa početne i sa podstranice */
-const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? 'index.html' + n.hash : n.hash));
+const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? '/' + n.hash : n.hash));
 /* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
-const homeHash = (hash) => (IS_SUBPAGE ? 'index.html' + hash : hash);
+const homeHash = (hash) => (IS_SUBPAGE ? '/' + hash : hash);
 /* CTA „Pozovite nas": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
 /* „Pozovite nas" dugmad (nav + mobilni meni) vode direktno u dialer, ne na sekciju. */
 const ctaHref = 'tel:' + TEL;
 /* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
-const isCurrentPage = (n) => n.page && location.pathname.toLowerCase().endsWith('/' + n.page);
+const isCurrentPage = (n) => {
+  if (!n.page) return false;
+  const cur = location.pathname.toLowerCase().replace(/\/+$/, '').replace(/\.html$/, '');
+  return cur === ('/' + n.page).toLowerCase().replace(/\.html$/, '');
+};
 
 const socialLinks = `
   <a href="#" aria-label="Instagram" class="opacity-80 hover:opacity-100 hover:text-akcent transition">${icon.instagram}</a>
