@@ -59,6 +59,7 @@ const NAV = [
   { label: 'O nama', page: 'o-nama.html' },
   { label: 'Usluge', hash: '#usluge', dropdown: [
     { label: 'Dubinsko pranje', page: 'dubinsko-pranje.html' },
+    { label: 'Pranje motora', page: 'dubinsko-pranje.html#motor' },
     { label: 'Poliranje farova', page: 'poliranje-farova.html' },
     { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
@@ -188,6 +189,7 @@ function footerHTML() {
             <li><a href="poliranje-farova.html">Poliranje farova</a></li>
             <li><a href="dubinsko-pranje.html">Dubinsko pranje auta</a></li>
             <li><a href="dubinsko-pranje.html">Pranje enterijera</a></li>
+            <li><a href="dubinsko-pranje.html#motor">Dubinsko pranje motora</a></li>
             <li><a href="namestaj.html">Pranje nameštaja</a></li>
           </ul>
         </div>
@@ -534,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prTabs = document.querySelectorAll('.pr-tab[data-size]');
   if (prTabs.length) {
     const PRICES = {
-      auta:      { mali: '9.900',  srednji: '10.900', veliki: '12.900' },
+      auta:      { mali: '8.900',  srednji: '9.900',  veliki: '10.900' },
       enterijer: { mali: '7.900',  srednji: '8.900',  veliki: '9.900'  },
       motor:     { mali: '4.000',  srednji: '5.000',  veliki: '6.000'  },
     };
