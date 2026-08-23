@@ -536,8 +536,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const prTabs = document.querySelectorAll('.pr-tab[data-size]');
   if (prTabs.length) {
     const PRICES = {
-      auta:      { mali: '8.900',  srednji: '9.900',  veliki: '10.900' },
-      enterijer: { mali: '7.900',  srednji: '8.900',  veliki: '9.900'  },
+      auta:      { mali: '9.900',  srednji: '10.900', veliki: '11.900' },
+      enterijer: { mali: '8.900',  srednji: '9.900',  veliki: '10.900' },
       motor:     { mali: '4.000',  srednji: '5.000',  veliki: '6.000'  },
     };
     const amounts = document.querySelectorAll('.pr-amount[data-svc]');
