@@ -939,6 +939,54 @@ body.menu-open { overflow: hidden; }
 .popust-badge-num { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 3.4rem; line-height: 1; color: #fff; }
 .popust-badge-sub { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.82rem; color: #a9c8ff; margin-top: 0.3rem; }
 
+/* QR hero2 — brend (logo + wordmark) iznad naslova (umesto header-a) */
+.popust-brand { display: inline-flex; align-items: center; gap: 0.85rem; margin-bottom: 1.6rem; }
+.popust-brand span { line-height: 1; }
+/* Dva dugmeta u lead-u, jedan pored drugog (bez extra margine na glow-btn) */
+.hero2-lead-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2.2rem; }
+.popust-hero2 .hero2-lead-cta .glow-btn { margin-top: 0; }
+/* Sekundarno dugme (Pogledajte ponudu) usklađeno po visini sa pill dugmetom.
+   line-height:1 (kao glow-btn) da visok line-box ne naduva dugme. */
+.hero2-lead-cta .hs-btn2 { padding: 0.72rem 1.35rem; font-size: 0.78rem; line-height: 1; }
+/* Krug 10% unutar staklene kartice */
+.popust-hero2 .hero2-card .popust-badge { margin-bottom: 1.5rem; }
+/* Sledeća sekcija klizi PREKO hero-a na scroll (sticky „cover", kao na sajtu).
+   Ne koristimo .deco na body (da ne dodajemo blueprint uframe-ove na QR strani),
+   pa sticky vezujemo direktno za QR hero. SVE sekcije posle heroja moraju biti
+   pozicionirane iznad njega (ne samo prva), inače ih sticky hero prekrije. */
+.popust-hero2 { position: sticky; top: 0; z-index: 0; overflow: hidden; }
+.popust-hero2 ~ section { position: relative; z-index: 1; }
+
+/* QR footer/CTA u hero2 stilu (background slika + grid + veo), samo niža sekcija */
+.popust-cta2 { position: relative; overflow: hidden; background: #06071a; color: #fff;
+  padding-block: clamp(4rem, 9vh, 7rem); }
+.popust-cta2 .hero2-bg { object-position: center; }
+.popust-cta2-overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(0deg, rgba(3,4,20,0.92) 0%, rgba(3,4,20,0.55) 55%, rgba(3,4,20,0.80) 100%),
+    radial-gradient(60% 70% at 50% 42%, rgba(33,100,218,0.22), transparent 70%); }
+.popust-cta2-grid { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.10) 1px, transparent 1px);
+  background-size: clamp(180px, 20vw, 320px) clamp(150px, 17vw, 250px);
+  -webkit-mask-image: radial-gradient(75% 85% at 50% 50%, #000 55%, transparent);
+  mask-image: radial-gradient(75% 85% at 50% 50%, #000 55%, transparent); }
+
+/* QR strana — mobilne dorade (telefon je primarni kanal za QR kod). */
+@media (max-width: 767.98px) {
+  /* Hero dugmad pune širine i centrirana, veci tap-target */
+  .popust-hero2 .hero2-lead-cta { width: 100%; gap: 0.75rem; }
+  .popust-hero2 .hero2-lead-cta .glow-btn,
+  .popust-hero2 .hero2-lead-cta .hs-btn2 { width: 100%; justify-content: center; }
+  /* Poruka „Vaš popust je aktiviran" ostaje vidljiva u kartici na telefonu */
+  .popust-hero2 .hero2-card .hero2-eyebrow { display: block; }
+  /* Brend (logo + wordmark) malo zbijeniji iznad naslova */
+  .popust-brand { margin-bottom: 1.2rem; }
+  /* Footer CTA dugmad pune širine, jedno ispod drugog */
+  .popust-cta2 .flex.flex-col.sm\:flex-row > a { width: 100%; }
+}
+
 /* Animirana „squares" pozadina (vanilla port React komponente) — klizeći grid +
    glow polje pod kursorom + vinjeta. JS crta na canvas; ne blokira klik (buttoni). */
 /* QR hero: sadržaj vertikalno centriran u prostoru ispod header-a (76px) */
