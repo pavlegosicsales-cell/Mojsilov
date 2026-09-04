@@ -956,6 +956,17 @@ body.menu-open { overflow: hidden; }
    pozicionirane iznad njega (ne samo prva), inače ih sticky hero prekrije. */
 .popust-hero2 { position: sticky; top: 0; z-index: 0; overflow: hidden; }
 .popust-hero2 ~ section { position: relative; z-index: 1; }
+/* Desktop raspored: levo naslov (lead) pa dugmad (cta), desno kartica preko oba reda */
+@media (min-width: 1024px) {
+  .popust-hero2 .hero2-inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-areas: "lead card" "cta card";
+    align-items: end; row-gap: 2rem;
+  }
+  .popust-hero2 .hero2-lead { grid-area: lead; align-self: end; }
+  .popust-hero2 .hero2-card { grid-area: card; }
+  .popust-hero2 .hero2-lead-cta { grid-area: cta; align-self: start; margin-top: 0; }
+}
 
 /* QR footer/CTA u hero2 stilu (background slika + grid + veo), samo niža sekcija */
 .popust-cta2 { position: relative; overflow: hidden; background: #06071a; color: #fff;
@@ -975,6 +986,13 @@ body.menu-open { overflow: hidden; }
 
 /* QR strana — mobilne dorade (telefon je primarni kanal za QR kod). */
 @media (max-width: 767.98px) {
+  /* Sticky „cover" efekat ISKLJUČEN na telefonu: na mobilnom Safariju je pravio
+     preklapanje heroja i sledeće sekcije (beli razmak, hero proviruje). Hero je
+     na telefonu obična sekcija koja normalno skroluje. */
+  .popust-hero2 { position: static; z-index: auto; }
+  .popust-hero2 ~ section { z-index: auto; }
+  /* Bez 100svh „praznog vrha": hero visok koliko sadržaj (hero2-inner nosi padding) */
+  .popust-hero2.hero2 { min-height: auto; }
   /* Hero dugmad pune širine i centrirana, veci tap-target */
   .popust-hero2 .hero2-lead-cta { width: 100%; gap: 0.75rem; }
   .popust-hero2 .hero2-lead-cta .glow-btn,
