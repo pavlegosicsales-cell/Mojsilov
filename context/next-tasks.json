@@ -1,0 +1,40 @@
+{
+  "_opis": "Otvoreni zadaci za Mojsilov sajt. Citati na pocetku sesije. Azurirati kad se zavrsi ili doda zadatak.",
+  "poslednje_azurirano": "2026-09-15",
+  "zadaci": [
+    {
+      "id": "online-zakazivanje-calcom",
+      "naslov": "Online zakazivanje (cal.com) — Opcija 1",
+      "status": "BLOKIRANO — ceka se ulaz od klijenta",
+      "prioritet": "visok",
+      "blokira": "Dusan treba da javi TACNO TRAJANJE svake usluge (i po velicini vozila gde je bitno): poliranje farova, dubinsko pranje auta (mali/srednji/veliki), dubinsko pranje enterijera (mali/srednji/veliki), dubinsko pranje motora (mali/srednji/veliki), brzo pranje, dubinsko pranje namestaja. Pavle pita Dusana pa javlja.",
+      "cim_stigne_uraditi": "Napraviti cal.com online zakazivanje i ubaciti na sajt (dugme/iframe 'Zakazi online', verovatno na index #kontakt i na kontakt.html, pored postojece wizard forme za upit).",
+      "zasto": "Klijent (Dusan) je trazio dodatnu formu za online zakazivanje. Cilj: klijent vidi UZIVO slobodne/zauzete termine, izabere pa se termin ODMAH drzi (nestane drugima), Dusan potvrdi telefonom. Bez duplih rezervacija, besplatno.",
+      "izabrano_resenje": {
+        "alat": "cal.com (open-source, besplatan za jednu osobu)",
+        "kljucni_zahtevi": [
+          "Prikaz slobodnih/zauzetih termina uzivo",
+          "Rezim 'requires confirmation' = izabran slot se drzi na cekanju dok Dusan ne potvrdi/odbije (mejl mu stigne)",
+          "NULA duplih rezervacija: povezati sa Dusanovim Google kalendarom (jedan resurs = nema preklapanja)",
+          "Razlicita trajanja: jedan event po usluzi sa tacnim trajanjem, ILI cal.com Routing Form koji pita uslugu+velicinu pa rutira na pravi event/trajanje",
+          "Buffer za put izmedju adresa (npr. +60min oko svakog termina) — Dusan je MOBILNA usluga, dolazi na adresu po celom Beogradu",
+          "Ubaciti na sajt kao dugme/iframe, obojiti u brend (navy #121358 / akcent #2164da) koliko cal.com dozvoljava"
+        ],
+        "napomena_put": "cal.com buffer je FIKSAN (ne zna razdaljinu Zemun<->Grocka). Zato 'requires confirmation' + Dusan potvrda pokrivaju logistiku rute."
+      },
+      "odbaceno": {
+        "custom_apps_script_kalendar": "Opcija 2 — sami napraviti booking (Apps Script + Google kalendar free/busy + LockService za atomicnost). Radi i besplatno je i 100% nas dizajn, ali znatno vise posla i mi odrzavamo. Uzeti SAMO ako klijentu bude jako bitno da izgleda 1:1 kao sajt.",
+        "google_appointment_schedule": "Opcija 3 — besplatno na Gmail-u, ali jedno trajanje po stranici (15 kombinacija usluga×velicina = haos) i nema 'drzi pa potvrdi'. Kruto.",
+        "apps_script_bez_prikaza": "Opcija 4 (slaba) — forma bez prikaza termina, Dusan rucno potvrdjuje. NEMA auto zastite od duplih. Klijent odbio."
+      },
+      "veza": "Postojeca kontakt wizard forma (upit) je ODVOJENA stvar i vec radi (Google Apps Script backend). Online zakazivanje je DODATNA, druga forma."
+    }
+  ],
+  "zavrseno_nedavno": [
+    {
+      "id": "wizard-forma-appsscript",
+      "datum": "2026-09-15",
+      "opis": "Kontakt forma pretvorena u 4-koracni wizard (usluga/velicina ili keramika/termin/podaci) + backend prebacen sa Web3Forms na Google Apps Script. FORM_ENDPOINT u js/site.js postavljen i end-to-end testiran (mejl stize na MojsilovDetailing@gmail.com, upis u Google Sheet radi). OSTAJE: push na main za Vercel deploy (uraditi na Pavleov zahtev). Detalji u apps-script/README.md i memoriji mojsilov-site-project."
+    }
+  ]
+}

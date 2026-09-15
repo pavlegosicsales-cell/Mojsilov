@@ -1038,46 +1038,147 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* Kontakt forma (Web3Forms) */
+  /* ============ Kontakt wizard forma + Google Apps Script backend ============
+     Nalepi /exec URL Apps Script web app-a (Skill 03) u FORM_ENDPOINT ispod.
+     Slanje ide GET + no-cors: Apps Script 302-redirektuje POST i gubi telo, a
+     no-cors znači da odgovor ne možemo pročitati (uspeh se prikazuje uvek). */
+  const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzg-GWWUDg9NxW6mftAeUlqykCde1f6ocwfRfd18Q71aFZZ8Y0menFMliN395NhM-gD/exec';
+
   const form = document.getElementById('contact-form');
-  if (form) {
+  if (form && form.hasAttribute('data-wizard')) {
+    const steps = [...form.querySelectorAll('.wz-step')];
+    const barFill = form.querySelector('.wz-bar-fill');
+    const curEl = form.querySelector('.wz-cur');
+    const totalEl = form.querySelector('.wz-total');
+    const summaryEl = form.querySelector('.wz-summary');
+    const pageInput = form.querySelector('input[name="page"]');
+    const setPage = () => { if (pageInput) pageInput.value = document.title || location.pathname; };
+    setPage();
+
+    const fieldVal = (n) => (form.querySelector('input[name="' + n + '"]')?.value || '');
+    const setField = (n, v) => { const i = form.querySelector('input[name="' + n + '"]'); if (i) i.value = v; };
+
+    // Vidljivi koraci zavise od izabrane usluge:
+    //  data-skip="A|B"  -> sakrij kad je usluga u listi (npr. farovi/brzo/nameštaj bez veličine)
+    //  data-only="A|B"  -> prikaži samo za te usluge (npr. keramika samo za farove)
+    const inList = (v) => (v || '').split('|').map((x) => x.trim()).filter(Boolean);
+    const visibleSteps = () => steps.filter((s) => {
+      const svc = fieldVal('service');
+      const skip = s.getAttribute('data-skip');
+      if (skip && inList(skip).indexOf(svc) > -1) return false;
+      const only = s.getAttribute('data-only');
+      if (only && inList(only).indexOf(svc) === -1) return false;
+      return true;
+    });
+    let idx = 0; // indeks u nizu SVIH koraka
+
+    const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    const renderSummary = () => {
+      if (!summaryEl) return;
+      summaryEl.innerHTML = [fieldVal('service'), fieldVal('velicina'), fieldVal('keramika'), fieldVal('termin')]
+        .filter(Boolean)
+        .map((v) => '<span class="wz-chip">' + checkSvg + v + '</span>')
+        .join('');
+    };
+
+    const show = (target, back, noFocus) => {
+      steps.forEach((s) => s.classList.remove('is-active', 'is-back'));
+      target.classList.add('is-active');
+      if (back) target.classList.add('is-back');
+      idx = steps.indexOf(target);
+      const vis = visibleSteps();
+      const pos = vis.indexOf(target) + 1;
+      const total = vis.length || 1;
+      if (curEl) curEl.textContent = pos;
+      if (totalEl) totalEl.textContent = total;
+      if (barFill) barFill.style.width = Math.round((pos / total) * 100) + '%';
+      if (target.hasAttribute('data-final')) renderSummary();
+      // fokus samo pri navigaciji (ne na inicijalnom prikazu, da se prva opcija ne
+      // pojavi kao „izabrana" sa focus ringom čim se strana učita)
+      if (!noFocus) {
+        const f = target.querySelector('.wz-opt, input:not([type=hidden]), textarea');
+        if (f) { try { f.focus({ preventScroll: true }); } catch (e) {} }
+      }
+    };
+    const goNext = () => {
+      const vis = visibleSteps();
+      const here = vis.indexOf(steps[idx]);
+      if (here > -1 && here < vis.length - 1) show(vis[here + 1], false);
+    };
+    const goPrev = () => {
+      const vis = visibleSteps();
+      const here = vis.indexOf(steps[idx]);
+      if (here > 0) show(vis[here - 1], true);
+    };
+
+    // Izbor opcije -> upiši vrednost, obeleži, auto-napreduj
+    form.querySelectorAll('.wz-opt').forEach((opt) => {
+      opt.addEventListener('click', () => {
+        const field = opt.getAttribute('data-field');
+        const val = opt.getAttribute('data-value');
+        setField(field, val);
+        opt.closest('.wz-grid').querySelectorAll('.wz-opt').forEach((o) => o.classList.remove('is-selected'));
+        opt.classList.add('is-selected');
+        // pri promeni usluge očisti downstream izbore (veličina/keramika) da ne
+        // ostanu zastarele vrednosti kad se koraci sakriju/pojave
+        if (field === 'service') {
+          ['velicina', 'keramika'].forEach((f) => setField(f, ''));
+          steps.forEach((st) => {
+            if (st.getAttribute('data-skip') || st.getAttribute('data-only')) {
+              st.querySelectorAll('.wz-opt').forEach((o) => o.classList.remove('is-selected'));
+            }
+          });
+        }
+        setTimeout(goNext, 240);
+      });
+    });
+    form.querySelectorAll('.wz-back').forEach((b) => b.addEventListener('click', goPrev));
+
+    const showSuccess = () => {
+      const wz = form.querySelector('.wz');
+      ['.wz-top', '.wz-bar', '.wz-steps'].forEach((sel) => { const el = form.querySelector(sel); if (el) el.style.display = 'none'; });
+      let ok = form.querySelector('.wz-done');
+      if (!ok) {
+        ok = document.createElement('div');
+        ok.className = 'wz-done';
+        ok.innerHTML = '<div class="wz-done-ic">' + checkSvg + '</div>' +
+          '<h3 class="wz-q">Upit je poslat</h3>' +
+          '<p class="wz-hint">Hvala, javljamo se u najkraćem roku. Za hitno, pozovite <a href="tel:+381621523470" style="color:var(--akcent-svetla);text-decoration:underline;">062 152 3470</a>.</p>';
+        wz.appendChild(ok);
+      }
+      ok.style.display = 'block';
+    };
+
+    // Slanje -> Google Apps Script (GET + no-cors)
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const status = document.getElementById('form-status');
       const btn = form.querySelector('button[type="submit"]');
       const btnLabel = form.querySelector('.cf-submit-text') || btn;
-      const key = form.querySelector('input[name="access_key"]')?.value || '';
+      const hp = form.querySelector('input[name="botcheck"]');
+      if (hp && hp.value) return; // honeypot
+      if (!form.reportValidity()) return; // native validacija (ime, email)
 
-      if (key.includes('ZAMENITI')) {
-        if (status) {
-          status.textContent = 'Forma još nije povezana. Dodajte Web3Forms access key. Do tada nas kontaktirajte telefonom ili preko Vibera.';
-          status.className = 'text-sm mt-4 text-akcent';
-        }
+      if (!FORM_ENDPOINT) {
+        if (status) { status.textContent = 'Forma još nije povezana. Do tada nas pozovite ili pišite na Viber. (Dodati Apps Script /exec URL u FORM_ENDPOINT.)'; status.className = 'text-sm mt-4 text-akcent'; }
         return;
       }
 
-      const data = new FormData(form);
+      const params = new URLSearchParams();
+      new FormData(form).forEach((v, k) => { if (k !== 'botcheck') params.append(k, v); });
+
       if (btn) { btn.disabled = true; btnLabel.textContent = 'Šaljem…'; }
       try {
-        const res = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: data,
-          headers: { Accept: 'application/json' },
-        });
-        const json = await res.json();
-        if (json.success) {
-          form.reset();
-          trackKontaktConversion(); // Google Ads: uspešno poslata forma = konverzija
-          if (status) { status.textContent = 'Hvala, poruka je poslata. Javljamo se u najkraćem roku.'; status.className = 'text-sm mt-4 text-green-600'; }
-        } else {
-          throw new Error(json.message || 'Greška');
-        }
+        await fetch(FORM_ENDPOINT + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
+        trackKontaktConversion(); // Google Ads: poslata forma = konverzija
+        showSuccess();
       } catch (err) {
         if (status) { status.textContent = 'Došlo je do greške pri slanju. Pokušajte ponovo ili nas pozovite.'; status.className = 'text-sm mt-4 text-red-500'; }
-      } finally {
         if (btn) { btn.disabled = false; btnLabel.textContent = 'Pošaljite upit'; }
       }
     });
+
+    show(steps[0], false, true);
   }
 
   /* Hero slajder — auto-rotirajući carousel (crossfade + progres tačke).
