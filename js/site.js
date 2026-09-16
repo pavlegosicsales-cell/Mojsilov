@@ -243,9 +243,16 @@ function footerHTML() {
    uspešno poslata forma + klik na telefon / Viber / WhatsApp (poziv je glavni
    način kontakta za mobilnu uslugu). Ako gtag nije učitan, tiho ne radi ništa. */
 const AW_CONVERSION = 'AW-17733929811/qcoZCInYuNMcENOWmYhC';
-function trackKontaktConversion() {
+function trackKontaktConversion(callback) {
+  let done = false;
+  const go = () => { if (done) return; done = true; if (typeof callback === 'function') callback(); };
   if (typeof window.gtag === 'function') {
-    window.gtag('event', 'conversion', { send_to: AW_CONVERSION });
+    // event_callback: kad je zadat callback (tel/viber klik), navigiramo TEK kad
+    // konverzija ode Google-u, inace se beacon izgubi cim pozivnik preuzme fokus.
+    window.gtag('event', 'conversion', { send_to: AW_CONVERSION, event_callback: callback ? go : undefined });
+    if (callback) setTimeout(go, 900); // fallback ako callback ne stigne (blokiran gtag)
+  } else {
+    go(); // nema gtag: ne drzi korisnika, samo navigiraj
   }
 }
 
@@ -1351,7 +1358,17 @@ document.addEventListener('DOMContentLoaded', () => {
      Delegirano na document → hvata i dugmad koja se ubacuju kroz header/footer. */
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="tel:"], a[href^="viber:"], a[href*="wa.me/"]');
-    if (a) trackKontaktConversion();
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    // tel: i viber: menjaju aplikaciju u istom tabu → sacekaj da pixel ode pa navigiraj.
+    // wa.me se otvara u novom tabu (stranica ostaje živa) → samo okini, bez odlaganja.
+    const appSwitch = href.startsWith('tel:') || href.startsWith('viber:');
+    if (appSwitch && typeof window.gtag === 'function' && !e.defaultPrevented && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+      e.preventDefault();
+      trackKontaktConversion(() => { window.location.href = href; });
+    } else {
+      trackKontaktConversion();
+    }
   });
 
   /* Godina u footeru je već postavljena kroz template. */
