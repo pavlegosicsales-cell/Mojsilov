@@ -1051,6 +1051,12 @@ document.addEventListener('DOMContentLoaded', () => {
      no-cors znači da odgovor ne možemo pročitati (uspeh se prikazuje uvek). */
   const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzg-GWWUDg9NxW6mftAeUlqykCde1f6ocwfRfd18Q71aFZZ8Y0menFMliN395NhM-gD/exec';
 
+  /* Interni dashboard (Mojsilov-Dashboard) — upit se paralelno ubaci u kolonu
+     „Nov". Ne blokira korisnika: ako padne, Apps Script mejl je već otišao i
+     „hvala" se svejedno prikazuje. Zaštita od spama: honeypot (ispod) + CORS
+     origin na endpointu. Kad zaživi app.mojsilov.com, zameniti domen ovde. */
+  const DASH_ENDPOINT = 'https://mojsilov-dashboard.vercel.app/api/upit';
+
   const form = document.getElementById('contact-form');
   if (form && form.hasAttribute('data-wizard')) {
     const steps = [...form.querySelectorAll('.wz-step')];
@@ -1172,7 +1178,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const params = new URLSearchParams();
-      new FormData(form).forEach((v, k) => { if (k !== 'botcheck') params.append(k, v); });
+      const upit = {};
+      new FormData(form).forEach((v, k) => { if (k !== 'botcheck') { params.append(k, v); upit[k] = v; } });
+
+      // Paralelno u interni dashboard (ne blokira uspeh; greška se tiho ignoriše)
+      if (DASH_ENDPOINT) {
+        fetch(DASH_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(upit),
+          keepalive: true,
+        }).catch(() => {});
+      }
 
       if (btn) { btn.disabled = true; btnLabel.textContent = 'Šaljem…'; }
       try {
