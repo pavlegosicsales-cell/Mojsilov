@@ -67,7 +67,7 @@ const NAV = [
     { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
   { label: 'Kontakt', page: 'kontakt.html' },
-  { label: 'Klub', url: KLUB_URL, klub: true },
+  { label: 'Aplikacija', url: KLUB_URL + '/instaliraj', klub: true },
 ];
 /* Flat lista za mobilni meni i footer — dropdown roditelj se zamenjuje podstavkama */
 const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
@@ -107,7 +107,7 @@ function headerHTML() {
         <div class="nav-dd-panel">${items}</div>
       </div>`;
     }
-    if (n.klub) return `<a href="${navHref(n)}" class="${linkCls} nav-klub" title="Mojsilov Klub: bodovi, nagrade i zakazivanje">${icon.star}${n.label}</a>`;
+    if (n.klub) return `<a href="${navHref(n)}" class="${linkCls} nav-klub" title="Mojsilov Klub aplikacija: instalirajte, bodovi, nagrade i zakazivanje">${icon.star}${n.label}</a>`;
     return `<a href="${navHref(n)}" class="${linkCls}${isCurrentPage(n) ? ' is-active' : ''}">${n.label}</a>`;
   }).join('');
   const mobileLinks = NAV_FLAT.map(
@@ -261,24 +261,74 @@ function trackKontaktConversion(callback) {
   }
 }
 
+/* Cene po veličini vozila (toggle Mali/Srednji/Veliki). Podrazumevane = poslednje poznate,
+   gaze ih cene iz Cenovnika (primeniCene). */
+const PRICES = {
+  auta:      { mali: '9.900',  srednji: '10.900', veliki: '11.900' },
+  enterijer: { mali: '8.900',  srednji: '9.900',  veliki: '10.900' },
+  motor:     { mali: '4.000',  srednji: '5.000',  veliki: '6.000'  },
+};
+let trenutnaVelicina = 'srednji';
+let osveziVelicinu = () => {};
+const fmtCena = (n) => new Intl.NumberFormat('sr-RS').format(n);
+
+/* Upisuje aktuelne cene: data-cena="usluga" | "usluga:mali|srednji|veliki|od" | "dod:brzo_stalni" | "nam:kod[:do]". */
+function primeniCene(d, po) {
+  const SVC = { auta: 'dubinsko_auto', enterijer: 'enterijer', motor: 'motor' };
+  Object.entries(SVC).forEach(([k, kljuc]) => {
+    const u = po.get(kljuc);
+    if (!u) return;
+    ['mali', 'srednji', 'veliki'].forEach((v) => { const c = u['cena_' + v]; if (c != null) PRICES[k][v] = fmtCena(c); });
+  });
+  osveziVelicinu();
+  const nam = new Map((d.namestaj || []).map((x) => [x.kod, x]));
+  const vrednost = (spec) => {
+    const [a, b, c] = spec.split(':');
+    if (a === 'dod') return d.dodatne ? d.dodatne[b] : null;
+    if (a === 'nam') { const x = nam.get(b); return x ? (c === 'do' ? x.cena_do : x.cena) : null; }
+    const u = po.get(a);
+    if (!u) return null;
+    if (b === 'od') return u.cena_od;
+    if (b) return u['cena_' + b];
+    return u.cena_osnovna != null ? u.cena_osnovna : u.cena_od;
+  };
+  document.querySelectorAll('[data-cena]').forEach((el) => {
+    const v = vrednost(el.getAttribute('data-cena'));
+    if (v != null && Number.isFinite(Number(v))) el.textContent = fmtCena(Number(v));
+  });
+  /* Poliranje farova: toggle bez/sa keramikom čuva cene u data atributima */
+  const far = po.get('farovi'), ker = po.get('farovi_keramika');
+  document.querySelectorAll('.pr-amount.far-swap').forEach((el) => {
+    if (far && far.cena_osnovna != null) el.dataset.polir = fmtCena(far.cena_osnovna);
+    if (ker && ker.cena_osnovna != null) el.dataset.keramika = fmtCena(ker.cena_osnovna);
+    const aktivan = document.querySelector('.pr-tab[data-far].is-active');
+    const val = el.dataset[aktivan && aktivan.dataset.far === 'keramika' ? 'keramika' : 'polir'];
+    if (val) el.textContent = val;
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = headerHTML();
 
-  /* Mojsilov Klub: na karticama usluga diskretno „+N bodova" (javni JSON iz klub aplikacije).
-     Tiho preskače ako aplikacija nije dostupna. */
+  /* Linkovi ka aplikaciji u HTML-u (data-klub-link="/instaliraj") prate KLUB_URL, pa je promena domena na jednom mestu. */
+  document.querySelectorAll('[data-klub-link]').forEach((a) => { a.href = KLUB_URL + a.getAttribute('data-klub-link'); });
+
+  /* Cene i bodovi iz Cenovnika u dashboardu (javni JSON klub aplikacije). U HTML-u su upisane
+     poslednje poznate cene (SEO, rad bez JS-a); ovde se zamenjuju aktuelnim. Tiho preskače ako API nije dostupan. */
   const klubCells = document.querySelectorAll('[data-klub-usluga]');
-  if (klubCells.length) {
+  if (klubCells.length || document.querySelector('[data-cena], .pr-amount[data-svc], .far-swap')) {
     fetch(KLUB_URL + '/api/javno/bodovanje', { mode: 'cors' })
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (!d || !d.ok || !Array.isArray(d.usluge)) return;
         const po = new Map(d.usluge.map((u) => [u.usluga, u]));
+        primeniCene(d, po);
         klubCells.forEach((cell) => {
           const u = po.get(cell.getAttribute('data-klub-usluga'));
           if (!u || !u.bodovi) return;
           const a = document.createElement('a');
-          a.href = KLUB_URL;
+          a.href = KLUB_URL + '/instaliraj';
           a.className = 'klub-pill';
           a.title = 'Mojsilov Klub: 1 bod na svakih ' + d.din_po_bodu + ' din, nagrade i trajni popust';
           a.innerHTML = icon.star + '+' + u.bodovi + ' bodova u Klubu';
@@ -571,13 +621,9 @@ document.addEventListener('DOMContentLoaded', () => {
      poliranje farova ostaje isto (nema data-svc). */
   const prTabs = document.querySelectorAll('.pr-tab[data-size]');
   if (prTabs.length) {
-    const PRICES = {
-      auta:      { mali: '9.900',  srednji: '10.900', veliki: '11.900' },
-      enterijer: { mali: '8.900',  srednji: '9.900',  veliki: '10.900' },
-      motor:     { mali: '4.000',  srednji: '5.000',  veliki: '6.000'  },
-    };
     const amounts = document.querySelectorAll('.pr-amount[data-svc]');
     const setSize = (size) => {
+      trenutnaVelicina = size;
       prTabs.forEach((t) => {
         const on = t.dataset.size === size;
         t.classList.toggle('is-active', on);
@@ -593,6 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prTabs.forEach((t) => t.addEventListener('click', () => setSize(t.dataset.size)));
     const initial = document.querySelector('.pr-tab[data-size].is-active');
     setSize(initial ? initial.dataset.size : 'srednji');
+    osveziVelicinu = () => setSize(trenutnaVelicina);
   }
 
   /* Poliranje farova — toggle bez/sa keramikom (nezavisan od veličine vozila).
