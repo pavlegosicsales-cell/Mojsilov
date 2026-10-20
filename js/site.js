@@ -34,6 +34,7 @@ const EMAIL = 'MojsilovDetailing@gmail.com';
 
 /* --- Ikonice (inline SVG) ------------------------------------------------ */
 const icon = {
+  star: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:6px"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg>',
   phone: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
   instagram: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>',
   facebook: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
@@ -52,6 +53,8 @@ const icon = {
    URL-a (npr. /poliranje-farova), pa se NE sme oslanjati na „.html" u putanji —
    inače se sve podstranice pogrešno tretiraju kao početna i „Početna" u meniju
    ne vodi kući. Početna = „/" ili „/index(.html)". */
+/* Mojsilov Klub: aplikacija za kupce (bodovi, nagrade, zakazivanje). Nalog je zajednički sa sajtom. */
+const KLUB_URL = 'https://mojsilov-klub.vercel.app'; // privremeno, do domena klub.mojsilov.com
 const _navPath = location.pathname.replace(/\/+$/, '') || '/';
 const IS_SUBPAGE = !(_navPath === '/' || /\/index(\.html)?$/i.test(_navPath));
 const NAV = [
@@ -64,11 +67,12 @@ const NAV = [
     { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
   { label: 'Kontakt', page: 'kontakt.html' },
+  { label: 'Klub', url: KLUB_URL, klub: true },
 ];
 /* Flat lista za mobilni meni i footer — dropdown roditelj se zamenjuje podstavkama */
 const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
 /* href za nav stavku, ispravan i sa početne i sa podstranice */
-const navHref = (n) => (n.page ? n.page : (IS_SUBPAGE ? '/' + n.hash : n.hash));
+const navHref = (n) => (n.url ? n.url : n.page ? n.page : (IS_SUBPAGE ? '/' + n.hash : n.hash));
 /* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
 const homeHash = (hash) => (IS_SUBPAGE ? '/' + hash : hash);
 /* CTA „Pozovite nas": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
@@ -103,10 +107,11 @@ function headerHTML() {
         <div class="nav-dd-panel">${items}</div>
       </div>`;
     }
+    if (n.klub) return `<a href="${navHref(n)}" class="${linkCls} nav-klub" title="Mojsilov Klub: bodovi, nagrade i zakazivanje">${icon.star}${n.label}</a>`;
     return `<a href="${navHref(n)}" class="${linkCls}${isCurrentPage(n) ? ' is-active' : ''}">${n.label}</a>`;
   }).join('');
   const mobileLinks = NAV_FLAT.map(
-    (n) => `<a href="${navHref(n)}" data-close-menu class="font-display uppercase text-2xl text-white/90 hover:text-akcent transition">${n.label}</a>`
+    (n) => `<a href="${navHref(n)}" data-close-menu class="font-display uppercase text-2xl text-white/90 hover:text-akcent transition">${n.klub ? icon.star : ''}${n.label}</a>`
   ).join('');
 
   return `
@@ -259,6 +264,30 @@ function trackKontaktConversion(callback) {
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = headerHTML();
+
+  /* Mojsilov Klub: na karticama usluga diskretno „+N bodova" (javni JSON iz klub aplikacije).
+     Tiho preskače ako aplikacija nije dostupna. */
+  const klubCells = document.querySelectorAll('[data-klub-usluga]');
+  if (klubCells.length) {
+    fetch(KLUB_URL + '/api/javno/bodovanje', { mode: 'cors' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!d || !d.ok || !Array.isArray(d.usluge)) return;
+        const po = new Map(d.usluge.map((u) => [u.usluga, u]));
+        klubCells.forEach((cell) => {
+          const u = po.get(cell.getAttribute('data-klub-usluga'));
+          if (!u || !u.bodovi) return;
+          const a = document.createElement('a');
+          a.href = KLUB_URL;
+          a.className = 'klub-pill';
+          a.title = 'Mojsilov Klub: 1 bod na svakih ' + d.din_po_bodu + ' din, nagrade i trajni popust';
+          a.innerHTML = icon.star + '+' + u.bodovi + ' bodova u Klubu';
+          const anchor = cell.querySelector('.svc-label') || cell.firstElementChild;
+          if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(a, anchor.nextSibling); else cell.appendChild(a);
+        });
+      })
+      .catch(() => {});
+  }
   const footer = document.getElementById('site-footer');
   if (footer) footer.innerHTML = footerHTML();
 
