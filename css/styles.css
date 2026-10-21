@@ -715,9 +715,10 @@ main > section:first-of-type { padding-top: calc(var(--header-h) + 3.25rem); }
 .nav-phone svg { filter: drop-shadow(0 0 6px rgba(33, 100, 218, 0.9)); }
 
 /* MOJSILOV wordmark pored logoa (samo početna, samo desktop — na mobilnom nema
-   mesta zbog centriranog dugmeta telefona). Visina slova ≈ visina logoa. */
+   mesta zbog centriranog dugmeta telefona). Visina slova ≈ visina logoa.
+   Od 1180px: ispod toga se lepi uz linkove menija, pa ostaje samo MD znak. */
 .nav-wordmark { display: none; }
-@media (min-width: 1024px) {
+@media (min-width: 1180px) {
   .nav-wordmark {
     display: inline-block; font-weight: 700; text-transform: uppercase; color: #fff;
     letter-spacing: 0.01em; line-height: 1; white-space: nowrap;

@@ -132,20 +132,22 @@ function headerHTML() {
 
   return `
   <div class="header-inner">
-    <nav class="max-w-container mx-auto px-5 lg:px-8 h-[96px] lg:h-[124px] relative flex items-center justify-between gap-4">
-      <a href="${homeHash('#pocetna')}" class="flex items-center gap-3 shrink-0" aria-label="Mojsilov Detailing, početna">
+    <!-- Desktop: grid 1fr | auto | 1fr. Linkovi su u sredini kad ima mesta, a kad nema, grid ih pomeri
+         umesto da uđu u logo ili desna dugmad (ranije apsolutno centrirani pa su se preklapali). -->
+    <nav class="max-w-container mx-auto px-5 lg:px-8 h-[96px] lg:h-[124px] relative flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
+      <a href="${homeHash('#pocetna')}" class="flex items-center gap-3 shrink-0 lg:justify-self-start" aria-label="Mojsilov Detailing, početna">
         <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" width="334" height="187" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
         ${!IS_SUBPAGE ? '<span class="nav-wordmark font-display">MOJSILOV</span>' : ''}
       </a>
 
-      <div class="hidden lg:flex items-center justify-center gap-11 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">${links}</div>
+      <div class="hidden lg:flex items-center justify-center gap-7 xl:gap-8 min-[1700px]:gap-10 whitespace-nowrap">${links}</div>
 
       <!-- Mobilni: dugme sa brojem telefona u centru nav bara -->
       <a href="tel:${TEL}" aria-label="Pozovite nas" class="nav-phone lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white whitespace-nowrap">
         ${icon.phone}<span>${TEL_DISPLAY}</span>
       </a>
 
-      <div class="flex items-center justify-end gap-4" data-bez-app>
+      <div class="flex items-center justify-end gap-4 lg:justify-self-end [&>*]:shrink-0 [&>*]:whitespace-nowrap" data-bez-app>
         <a href="tel:${TEL}" class="nav-phone hidden 2xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
