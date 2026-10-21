@@ -43,6 +43,8 @@ const icon = {
   clock: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
   pin: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
   mail: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M8 15h3"/></svg>',
+  chevron: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>',
   sparkles: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg>',
 };
 
@@ -67,7 +69,7 @@ const NAV = [
     { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
   { label: 'Kontakt', page: 'kontakt.html' },
-  { label: 'Aplikacija', url: KLUB_URL + '/instaliraj', klub: true },
+  { label: 'Aplikacija', page: 'aplikacija.html', klub: true },
 ];
 /* Flat lista za mobilni meni i footer — dropdown roditelj se zamenjuje podstavkama */
 const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
@@ -78,6 +80,8 @@ const homeHash = (hash) => (IS_SUBPAGE ? '/' + hash : hash);
 /* CTA „Pozovite nas": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
 /* „Pozovite nas" dugmad (nav + mobilni meni) vode direktno u dialer, ne na sekciju. */
 const ctaHref = 'tel:' + TEL;
+/* „Rezervišite online“ vodi na stranu aplikacije na sajtu (instalacija + zakazivanje). */
+const APP_PAGE = 'aplikacija.html';
 /* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
 const isCurrentPage = (n) => {
   if (!n.page) return false;
@@ -107,12 +111,24 @@ function headerHTML() {
         <div class="nav-dd-panel">${items}</div>
       </div>`;
     }
-    if (n.klub) return `<a href="${navHref(n)}" class="${linkCls} nav-klub" title="Mojsilov Klub aplikacija: instalirajte, bodovi, nagrade i zakazivanje">${icon.star}${n.label}</a>`;
+    if (n.klub) return `<a href="${navHref(n)}" class="${linkCls} nav-klub${isCurrentPage(n) ? ' is-active' : ''}" title="Mojsilov Klub aplikacija: instalirajte, bodovi, nagrade i zakazivanje">${icon.star}${n.label}</a>`;
     return `<a href="${navHref(n)}" class="${linkCls}${isCurrentPage(n) ? ' is-active' : ''}">${n.label}</a>`;
   }).join('');
-  const mobileLinks = NAV_FLAT.map(
-    (n) => `<a href="${navHref(n)}" data-close-menu class="font-display uppercase text-2xl text-white/90 hover:text-akcent transition">${n.klub ? icon.star : ''}${n.label}</a>`
-  ).join('');
+  /* Mobilni meni u tri dela: stranice (krupno), usluge u svom bloku, aplikacija kao istaknuta kartica */
+  const usluge = NAV.find((n) => n.dropdown);
+  const app = NAV.find((n) => n.klub);
+  const stranice = NAV.filter((n) => !n.dropdown && !n.klub);
+  const mobileLinks = `
+    <div class="mm-main">${stranice.map((n) => `<a href="${navHref(n)}" data-close-menu class="${isCurrentPage(n) ? 'is-active' : ''}">${n.label}</a>`).join('')}</div>
+    <div class="mm-group">
+      <p class="mm-label">Usluge</p>
+      ${usluge.dropdown.map((d) => `<a href="${navHref(d)}" data-close-menu class="${isCurrentPage(d) ? 'is-active' : ''}">${d.label}${icon.chevron}</a>`).join('')}
+    </div>
+    <a href="${navHref(app)}" data-close-menu class="mm-app${isCurrentPage(app) ? ' is-active' : ''}">
+      <span class="mm-app-ic">${icon.star}</span>
+      <span><b>${app.label}</b><small>Online zakazivanje, bodovi i popusti</small></span>
+      ${icon.chevron}
+    </a>`;
 
   return `
   <div class="header-inner">
@@ -129,10 +145,11 @@ function headerHTML() {
         ${icon.phone}<span>${TEL_DISPLAY}</span>
       </a>
 
-      <div class="flex items-center justify-end gap-4">
-        <a href="tel:${TEL}" class="nav-phone hidden xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
+      <div class="flex items-center justify-end gap-4" data-bez-app>
+        <a href="tel:${TEL}" class="nav-phone hidden 2xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
+        <a href="${APP_PAGE}" class="app-cta app-cta--nav hidden xl:inline-flex">${icon.calendar}Rezervišite online</a>
         <a href="${ctaHref}" class="glow-btn hidden lg:inline-flex">Pozovite nas ${icon.sparkles}</a>
         <button id="menu-open" class="lg:hidden text-white p-2 -mr-2" aria-label="Otvorite meni">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
@@ -144,16 +161,16 @@ function headerHTML() {
   <!-- Mobilni meni -->
   <div id="menu-overlay" class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"></div>
   <aside class="mobile-menu fixed top-0 right-0 bottom-0 w-[86%] max-w-sm bg-navy z-[70] p-7 flex flex-col">
-    <div class="flex items-center justify-between mb-10">
+    <div class="flex items-center justify-between mb-7">
       <img src="brand_assets/mojsilov-logo.png" alt="Mojsilov Detailing" width="600" height="414" class="logo-img h-12 w-auto"/>
       <button id="menu-close" class="text-white p-2 -mr-2" aria-label="Zatvorite meni">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
       </button>
     </div>
-    <div class="flex flex-col gap-6">${mobileLinks}</div>
-    <div class="mt-auto pt-8 border-t border-white/10">
-      <a href="tel:${TEL}" class="flex items-center gap-2 text-white/85 mb-4">${icon.phone}<span>${TEL_DISPLAY}</span></a>
+    <div class="mm-scroll">${mobileLinks}</div>
+    <div class="mm-foot" data-bez-app>
       <a href="${ctaHref}" data-close-menu class="glow-btn w-full">Pozovite nas ${icon.sparkles}</a>
+      <a href="${APP_PAGE}" data-close-menu class="app-cta">${icon.calendar}Rezervišite online</a>
     </div>
   </aside>`;
 }
@@ -242,6 +259,18 @@ function footerHTML() {
   </div>`;
 }
 
+/* Da li element stoji na tamnoj pozadini: prvi predak sa neprozirnom bojom pozadine
+   (ili foto-hero sa slikom) odlučuje. Koristi se za boju dugmeta „Rezervišite online“. */
+function jeTamnaPozadina(el) {
+  for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
+    if (n.classList.contains('hero2') || n.classList.contains('hero-photo')) return true;
+    const m = getComputedStyle(n).backgroundColor.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/);
+    if (!m || (m[4] !== undefined && +m[4] < 0.5)) continue;
+    return (0.299 * m[1] + 0.587 * m[2] + 0.114 * m[3]) < 140;
+  }
+  return false;
+}
+
 /* --- Interakcije --------------------------------------------------------- */
 /* Google Ads — praćenje konverzija (nalog AW-17733929811, akcija „Kontakt").
    Okida se na STVARNE kontakt akcije jer nemamo posebnu „hvala" stranicu:
@@ -311,6 +340,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = headerHTML();
 
+  /* Pored svakog „Pozovite nas“ dugmeta (glow) dodaj „Rezervišite online“; u karticama
+     cenovnika (obična dugmad) diskretan link ispod. Poziv ostaje glavni, aplikacija je druga opcija.
+     Preskače header/meni (imaju svoje) i blokove sa data-bez-app. */
+  document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
+    if (!/^pozovite nas/i.test((a.textContent || '').trim()) || a.closest('[data-bez-app], #site-header, .mobile-menu')) return;
+    if (a.classList.contains('glow-btn')) {
+      const novi = document.createElement('a');
+      novi.href = APP_PAGE;
+      novi.className = 'app-cta' + (a.classList.contains('w-full') ? ' w-full' : '') + (jeTamnaPozadina(a) ? ' app-cta--svetla' : ' app-cta--tamna');
+      novi.innerHTML = icon.calendar + 'Rezervišite online';
+      /* Roditelj nije flex red: oba dugmeta idu u sopstveni red koji se prelama (raspored strane se ne dira) */
+      const wrap = a.parentElement;
+      const flex = wrap && /flex|grid/.test(getComputedStyle(wrap).display);
+      if (flex || (wrap && wrap.classList.contains('pr-cta'))) {
+        a.insertAdjacentElement('afterend', novi);
+      } else {
+        const red = document.createElement('div');
+        red.className = 'app-cta-row' + (a.classList.contains('w-full') ? ' app-cta-row--puna' : '');
+        a.insertAdjacentElement('beforebegin', red);
+        red.appendChild(a);
+        red.appendChild(novi);
+      }
+    } else {
+      const l = document.createElement('a');
+      l.href = APP_PAGE;
+      l.className = 'app-cta-link';
+      l.innerHTML = icon.calendar + 'ili rezervišite online';
+      a.insertAdjacentElement('afterend', l);
+    }
+  });
+
   /* Linkovi ka aplikaciji u HTML-u (data-klub-link="/instaliraj") prate KLUB_URL, pa je promena domena na jednom mestu. */
   document.querySelectorAll('[data-klub-link]').forEach((a) => { a.href = KLUB_URL + a.getAttribute('data-klub-link'); });
 
@@ -328,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const u = po.get(cell.getAttribute('data-klub-usluga'));
           if (!u || !u.bodovi) return;
           const a = document.createElement('a');
-          a.href = KLUB_URL + '/instaliraj';
+          a.href = APP_PAGE;
           a.className = 'klub-pill';
           a.title = 'Mojsilov Klub: 1 bod na svakih ' + d.din_po_bodu + ' din, nagrade i trajni popust';
           a.innerHTML = icon.star + '+' + u.bodovi + ' bodova u Klubu';

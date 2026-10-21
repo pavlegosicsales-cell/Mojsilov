@@ -2773,3 +2773,129 @@ body.menu-open { overflow: hidden; }
 .klub-pill svg { width: 12px; height: 12px; margin-right: 4px !important; }
 .nav-klub { color: #fff !important; }
 .nav-klub svg { color: #4a8bff; }
+
+/* ==========================================================================
+   Mojsilov aplikacija (strana /aplikacija) + CTA „Rezervišite online“ + mobilni meni
+   ========================================================================== */
+.app-breadcrumb { display: flex; gap: .5rem; align-items: center; font-size: .8rem; color: rgba(255,255,255,.55); }
+.app-breadcrumb a { color: rgba(255,255,255,.75); }
+.app-breadcrumb a:hover { color: #fff; text-decoration: underline; }
+.app-trust { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; font-size: .9rem; color: rgba(255,255,255,.8); }
+.app-trust li { display: inline-flex; align-items: center; gap: .45rem; }
+.app-trust svg { color: #4a8bff; }
+
+/* Okvir telefona oko pravih snimaka ekrana */
+.app-phone { border-radius: 34px; background: #05070d; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.12); overflow: hidden; }
+.app-phone img { display: block; width: 100%; height: auto; border-radius: 27px; }
+.app-phones { position: relative; display: flex; justify-content: center; align-items: flex-end; min-height: 340px; }
+.app-phones .app-phone { width: min(48%, 200px); margin: 0; }
+.app-phone--back { position: absolute; left: 50%; bottom: 1.8rem; transform: translateX(-12%) rotate(7deg); opacity: .55; filter: saturate(.8); }
+.app-phone--front { position: relative; transform: translateX(-24%) rotate(-3deg); z-index: 2; }
+@media (min-width: 1024px) {
+  .app-phones .app-phone { width: 280px; }
+  .app-phone--back { transform: translateX(-2%) rotate(7deg); }
+  .app-phone--front { transform: translateX(-30%) rotate(-3deg); }
+}
+
+@media (min-width: 1024px) { .app-feat-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.app-screens { display: grid; gap: 2rem; grid-template-columns: 1fr; justify-items: center; }
+.app-screens figure { margin: 0; width: min(100%, 290px); text-align: center; }
+.app-screens figcaption { margin-top: 1rem; font-size: .9rem; color: #5a6072; }
+@media (min-width: 768px) { .app-screens { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px) {
+  /* Na telefonu: vodoravna traka ekrana koja se prevlači prstom */
+  .app-screens { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 72%; overflow-x: auto; scroll-snap-type: x mandatory; justify-items: stretch; margin: 0 -1.25rem; padding: 0 1.25rem 1rem; }
+  .app-screens figure { width: auto; scroll-snap-align: center; }
+}
+
+.app-install-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .app-install-grid { grid-template-columns: repeat(3, 1fr); } }
+.app-install-card { padding: 1.8rem 1.6rem; display: flex; flex-direction: column; }
+.app-install-card .how-title { margin-top: .4rem; font-size: 1.35rem; }
+.app-install-card .btn { align-self: flex-start; margin-top: auto; }
+.app-install-card .app-steps { margin-bottom: 1.5rem; }
+.app-steps { counter-reset: s; margin-top: .9rem; display: grid; gap: .7rem; }
+.app-steps li { counter-increment: s; display: flex; gap: .75rem; font-size: .95rem; color: #3b4152; line-height: 1.5; }
+.app-steps li::before { content: counter(s); flex: 0 0 1.6rem; height: 1.6rem; border-radius: 999px; background: rgba(33,100,218,.1); color: var(--akcent); font-weight: 700; font-size: .8rem; display: inline-flex; align-items: center; justify-content: center; }
+.app-install-qr { align-items: center; text-align: center; }
+.app-qr { width: 176px; height: 176px; margin: 1rem auto; padding: .6rem; background: #fff; border: 1px solid rgba(18,19,88,.12); }
+@media (max-width: 899px) { .app-install-qr { display: none; } }
+
+.app-more { display: grid; grid-template-columns: 1fr; border-top: 1px solid rgba(18,19,88,.14); }
+.app-more a { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem .25rem; border-bottom: 1px solid rgba(18,19,88,.14); font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .03em; font-size: 1.15rem; color: var(--navy); transition: color .2s, padding .2s; }
+.app-more a span { color: var(--akcent); }
+.app-more a:hover { color: var(--akcent); padding-left: .6rem; }
+@media (min-width: 768px) { .app-more { grid-template-columns: 1fr 1fr; column-gap: 2.5rem; } }
+
+/* CTA „Rezervišite online“ pored svakog „Pozovite nas“ (ubacuje js/site.js).
+   Obrubljeno dugme u boji teksta sekcije: belo na tamnoj, navy na svetloj pozadini. */
+.app-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .04em; font-weight: 600; font-size: .82rem;
+  padding: .9rem 1.5rem; border: 1px solid currentColor; border-radius: 999px; color: inherit;
+  background: transparent; transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.app-cta svg { color: #4a8bff; flex-shrink: 0; }
+.app-cta:hover { transform: translateY(-2px); background: rgba(33,100,218,.08); border-color: var(--akcent); }
+/* U karticama cenovnika: diskretan link ispod glavnog dugmeta */
+.app-cta-link { display: inline-flex; align-items: center; gap: .35rem; margin-top: .75rem; font-size: .85rem; font-weight: 600; color: var(--akcent); }
+.app-cta-link:hover { text-decoration: underline; }
+.pr-cta .app-cta-link { display: flex; justify-content: center; }
+
+/* Mobilni meni: stranice gore, usluge u svom bloku, aplikacija kao istaknuta kartica */
+.mm-scroll { flex: 1; overflow-y: auto; margin: 0 -.5rem; padding: 0 .5rem; }
+.mm-main { display: flex; flex-direction: column; gap: 1.1rem; }
+.mm-main a { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.6rem; line-height: 1.1; color: rgba(255,255,255,.92); }
+.mm-main a:hover, .mm-main a.is-active { color: #4a8bff; }
+.mm-group { margin-top: 1.6rem; padding: 1rem 1.1rem .4rem; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(255,255,255,.04); }
+.mm-label { display: flex; align-items: center; gap: .5rem; font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: .35rem; }
+.mm-label::before { content: ''; width: 6px; height: 6px; border-radius: 999px; background: #4a8bff; box-shadow: 0 0 8px rgba(74,139,255,.8); }
+.mm-group a { display: flex; align-items: center; justify-content: space-between; padding: .75rem 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.15rem; letter-spacing: .02em; color: rgba(255,255,255,.88); border-top: 1px solid rgba(255,255,255,.08); }
+.mm-group .mm-label + a { border-top: 0; }
+.mm-group a svg { color: rgba(255,255,255,.35); transition: transform .2s, color .2s; }
+.mm-group a:hover, .mm-group a.is-active { color: #fff; }
+.mm-group a:hover svg { color: #4a8bff; transform: translateX(3px); }
+.mm-app { margin-top: 1rem; display: flex; align-items: center; gap: .9rem; padding: .95rem 1.1rem; border-radius: 18px; border: 1px solid rgba(74,139,255,.55); background: linear-gradient(135deg, rgba(33,100,218,.28), rgba(33,100,218,.08)); box-shadow: 0 0 24px rgba(33,100,218,.25); color: #fff; }
+.mm-app-ic { width: 2.6rem; height: 2.6rem; flex-shrink: 0; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,.1); color: #4a8bff; }
+.mm-app-ic svg { width: 20px; height: 20px; margin: 0; }
+.mm-app b { display: block; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
+.mm-app small { display: block; font-size: .78rem; color: rgba(255,255,255,.65); margin-top: .15rem; }
+.mm-app > svg { margin-left: auto; color: rgba(255,255,255,.5); }
+.mm-foot { padding-top: 1.25rem; margin-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.1); display: grid; gap: .7rem; }
+.mm-foot .app-cta { width: 100%; color: #fff; }
+
+/* „Zakazivanje u nekoliko minuta“: dva načina (poziv i aplikacija) iznad koraka */
+.book-ways { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-bottom: 2.5rem; }
+@media (min-width: 768px) { .book-ways { grid-template-columns: 1fr 1fr; } }
+.book-way { display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.35rem; border: 1px solid rgba(18,19,88,.17); background: #fff; transition: border-color .25s, transform .25s, box-shadow .25s; }
+.book-way:hover { border-color: var(--akcent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.book-way-ic { width: 3.25rem; height: 3.25rem; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; background: rgba(33,100,218,.1); color: var(--akcent); }
+.book-way-txt { min-width: 0; flex: 1; }
+.book-way-txt b { display: block; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.3rem; font-weight: 600; color: var(--navy); line-height: 1.15; margin-top: .15rem; }
+.book-way-txt small { display: block; font-size: .85rem; color: #5a6072; margin-top: .2rem; }
+.book-way-go { flex-shrink: 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: .8rem; letter-spacing: .04em; font-weight: 600; color: var(--akcent); }
+.book-way--app { background: linear-gradient(135deg, #121358 0%, #1c2a7a 100%); border-color: rgba(74,139,255,.5); box-shadow: 0 0 0 1px rgba(74,139,255,.15), 0 12px 30px rgba(18,19,88,.25); }
+.book-way--app .book-way-ic { background: rgba(255,255,255,.1); color: #4a8bff; }
+.book-way--app .book-way-txt b { color: #fff; }
+.book-way--app .book-way-txt small { color: rgba(255,255,255,.7); }
+.book-way--app .svc-label, .book-way--app .book-way-go { color: #7fb0ff; }
+@media (max-width: 520px) {
+  .book-way { flex-wrap: wrap; }
+  .book-way-go { width: 100%; padding-left: 4.25rem; }
+}
+/* Dugme „Rezervišite online“ u headeru (desktop, široki ekrani) */
+.app-cta--nav { color: #fff; padding: .7rem 1.15rem; }
+
+/* Hero na telefonu: dva glavna dugmeta (poziv + online), „Saznajte više“ samo na većim ekranima */
+@media (max-width: 639px) { .hs-cta .hs-btn2 { display: none; } .hs-cta { gap: .75rem; } }
+
+/* Boja dugmeta „Rezervišite online“ prema pozadini + red za par dugmadi */
+.app-cta--svetla { color: #fff; }
+.app-cta--tamna { color: var(--navy); }
+.app-cta-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.app-cta-row--puna { flex-direction: column; align-items: stretch; }
+.hero2-lead .app-cta-row { margin-top: 2rem; }
+.hero2-lead .app-cta-row .glow-btn { margin-top: 0; }
+.text-center .app-cta-row, .text-center > .app-cta-row { justify-content: center; }
+.pr-cta .app-cta { display: flex; width: 100%; margin-top: .75rem; }
