@@ -1401,10 +1401,14 @@ document.addEventListener('DOMContentLoaded', () => {
       zoomControl: true, attributionControl: true,
       minZoom: 8, maxZoom: 16,
     });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd', maxZoom: 19,
+    // Esri svetlosiva podloga + sloj sa nazivima mesta (bez API ključa).
+    // CARTO od okt. 2026. traži ključ i umesto mape vraća pločice „API KEY REQUIRED".
+    const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+    L.tileLayer(ESRI + 'World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &middot; Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 16,
     }).addTo(map);
+    L.tileLayer(ESRI + 'World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16 }).addTo(map);
     const poly = L.polygon(zona, {
       color: '#2164DA', weight: 2.5, opacity: 0.95,
       fillColor: '#2164DA', fillOpacity: 0.1,
