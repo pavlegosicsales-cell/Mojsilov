@@ -338,6 +338,31 @@ function primeniCene(d, po) {
   });
 }
 
+/* Ispod svake glavne cene: cena za članove Kluba po nivou sa popustom (npr. Zlato 5%, Platina 10%).
+   Računa se kao u aplikaciji (zaokruženo na 10 din) i prati promenu veličine i toggle farova. */
+function ceneNivoa(nivoi) {
+  const sa = (nivoi || []).filter((n) => Number(n.popust_pct) > 0).sort((a, b) => a.popust_pct - b.popust_pct);
+  if (!sa.length) return;
+  const broj = (s) => Number(String(s || '').replace(/\D/g, ''));
+  document.querySelectorAll('.pr-price').forEach((p) => {
+    const iznos = p.querySelector('.pr-amount');
+    if (!iznos || p.nextElementSibling?.classList.contains('pr-klub')) return;
+    const red = document.createElement('a');
+    red.href = APP_PAGE;
+    red.className = 'pr-klub';
+    red.title = 'Cene za članove Mojsilov Kluba, popust nivoa važi na sve usluge';
+    p.insertAdjacentElement('afterend', red);
+    const osvezi = () => {
+      const c = broj(iznos.textContent);
+      if (!c) { red.hidden = true; return; }
+      red.hidden = false;
+      red.innerHTML = icon.star + sa.map((n) => `<span><b>${n.naziv}</b> ${fmtCena(Math.round((c * (1 - n.popust_pct / 100)) / 10) * 10)}</span>`).join('<i aria-hidden="true">·</i>');
+    };
+    osvezi();
+    new MutationObserver(osvezi).observe(iznos, { childList: true, characterData: true, subtree: true });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = headerHTML();
@@ -386,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!d || !d.ok || !Array.isArray(d.usluge)) return;
         const po = new Map(d.usluge.map((u) => [u.usluga, u]));
         primeniCene(d, po);
+        ceneNivoa(d.nivoi);
         klubCells.forEach((cell) => {
           const u = po.get(cell.getAttribute('data-klub-usluga'));
           if (!u || !u.bodovi) return;

@@ -1814,6 +1814,8 @@ body.menu-open { overflow: hidden; }
 .pr-amount.is-updating { animation: prPulse 0.4s ease; }
 @keyframes prPulse { 0% { opacity: 0.25; transform: translateY(-3px); } 100% { opacity: 1; transform: none; } }
 .pr-benefit { font-size: 0.9rem; color: #5a6072; padding: 0.9rem 1.25rem; }
+/* Tekst sa umetnutom cenom („Jedan far: <span>2.500</span> din") ostaje u jednom redu (flex kolona bi ga lomila) */
+.pricing-grid > .pr-benefit:has(> [data-cena]) { display: block; }
 .pr-cta { padding: 1.5rem 1.25rem; }
 .pr-cta .btn { width: 100%; }
 .pr-cta .glow-btn { width: 100%; }
@@ -2772,6 +2774,20 @@ body.menu-open { overflow: hidden; }
 }
 .klub-pill:hover { background: rgba(33, 100, 218, .14); border-color: rgba(33, 100, 218, .35); }
 .klub-pill svg { width: 12px; height: 12px; margin-right: 4px !important; }
+/* Cena za članove Kluba ispod glavne cene: „★ Zlato 3.330 · Platina 3.150 din" */
+.pr-klub {
+  display: inline-flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 2px 5px;
+  margin: 6px auto 0; padding: 5px 10px; border-radius: 10px;
+  font-size: 12px; line-height: 1.35; color: #121358; text-decoration: none;
+  background: rgba(33, 100, 218, .07); border: 1px solid rgba(33, 100, 218, .18);
+  transition: background .15s ease, border-color .15s ease;
+}
+.pr-klub:hover { background: rgba(33, 100, 218, .13); border-color: rgba(33, 100, 218, .35); }
+.pr-klub[hidden] { display: none; }
+.pr-klub svg { color: #2164da; align-self: center; margin-right: 2px !important; }
+.pr-klub b { font-weight: 700; color: #2164da; margin-right: 2px; }
+.pr-klub i { font-style: normal; color: rgba(18, 19, 88, .35); }
+.pr-klub span { white-space: nowrap; }
 .nav-klub { color: #fff !important; }
 .nav-klub svg { color: #4a8bff; }
 
