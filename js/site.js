@@ -1172,6 +1172,15 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onRevealScroll, { passive: true });
   window.addEventListener('resize', onRevealScroll, { passive: true });
   revealCheck();
+  /* Prva provera ide pre fontova i slika, kad raspored još nije konačan (sadržaj je tada niže).
+     Bez ponovne provere deo prvog ekrana ostaje nevidljiv dok se ne skroluje. */
+  window.addEventListener('load', onRevealScroll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(onRevealScroll);
+  setTimeout(onRevealScroll, 700);
+  /* Hero podstrana (data-hero-odmah) je uvek prvi ekran: prikaži ga odmah, kao početnu. */
+  document.querySelectorAll('[data-hero-odmah]').forEach((h) => {
+    requestAnimationFrame(() => h.querySelectorAll('.reveal').forEach((el) => el.classList.add('in')));
+  });
 
   /* Scroll spy — aktivni nav link (samo hash stavke; na podstranici sekcije ne postoje) */
   const sections = NAV.filter((n) => n.hash && !n.dropdown).map((n) => document.querySelector(n.hash)).filter(Boolean);
