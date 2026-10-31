@@ -56,7 +56,7 @@ const icon = {
    inače se sve podstranice pogrešno tretiraju kao početna i „Početna" u meniju
    ne vodi kući. Početna = „/" ili „/index(.html)". */
 /* Mojsilov Klub: aplikacija za kupce (bodovi, nagrade, zakazivanje). Nalog je zajednički sa sajtom. */
-const KLUB_URL = 'https://mojsilov-klub.vercel.app'; // privremeno, do domena klub.mojsilov.com
+const KLUB_URL = 'https://klub.mojsilov.com';
 const _navPath = location.pathname.replace(/\/+$/, '') || '/';
 const IS_SUBPAGE = !(_navPath === '/' || /\/index(\.html)?$/i.test(_navPath));
 const NAV = [
