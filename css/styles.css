@@ -2788,6 +2788,11 @@ body.menu-open { overflow: hidden; }
 .pr-klub b { font-weight: 700; color: #2164da; margin-right: 2px; }
 .pr-klub i { font-style: normal; color: rgba(18, 19, 88, .35); }
 .pr-klub span { white-space: nowrap; }
+/* Na tamnoj pozadini (cenovnik na stranama usluga je navy): bela slova, svetloplavi nivoi */
+.pr-klub--svetla { color: #fff; background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .22); }
+.pr-klub--svetla:hover { background: rgba(255, 255, 255, .15); border-color: rgba(255, 255, 255, .4); }
+.pr-klub--svetla svg, .pr-klub--svetla b { color: #8fb4ff; }
+.pr-klub--svetla i { color: rgba(255, 255, 255, .4); }
 .nav-klub { color: #fff !important; }
 .nav-klub svg { color: #4a8bff; }
 

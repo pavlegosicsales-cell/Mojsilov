@@ -349,7 +349,7 @@ function ceneNivoa(nivoi) {
     if (!iznos || p.nextElementSibling?.classList.contains('pr-klub')) return;
     const red = document.createElement('a');
     red.href = APP_PAGE;
-    red.className = 'pr-klub';
+    red.className = 'pr-klub' + (jeTamnaPozadina(p) ? ' pr-klub--svetla' : '');
     red.title = 'Cene za članove Mojsilov Kluba, popust nivoa važi na sve usluge';
     p.insertAdjacentElement('afterend', red);
     const osvezi = () => {
