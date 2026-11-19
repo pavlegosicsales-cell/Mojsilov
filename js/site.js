@@ -68,6 +68,7 @@ const NAV = [
     { label: 'Poliranje farova', page: 'poliranje-farova.html' },
     { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
+  { label: 'Za firme', page: 'saradnja.html' },
   { label: 'Kontakt', page: 'kontakt.html' },
   { label: 'Aplikacija', page: 'aplikacija.html', klub: true },
 ];
