@@ -1,0 +1,123 @@
+/* Ponuda za saradnju (B2B), A4 za PDF. Brend = sajt mojsilov.com: navy #121358, akcent #2164da,
+   Oswald (naslovi, verzal) + Inter (tekst). Pravila: b2b/brend/DIZAJN.md. PDF: node b2b/ponuda-pdf.mjs <html> */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --navy: #121358;
+  --navy-duboka: #0b0c3a;
+  --plava: #293681;
+  --akcent: #2164da;
+  --siva: #b6bdc2;
+  --tekst: #1d2230;
+  --muted: #5b6275;
+  --linija: rgba(18, 19, 88, .14);
+}
+
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9ebf1; }
+body { font: 400 11pt/1.55 'Inter', system-ui, sans-serif; color: var(--tekst); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+/* Jedna strana = jedan A4 list. Na ekranu listovi stoje jedan ispod drugog. */
+.strana { position: relative; width: 210mm; height: 297mm; margin: 0 auto 8mm; padding: 20mm 18mm 18mm; background: #fff; overflow: hidden; break-after: page; page-break-after: always; }
+.strana:last-child { break-after: auto; page-break-after: auto; }
+@media print { html, body { background: #fff; } .strana { margin: 0; } }
+
+h1, h2, h3, .oswald { font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: .01em; margin: 0; }
+h2 { font-size: 26pt; line-height: 1.08; color: var(--navy); }
+h3 { font-size: 13pt; line-height: 1.2; color: var(--navy); }
+p { margin: 0 0 3.2mm; }
+b, strong { font-weight: 600; color: var(--navy); }
+.akcent { color: var(--akcent); }
+.muted { color: var(--muted); }
+
+/* Oznaka iznad naslova (kao na sajtu): pilula sa plavom tačkom */
+.oznaka { display: inline-flex; align-items: center; gap: 2.2mm; padding: 1.4mm 3.6mm; border: 1px solid var(--linija); border-radius: 99px; font: 600 7.5pt/1 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--akcent); margin-bottom: 5mm; }
+.oznaka::before { content: ""; width: 1.8mm; height: 1.8mm; border-radius: 50%; background: var(--akcent); box-shadow: 0 0 0 1mm rgba(33, 100, 218, .18); }
+.tamna .oznaka { border-color: rgba(255, 255, 255, .22); color: #8fb4ff; }
+
+.uvod { font-size: 12pt; color: var(--muted); max-width: 150mm; margin-top: 5mm; }
+
+/* Zaglavlje i podnožje svake unutrašnje strane */
+.vrh { position: absolute; top: 9mm; left: 18mm; right: 18mm; display: flex; justify-content: space-between; align-items: center; font: 600 7pt/1 'Inter', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--siva); }
+.vrh img { height: 7mm; }
+.dno { position: absolute; bottom: 9mm; left: 18mm; right: 18mm; display: flex; justify-content: space-between; border-top: 1px solid var(--linija); padding-top: 3mm; font-size: 7.5pt; color: var(--muted); }
+
+/* Tamna strana (naslovna, kontakt): navy sa rešetkom i sjajem kao hero na sajtu */
+.tamna { background: radial-gradient(70% 55% at 85% 15%, rgba(33, 100, 218, .32), transparent 70%), linear-gradient(160deg, var(--navy) 0%, var(--navy-duboka) 100%); color: #fff; }
+.tamna h1, .tamna h2, .tamna h3, .tamna b, .tamna strong { color: #fff; }
+.tamna .muted, .tamna .uvod { color: rgba(255, 255, 255, .7); }
+.tamna .dno { border-color: rgba(255, 255, 255, .14); color: rgba(255, 255, 255, .55); }
+.resetka { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px); background-size: 14mm 14mm; mask-image: linear-gradient(180deg, #000 0%, transparent 75%); -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 75%); pointer-events: none; }
+
+/* Naslovna */
+.naslovna { padding: 22mm 18mm; display: flex; flex-direction: column; }
+.naslovna .logo { width: 46mm; position: relative; }
+.naslovna h1 { font-size: 44pt; line-height: .98; margin-top: 30mm; position: relative; }
+.naslovna h1 .akcent { color: #5d8dff; }
+.naslovna .za { margin-top: 7mm; font: 500 15pt/1.3 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .06em; color: rgba(255, 255, 255, .85); position: relative; }
+.naslovna .uvod { position: relative; }
+.naslovna .foto { position: absolute; left: 0; right: 0; bottom: 0; height: 104mm; background-size: cover; background-position: center; }
+.naslovna .foto::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--navy-duboka) 0%, rgba(11, 12, 58, .35) 45%, rgba(11, 12, 58, .85) 100%); }
+.naslovna .potpis { position: absolute; left: 18mm; right: 18mm; bottom: 16mm; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9pt; color: rgba(255, 255, 255, .8); }
+.naslovna .potpis b { display: block; font: 600 12pt/1.2 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .04em; }
+
+/* Okvir sa ugaonim zagradama (bracket-frame sa sajta) */
+.okvir { position: relative; padding: 6mm 6.5mm; border: 1px solid var(--linija); border-radius: 3mm; background: #fff; }
+.okvir::before, .okvir::after { content: ""; position: absolute; width: 5mm; height: 5mm; border: 2px solid var(--akcent); }
+.okvir::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; border-top-left-radius: 3mm; }
+.okvir::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; border-bottom-right-radius: 3mm; }
+.tamna .okvir { background: rgba(255, 255, 255, .05); border-color: rgba(255, 255, 255, .16); }
+
+.mreza-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.mreza-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+
+/* Prednosti / koraci: broj u plavom kvadratu */
+.stavka { display: grid; grid-template-columns: 11mm 1fr; gap: 4mm; align-items: start; padding: 5mm 0; border-top: 1px solid var(--linija); }
+.stavka:first-child { border-top: 0; }
+.broj { width: 11mm; height: 11mm; border-radius: 2.5mm; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font: 600 12pt/1 'Oswald', sans-serif; }
+.stavka h3 { margin-bottom: 1.5mm; }
+.stavka p { margin: 0; color: var(--muted); font-size: 10pt; }
+
+/* Citat / istaknuta rečenica */
+.istaknuto { margin-top: 8mm; padding: 6mm 7mm; border-left: 3px solid var(--akcent); background: #f3f6fd; font: 500 13pt/1.4 'Oswald', sans-serif; color: var(--navy); text-transform: uppercase; letter-spacing: .01em; }
+
+/* Mesto koje Dušan popunjava posle razgovora. b2b/ponuda-pdf.mjs NEĆE da napravi PDF dok ovo postoji. */
+.popuni { border: 2px dashed #e0a100; background: #fff8e6; color: #7a5600; border-radius: 3mm; padding: 6mm; font-size: 10pt; }
+.popuni::before { content: "POPUNJAVA DUŠAN"; display: block; font: 700 8pt/1 'Inter', sans-serif; letter-spacing: .16em; margin-bottom: 3mm; }
+
+/* Cenovnik */
+.cene { width: 100%; border-collapse: collapse; margin-top: 2mm; }
+.cene td { padding: 3.2mm 0; border-top: 1px solid var(--linija); vertical-align: top; }
+.cene tr:first-child td { border-top: 2px solid var(--navy); }
+.cene td:last-child { text-align: right; white-space: nowrap; font: 600 11pt/1.3 'Oswald', sans-serif; color: var(--navy); }
+.cene .opis { display: block; font-size: 8.5pt; color: var(--muted); }
+
+/* Pre / posle */
+.pp { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; border-radius: 3mm; overflow: hidden; }
+.pp figure { margin: 0; position: relative; }
+.pp img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pp figcaption { position: absolute; left: 2.5mm; top: 2.5mm; padding: 1mm 2.4mm; border-radius: 99px; font: 700 6.5pt/1 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; background: rgba(11, 12, 58, .78); color: #fff; }
+.pp figure:last-child figcaption { background: var(--akcent); }
+.pp-naziv { margin-top: 2.5mm; font: 600 9pt/1.2 'Oswald', sans-serif; text-transform: uppercase; color: var(--navy); letter-spacing: .04em; }
+
+/* Brojke */
+.brojke { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(255, 255, 255, .14); border-bottom: 1px solid rgba(255, 255, 255, .14); }
+.brojke div { padding: 6mm 0 6mm 4mm; border-left: 1px solid rgba(255, 255, 255, .14); }
+.brojke div:first-child { border-left: 0; padding-left: 0; }
+.brojke b { display: block; font: 600 26pt/1 'Oswald', sans-serif; color: #fff; }
+.brojke b i { font-style: normal; color: #5d8dff; }
+.brojke span { display: block; margin-top: 2mm; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+
+/* Kontakt */
+.kontakt-red { display: flex; align-items: center; gap: 4mm; padding: 4.5mm 0; border-top: 1px solid rgba(255, 255, 255, .14); }
+.kontakt-red:first-child { border-top: 0; }
+.kontakt-red .ik { width: 10mm; height: 10mm; border-radius: 2.5mm; background: var(--akcent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.kontakt-red .ik svg { width: 5mm; height: 5mm; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.kontakt-red small { display: block; font-size: 7.5pt; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
+.kontakt-red span { font: 500 13pt/1.3 'Oswald', sans-serif; letter-spacing: .02em; }
+
+/* Foto traka pri dnu strane (popunjava prazan prostor iznad podnožja) */
+.foto-traka { position: absolute; left: 18mm; right: 18mm; bottom: 20mm; height: 52mm; border-radius: 3mm; background-size: cover; background-position: center; overflow: hidden; }
+.foto-traka::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11, 12, 58, .55), transparent 60%); }
+.foto-traka span { position: absolute; left: 6mm; bottom: 5mm; z-index: 1; font: 600 11pt/1.2 'Oswald', sans-serif; letter-spacing: .04em; text-transform: uppercase; color: #fff; }
