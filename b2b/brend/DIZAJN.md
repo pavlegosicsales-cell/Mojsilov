@@ -35,7 +35,8 @@ Tamna strana = navy preliv + plavi sjaj gore desno + tanka rešetka 14 mm koja b
 
 ## Fajlovi
 - `logo.png` (tamni logo, za belu podlogu), `logo-belo.png` (za navy), `logo-mali.png` (MD znak, zaglavlje strane).
-- `slike/`: prave fotke radova smanjene na 1100 px. Parovi: `farovi-pre/posle`, `enterijer-pre/posle`, `motor-pre/posle`; atmosfera: `auto-hero`, `dubinsko-hero`, `proces`.
+- `slike/`: samo Dušanove fotke radova (telefon), smanjene na 1100 px. Parovi pre/posle: `farovi-1`, `farovi-2`, `pedale`, `sediste`, `konzola`, `motor`, `motor-2` (npr. `farovi-1-pre.jpg` i `farovi-1-posle.jpg`). Atmosfera: `kombiji.jpg` (prava fotografija).
+- **Bez AI slika.** Na sajtu su AI: `hero-car.jpg`, `proces.jpg`, `farovi-pre/posle.jpg`, `enterijer-pre/posle.jpg`, `karoserija-pre/posle.jpg` (u EXIF-u piše `sana`), kao i `dubinsko pranje hero.jpg`. Te ne stavljati u dokumente.
 - Više slika: `assets/` u korenu ovog repoa (pun sajt), smanjiti pre ubacivanja u PDF.
 
 ## Kontakt (uvek isti)
