@@ -2720,6 +2720,11 @@ body.menu-open { overflow: hidden; }
   /* Eyebrow pill UNUTAR hero kartice (Više od pranja / Rezultat koji traje /
      Brzo i bez obaveze / Naša priča) — sakriven na telefonu (lead eyebrow ostaje). */
   .hero2-card .hero2-eyebrow { display: none; }
+  /* Na telefonu je sadržaj heroja viši od ekrana: sticky „cover" bi pustio
+     sledeću sekciju preko donjeg dela kartice. Hero zato normalno skroluje. */
+  .deco main > section.hero2 { position: relative; z-index: auto; }
+  .hero2 + section { z-index: auto; }
+  .hero2-inner { padding-top: 8rem; }
 }
 
 /* Put brenda / proces (path-grid) — na mobilnom se vertikalna linija progresivno
