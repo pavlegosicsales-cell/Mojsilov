@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mojsilov Detailing | Company profile for business partners</title>
+<link rel="stylesheet" href="ponuda.css">
+<style>
+  .sadrzaj { position: static; }
+  .tamna .sadrzaj { position: relative; }
+  h2 { line-height: 1.16; }
+  .naslovna h1 { line-height: 1.08; font-size: 52pt; }
+  .tekst p { font-size: 10pt; line-height: 1.55; margin: 0 0 2.6mm; }
+  .tekst { margin-top: 5mm; }
+  .tekst.uvodni p { color: var(--muted); }
+  .naslov-celine { margin: 6mm 0 2mm; font-size: 12pt; }
+  .stavke { margin-top: 4mm; }
+  .stavka { padding: 3.6mm 0; }
+  .stavka p { font-size: 9.6pt; line-height: 1.5; }
+  .lista { margin-top: 2mm; }
+  .lista .red { display: grid; grid-template-columns: 4mm 1fr; gap: 3mm; padding: 2.6mm 0; border-top: 1px solid var(--linija); font-size: 9.6pt; line-height: 1.5; color: var(--muted); }
+  .lista .red:first-child { border-top: 2px solid var(--navy); }
+  .lista .red::before { content: ""; width: 2.2mm; height: 2.2mm; margin-top: 1.6mm; border-radius: .6mm; background: var(--akcent); }
+  .istaknuto { margin-top: 6mm; }
+  .druga-celina { margin-top: 8mm; }
+  .tab { width: 100%; border-collapse: collapse; margin-top: 2mm; font-size: 9.4pt; line-height: 1.45; }
+  .tab th { text-align: left; font: 600 8pt/1.2 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 2.2mm 3mm 2.2mm 0; border-bottom: 2px solid var(--navy); }
+  .tab td { padding: 2.2mm 3mm 2.2mm 0; border-bottom: 1px solid var(--linija); vertical-align: top; color: var(--muted); }
+  .tab td:first-child { color: var(--tekst); }
+  .tab td b { color: var(--navy); }
+  .napomena { font-size: 8.8pt; color: var(--muted); margin: 2.5mm 0 0; line-height: 1.5; }
+  .garancija { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin: 3mm 0 4mm; }
+  .garancija b.velika { display: block; font: 600 22pt/1 'Oswald', sans-serif; color: var(--navy); margin-bottom: 2mm; }
+  .garancija b.velika i { font-style: normal; color: var(--akcent); }
+  .garancija p { margin: 0; font-size: 9.6pt; }
+  .cela { display: flex; justify-content: center; gap: 2.5mm; }
+  .cela figure { margin: 0; position: relative; }
+  .cela img { display: block; width: auto; border-radius: 2.5mm; }
+  .cela figcaption { position: absolute; left: 2.5mm; top: 2.5mm; padding: 1.2mm 2.8mm; border-radius: 99px; font: 700 7pt/1 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; background: rgba(11, 12, 58, .8); color: #fff; }
+  .cela figure:last-child figcaption { background: var(--akcent); }
+  .cela figure:only-child figcaption { display: none; }
+  .cela-naziv { margin: 2.5mm 0 7mm; text-align: center; font: 600 9.5pt/1.2 'Oswald', sans-serif; text-transform: uppercase; color: var(--navy); letter-spacing: .05em; }
+  .cela-tok { margin-top: 8mm; }
+  .cela-tok .cela-naziv { margin-bottom: 0; }
+  .app-red { display: grid; grid-template-columns: 1fr 52mm; gap: 7mm; align-items: start; }
+  .telefoni { display: flex; justify-content: center; gap: 14mm; }
+  .telefoni figure { margin: 0; text-align: center; }
+  .telefoni .tel { height: 78mm; aspect-ratio: 600 / 1298; border-radius: 6mm; background: #05070d; padding: 1.4mm; margin: 0 auto; }
+  .telefoni .tel img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 4.8mm; }
+  .telefoni figcaption { margin-top: 3mm; font: 600 9pt/1.2 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); }
+  .telefon { margin: 6mm 0 0; border-radius: 7mm; background: #05070d; padding: 1.6mm; }
+  .telefon img { display: block; width: 100%; border-radius: 5.6mm; }
+  .brojke-svetle { display: grid; grid-template-columns: repeat(4, 1fr); margin: 5mm 0 2mm; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--linija); }
+  .brojke-svetle div { padding: 4.5mm 3mm 4.5mm 3.5mm; border-left: 1px solid var(--linija); }
+  .brojke-svetle div:first-child { border-left: 0; padding-left: 0; }
+  .brojke-svetle b { display: block; font: 600 24pt/1 'Oswald', sans-serif; color: var(--navy); }
+  .brojke-svetle b i { font-style: normal; color: var(--akcent); }
+  .brojke-svetle span { display: block; margin-top: 2mm; font-size: 7.6pt; line-height: 1.35; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .recenzija { margin: 3mm 0 0; padding: 3.6mm 5mm; border-left: 3px solid var(--akcent); background: #f3f6fd; }
+  .recenzija p { margin: 0; font-size: 9.2pt; line-height: 1.5; color: var(--tekst); font-style: italic; }
+  .recenzija footer { margin-top: 1.6mm; font: 600 8.5pt/1.2 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); }
+  .zone { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 5mm; }
+  .zone h3 { margin-bottom: 2mm; }
+  .zone p { font-size: 9.8pt; line-height: 1.55; color: rgba(255,255,255,.75); margin: 0; }
+  .tamna .tekst p { color: rgba(255,255,255,.8); }
+  .tamna .naslov-celine { color: #fff; }
+</style>
+</head>
+<body>
+
+<section class="strana tamna naslovna">
+  <div class="resetka"></div>
+  <img class="logo" src="../brend/logo-mali.png" alt="Mojsilov Detailing">
+  <h1>Mojsilov<br><span class="akcent">Detailing</span></h1>
+  <div class="za">Company profile for business partners</div>
+  <p class="uvod">Professional car care at the client's address in Belgrade and the surrounding area.</p>
+  <div class="foto" style="background-image:url('../brend/slike/naslovna-far.jpg')"></div>
+  <div class="potpis">
+    <div><b>Dušan Mojsilov</b>Mojsilov Detailing</div>
+    <div>Belgrade, November 2026</div>
+  </div>
+</section>
+
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">About us</span></div>
+  <h2>What is<br><span class="akcent">Mojsilov Detailing?</span></h2>
+  <div class="tekst">
+    <p>Mojsilov Detailing is a brand specialising in professional car care at the client’s address in Belgrade and the surrounding area. Our approach combines a high standard of workmanship with an easy way to book and a visit to whatever location suits the client. This lets us fit the service into their day, whether the car is parked in front of their home or in the company car park.</p>
+    <p>We believe the quality of a service shows in every step, from the first conversation and agreeing on a time to the final inspection of the vehicle. We respect the client’s time, communicate clearly what the service includes and approach every vehicle with care. For us, innovation has practical value. It shows in how easy it is to book, how much time the client saves and how reliably they can count on what we have agreed.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/kombi-mojsilov.jpg" style="height:99mm" alt="Mojsilov Detailing branded van"></figure></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>02</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">How we work</span></div>
+  <h2>How we<br><span class="akcent">do business</span></h2>
+  <div class="tekst">
+    <p>The most important measure of our work is that a client trusts us with their car again. Their return tells us they were happy with the result, that we kept our word and that they can rely on us. This is the trust Mojsilov Detailing is built on.</p>
+    <p>Once a time is agreed, we come to the client’s address and take care of the car. We bring all the equipment, our own water and our own power supply, so the client has nothing to prepare. All that is needed is for the vehicle to be accessible at the agreed location, while the client gets on with their day.</p>
+    <p>We base the quality of our service on experience, knowledge and professional equipment, with attention to the details that make the difference in the final result. While working, we also take care of the places that are easy to overlook, and we adapt the procedure to the condition of the vehicle and the agreed service. Our goal is a thoroughly clean and tidy car that looks as close as possible to how it looked when it was new.</p>
+    <p>How the client feels throughout the process matters just as much to us. From the first conversation they should know what the service includes and what to expect. We respect their time, keep to what we agreed and make sure the result justifies the trust they have placed in us.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/sediste-pre.jpg" style="height:85.7mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/sediste-posle.jpg" style="height:85.7mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Deep cleaning of a seat</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>03</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Standards</span></div>
+  <h2>Mojsilov Detailing<br><span class="akcent">service standards</span></h2>
+  <div class="tekst uvodni">
+    <p>These standards apply to every service and are mandatory for every team member. Their purpose is to ensure safe work, consistent quality and clear communication with the client, from arrival at the address to handing the vehicle back.</p>
+  </div>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">01</div><div><h3>Arrival at the agreed address</h3><p>Our team arrives at the exact address the client gave when booking.</p></div></div>
+    <div class="stavka"><div class="broj">02</div><div><h3>Vehicle position during work</h3><p>The vehicle must be positioned so that it does not obstruct traffic, pedestrians, access to buildings or the everyday activities of people nearby.</p></div></div>
+    <div class="stavka"><div class="broj">03</div><div><h3>Responsible work</h3><p>While working, we keep noise to a minimum and organise the job so that it affects people nearby as little as possible. We handle cleaning products and the dirt removed during work in a way that does not endanger people, property or surrounding surfaces.</p></div></div>
+    <div class="stavka"><div class="broj">04</div><div><h3>Vehicle protection and warranty</h3><p>Every vehicle is covered by a warranty in line with the terms of the agreed service. The team must protect the vehicle during every procedure and take the necessary measures to prevent damage.</p></div></div>
+    <div class="stavka"><div class="broj">05</div><div><h3>Final quality check</h3><p>Before handing the vehicle back, we carry out a final inspection. We check that every agreed item has been completed in full and that the result meets the Mojsilov Detailing quality standard.</p></div></div>
+    <div class="stavka"><div class="broj">06</div><div><h3>A gift for the client</h3><p>After every service we leave the client a gift pack as a thank you for their trust.</p></div></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>04</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Standards</span></div>
+  <h2>Service standards<br><span class="akcent">from arrival to handover</span></h2>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">07</div><div><h3>A tidy area after work</h3><p>After every service we remove waste, dirty water and washing residue. We leave the area around the vehicle clean and tidy.</p></div></div>
+    <div class="stavka"><div class="broj">08</div><div><h3>Safety and visibility at night</h3><p>When working at night, every team member wears a fluorescent green high-visibility vest and a head torch. This keeps the work area and the team visible, for the safety of the team, pedestrians and other road users.</p></div></div>
+    <div class="stavka"><div class="broj">09</div><div><h3>Keeping to the agreed time</h3><p>Our aim is to arrive ten minutes before the agreed time in 90% of cases and exactly on time in 5% of cases. If we are delayed, we try to keep it to five minutes, with a maximum allowed delay of ten minutes.</p></div></div>
+    <div class="stavka"><div class="broj">10</div><div><h3>Open communication with the client</h3><p>During the service the client can ask about the procedure, the equipment or the expected result. The team must answer every question clearly and explain the procedure whenever the client asks for more detail.</p></div></div>
+    <div class="stavka"><div class="broj">11</div><div><h3>Handling the client’s personal belongings</h3><p>If personal items need to be moved out of the vehicle, we place them where the client agrees. When handing the vehicle back, we tell the client where they are.</p></div></div>
+    <div class="stavka"><div class="broj">12</div><div><h3>Handing the vehicle back</h3><p>After the final check we show the client the result and give them the chance to inspect the vehicle and ask questions. Where needed, we explain how to look after the treated surfaces and how long to wait before using them.</p></div></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>05</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Online presence</span></div>
+  <h2>The Mojsilov Detailing<br><span class="akcent">website</span></h2>
+  <div class="tekst">
+    <p>The Mojsilov Detailing website is one of our most important projects and the place where clients form their first impression of how we work. That is why we develop it on the same principle as the service we provide on site. We want to save the client time, make the decision easier and give them a clear picture of what to expect, even before they trust us with their car.</p>
+    <p>Our full offer, prices, detailed service descriptions and service area are all in one place. Before and after photos show the results of our work, while client reviews give an insight into what working with us is like. The website also presents the history of the company, so visitors can get to know the people and the way of working behind the brand.</p>
+    <p>The website also makes the service easier to use. Private clients have an app for online booking and collecting points in our loyalty programme. Once a partnership is agreed, business partners get access to an app for booking care of company vehicles and following the booking history of their fleet.</p>
+    <p>Although our website is newer than those of many competitors, it already ranks at the top of search results for a number of relevant keywords. Our next goal is for it to become the leading mobile detailing website in Belgrade, both in search visibility and in usefulness to clients. We are already carrying out this plan through regular content updates, more detailed service descriptions and simpler booking.</p>
+    <p>For us, the website is the digital expression of the Mojsilov Detailing character. The care we give a vehicle should be visible from the first visit, in how easily the client finds an answer, how clearly they understand the offer and how simply they can book a service.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="telefoni"><figure><div class="tel"><img src="../../assets/app/app-pocetna.webp" alt=""></div><figcaption>App for private clients</figcaption></figure><figure><div class="tel"><img src="../brend/slike/b2b-zakazi-en.webp" alt=""></div><figcaption>App for business clients</figcaption></figure></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>06</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Customer experience</span></div>
+  <h2>Customer experience<br><span class="akcent">comes first</span></h2>
+  <div class="tekst">
+    <p>The client’s experience is the top priority at Mojsilov Detailing. That is why we look at every step of the service from their point of view. We care about how easily they can book, whether it is clear what the service includes, how they feel when talking to us and what impression they are left with when we hand the car back. The quality of our work shows both in the condition of the car and in how we treated the client.</p>
+    <p>During the service we pay attention to how we talk to the client and how clearly we explain our work. We are open to questions, respect their needs and explain what we are doing, why we choose a particular procedure and what result they can expect. We want the client to know at every moment what is happening with their car and to be able to reach us whenever they need an explanation.</p>
+    <p>After every service we leave a gift pack as a token of appreciation and send before and after photos of the vehicle, together with a thank-you message. The photos let the client see the changes even in places that are easy to miss at first glance. We have carefully shaped and tested the way we write the thank-you message so that it is short, clear and natural. Our services come with a warranty in line with their terms, and our contact centre is available 24 hours a day, seven days a week, for any questions or concerns.</p>
+    <p>The best sign that we have achieved our goal is when a client trusts us with their car again or, based on their own experience, recommends us to someone they care about. Such a recommendation shows that we earned their trust through the result they got, the attention we gave them and how simple the whole process was. This is the measure by which we improve our service, from the first contact to support after the job is done.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/patosnice-pre.jpg" style="height:76mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/patosnice-posle.jpg" style="height:76mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Deep cleaning: floor mats and floor</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>07</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">On site</span></div>
+  <h2>Mobile car care<br><span class="akcent">at the client’s address</span></h2>
+  <div class="tekst">
+    <p>Mojsilov Detailing provides professional car care at the client’s address across Belgrade and the surrounding area. We adapt the service to the place where the vehicle already is and to the time that suits the client. While the car is parked in front of their home or in the company car park, our team carries out the agreed treatment and the client gets on with their day. The time they would otherwise spend driving to a car wash, waiting and collecting the vehicle stays with them.</p>
+    <p>We arrive in a recognisable branded van with professional equipment, products, our own water and our own power supply. We can do the job in a yard, in front of a residential building, in a business car park or at another suitable location. All that is needed is enough space around the vehicle to open the doors fully and work safely, with clear passage for pedestrians and traffic.</p>
+    <p>We apply the same quality standard at every location, from choosing the procedure and attention to detail to the final inspection of the vehicle. While working, we keep noise down and are mindful of people nearby. When we finish, we remove waste, dirty water and washing residue and leave the area around the car clean and tidy.</p>
+    <p>The flexibility of a mobile service really shows when the client’s schedule changes. They can book one appointment at home and the next at work, while the car is already parked. This is where we see the value of our approach and the reason to keep improving it. The client chooses where the service suits them best, and we take care of organising the work and looking after the vehicle.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/pedale-pre.jpg" style="height:85.7mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/pedale-posle.jpg" style="height:85.7mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Deep cleaning: pedals and floor</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>08</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Services</span></div>
+  <h2>Mojsilov Detailing<br><span class="akcent">services</span></h2>
+  <div class="tekst uvodni">
+    <p>Mojsilov Detailing provides professional car care at the client’s address in Belgrade and the surrounding area. The offer includes regular maintenance, deep cleaning, exterior washing and specialised treatments. Depending on the condition of the vehicle and the client’s needs, we can focus on particular parts of the car or combine them into a detailed interior clean.</p>
+  </div>
+  <h3 class="naslov-celine">Interior cleaning and care</h3>
+  <div class="lista">
+    <div class="red"><div><b>Quick interior clean</b> includes vacuuming, washing the floor mats and disinfecting interior surfaces. It is intended for regular upkeep of a clean and tidy vehicle.</div></div>
+    <div class="red"><div><b>Deep cleaning of seats and textiles</b> covers fabric seats and backrests, floor coverings, carpets, textile floor mats and door upholstery. We adapt the procedure to the type of material and the condition of the surface.</div></div>
+    <div class="red"><div><b>Leather seat cleaning and care</b> is carried out with products made for leather, using a procedure adapted to its condition and how dirty it is.</div></div>
+    <div class="red"><div><b>Deep cleaning of other interior parts</b> covers the headliner, seat belts and the boot. Each part is treated with a procedure suited to its material.</div></div>
+    <div class="red"><div><b>Cleaning and protection of interior surfaces</b> covers the dashboard, centre console, plastic parts, inner door panels, door frames and hard-to-reach areas. We apply UV protection to suitable plastic surfaces and, on request, polish dashboard parts that are suitable for this treatment.</div></div>
+  </div>
+  <h3 class="naslov-celine">Headlight polishing and engine bay cleaning</h3>
+  <div class="lista">
+    <div class="red"><div><b>Headlight polishing and ceramic protection</b> restore clarity to dull headlights. We adapt the polishing to the condition of the headlights, and after the treatment we can apply a ceramic coating. The warranty on headlight polishing lasts up to 24 months, depending on the package chosen.</div></div>
+    <div class="red"><div><b>Engine bay cleaning</b> removes built-up dirt using a procedure adapted to the condition and design of the vehicle. We take particular care to protect sensitive parts during the work.</div></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>09</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Price list</span></div>
+  <h2>Mojsilov Detailing<br><span class="akcent">price list</span></h2>
+  <div class="tekst uvodni">
+    <p><b>Travel to your address is included in the price.</b> For deep cleaning, the price depends on the size of the vehicle and the package chosen. We confirm the exact amount before booking, based on photos and the condition of the vehicle or furniture. All prices are in Serbian dinars (RSD).</p>
+  </div>
+  <h3 class="naslov-celine">Headlight polishing</h3>
+  <table class="tab"><thead><tr><th>Service</th><th>Price</th><th>Warranty</th></tr></thead><tbody><tr><td>Polishing one headlight</td><td>2,500 RSD</td><td></td></tr><tr><td>Polishing both headlights</td><td>3,500 RSD</td><td>12 months</td></tr><tr><td>Polishing both headlights with ceramic UV protection</td><td>4,700 RSD</td><td>24 months</td></tr></tbody></table>
+  <p class="napomena">Polishing is done in several stages, with preparation adapted to the condition of the headlights. Ceramic protection is part of the 4,700 RSD package.</p>
+  <h3 class="naslov-celine">Deep cleaning of the car and engine bay</h3>
+  <table class="tab"><thead><tr><th>Service</th><th>Small vehicle</th><th>Medium vehicle</th><th>Large vehicle</th></tr></thead><tbody><tr><td>Deep interior cleaning</td><td>9,900 RSD</td><td>10,900 RSD</td><td>11,900 RSD</td></tr><tr><td>Deep engine bay cleaning</td><td>4,000 RSD</td><td>5,000 RSD</td><td>6,000 RSD</td></tr><tr><td>Leather seat care</td><td>4,000 RSD</td><td>4,000 RSD</td><td>4,000 RSD</td></tr></tbody></table>
+  <p class="napomena"><b>Deep interior cleaning</b> covers the seats, floor, headliner and boot, with extraction cleaning, steam treatment and antibacterial treatment. <b>Deep engine bay cleaning</b> includes cleaning and degreasing the engine bay, treating hard-to-reach areas and UV protection of plastics.</p>
+  <h3 class="naslov-celine">Quick clean and separate seat cleaning</h3>
+  <table class="tab"><thead><tr><th>Service</th><th>Price</th></tr></thead><tbody><tr><td>Quick clean</td><td>3,900 RSD</td></tr><tr><td>Quick clean for regular clients</td><td>2,900 RSD</td></tr><tr><td>Deep cleaning of one seat</td><td>1,500 RSD</td></tr><tr><td>Deep cleaning of all seats</td><td>4,000 RSD</td></tr></tbody></table>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>10</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service</span></div>
+  <h2>Deep car<br><span class="akcent">cleaning</span></h2>
+  <div class="tekst">
+    <p>Deep cleaning at Mojsilov Detailing is thorough car care that we carry out at the client’s address in Belgrade and the surrounding area. Our goal is an interior that is once again clean, tidy and pleasant for everyday driving. That is why we pay attention both to the surfaces you see straight away and to the places where dirt collects, such as seat seams, the space under the seats and the joints between interior panels.</p>
+    <p>We start the treatment by inspecting the interior and choosing the procedure based on the material, the condition of the surfaces and how dirty they are. We clean fabric seats, backrests, floor coverings and the boot with extraction equipment that pulls dirt out of the fibres. We treat the headliner, inner door panels, dashboard and hard-to-reach areas with procedures suited to each surface. For leather seats we use products made for cleaning and caring for leather.</p>
+    <p>The client can choose deep interior cleaning or a complete car treatment. The complete treatment also includes exterior washing of the body, windows, wheels and tyres. Before booking, we confirm what the service includes, the price and the expected duration. A complete treatment takes four to five hours on average, depending on the size and condition of the vehicle.</p>
+    <p>We come to the agreed address with all the equipment, our own water and our own power supply. All that is needed is for the vehicle to be accessible at a location suitable for work, while the client gets on with their day. Before handing the vehicle back, we check that every agreed item is done and then send before and after photos so the client can see the result, even in details that are easy to miss at first glance.</p>
+    <p>For deep interior cleaning we set aside roughly four to six hours, depending on the size of the vehicle and how dirty it is, so that we can give enough attention to every surface, from the seats and floor coverings to the hard-to-reach parts of the cabin.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/motor-pre.jpg" style="height:64.3mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/motor-posle.jpg" style="height:64.3mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Engine bay cleaning</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>11</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service</span></div>
+  <h2>Quick car<br><span class="akcent">clean</span></h2>
+  <div class="tekst">
+    <p>The quick clean is a regular interior maintenance service that Mojsilov Detailing carries out at the client’s address. It is intended for vehicles that need a refresh between deep treatments and the removal of dirt that builds up during everyday driving.</p>
+    <p>The treatment includes vacuuming the interior, dusting the interior surfaces, washing the floor mats and disinfecting the interior. We pay attention to the areas used every day, such as the footwells, the dashboard and the centre console. The service takes <b>no more than two hours</b>, and the car is <b>ready to drive as soon as we finish</b>.</p>
+    <p>The first quick clean costs <b>3,900 RSD</b>. After the first treatment, the client can book every following quick clean at the regular client price of <b>2,900 RSD</b>. This makes it easy to fit regular interior maintenance into their schedule and know in advance what it will cost.</p>
+  </div>
+  <div class="druga-celina">
+  <div><span class="oznaka">Service</span></div>
+  <h2>Deep engine bay<br><span class="akcent">cleaning</span></h2>
+  </div>
+  <div class="tekst">
+    <p>Deep engine bay cleaning removes greasy deposits, dust and dirt that build up under the bonnet over time. The aim of the treatment is a clean and tidy engine bay, with particular attention to joints, recesses and other hard-to-reach places.</p>
+    <p>Before we start, we inspect the engine bay and adapt the procedure to the design of the vehicle, the condition of the surfaces and how dirty they are. The treatment includes chemical cleaning and degreasing, with careful work around electrical connections and other sensitive parts. Finally, we apply UV protection to suitable plastic surfaces to help preserve their appearance.</p>
+    <p>We carry out the service at the agreed address in Belgrade and the surrounding area, with our own equipment, water and power supply. When we finish, we inspect the treated surfaces and send the client before and after photos, so they can see the result even in places that are easy to miss at first glance.</p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>12</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service</span></div>
+  <h2>Headlight polishing<br><span class="akcent">at your address</span></h2>
+  <div class="tekst">
+    <p>Mojsilov Detailing restores dull, yellowed and oxidised headlights at the client’s address in Belgrade and the surrounding area. Multi-stage treatment of the outer surface brings back the clarity and shine of the headlights. When the clouding is on the surface, polishing can be a practical solution that delays the need to replace the headlight. We assess deeper mechanical damage from photos before booking.</p>
+  </div>
+  <h3 class="naslov-celine">What the treatment looks like</h3>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">01</div><div><h3>Surface preparation</h3><p>Depending on the condition of the headlight, we wet sand in eight to ten stages, with grits from P240 to P3000. This removes surface oxidation and prepares the plastic for polishing.</p></div></div>
+    <div class="stavka"><div class="broj">02</div><div><h3>Three-stage polishing</h3><p>We use a dual-action polisher and professional compounds for heavy correction, finer refinement and final polishing. Each stage contributes to an even finish and a clear final result.</p></div></div>
+    <div class="stavka"><div class="broj">03</div><div><h3>Optional ceramic UV protection</h3><p>After polishing, we can apply a protective coating with a UV filter that helps the headlights stay clear and shiny for longer. With this package the warranty lasts 24 months.</p></div></div>
+  </div>
+  <h3 class="naslov-celine">Warranty and prices</h3>
+  <div class="tekst">
+    <p><b>If the headlights lose quality during the warranty period for a reason covered by the warranty, we redo the treatment free of charge.</b> Travel to your address is included in the price, and we confirm the exact amount before booking, based on photos and the condition of the headlights.</p>
+  </div>
+  <h3 class="naslov-celine">Arrival, duration and booking</h3>
+  <div class="tekst">
+    <p>We come to the agreed address with all the equipment, our own water and our own power supply. One headlight usually takes about 45 minutes, and both about an hour and a half. After handing over the vehicle, the client can get on with their day, and when we finish they receive before and after photos. Appointments can be booked by phone, by message or through the Mojsilov app.</p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>13</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service</span></div>
+  <h2>Deep cleaning<br><span class="akcent">of car seats</span></h2>
+  <div class="tekst">
+    <p>Deep seat cleaning is a treatment for thoroughly cleaning fabric seats and backrests, which Mojsilov Detailing carries out at the client’s address in Belgrade and the surrounding area. During the treatment we remove dirt trapped in the fabric fibres, paying particular attention to seams, folds and the sides of the seats. The service can be booked for a single seat or for all the seats in the vehicle.</p>
+  </div>
+  <h3 class="naslov-celine">What the treatment looks like</h3>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">01</div><div><h3>Inspection and preparation</h3><p>Before cleaning, we inspect the fabric, assess how dirty it is and identify areas that need special treatment. We choose the product and cleaning method based on the material and the condition of the seats.</p></div></div>
+    <div class="stavka"><div class="broj">02</div><div><h3>Deep cleaning and extraction</h3><p>Using professional extraction equipment, we pull the cleaning solution out of the fabric together with the dirt. We treat stains individually, and when the age of a stain or the condition of the fabric may affect the result, we explain to the client in advance what to expect.</p></div></div>
+    <div class="stavka"><div class="broj">03</div><div><h3>Rinsing and final check</h3><p>We pay particular attention to rinsing the fabric and extracting excess moisture, so that as little cleaning product as possible is left in the seats. Before handing the vehicle back, we inspect the treated surfaces and give the client drying instructions.</p></div></div>
+  </div>
+  <h3 class="naslov-celine">Duration and drying</h3>
+  <div class="tekst">
+    <p><b>The treatment itself takes no more than two hours.</b> The time needed to dry completely depends mainly on the outside temperature and how well the vehicle is ventilated. When we finish, we give the client an estimate of the drying time based on conditions at the location. <b>The seats are ready to use as soon as they are completely dry.</b></p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>14</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service</span></div>
+  <h2>Leather seat<br><span class="akcent">cleaning and care</span></h2>
+  <div class="tekst">
+    <p>Leather seat treatment at Mojsilov Detailing includes cleaning and final care adapted to the type of upholstery and its condition. The aim is to remove the marks of everyday use, preserve the natural look of the surface and leave the seats pleasant to the touch. We pay particular attention to seams, folds and side bolsters, where dirt collects most often.</p>
+  </div>
+  <h3 class="naslov-celine">What the treatment looks like</h3>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">01</div><div><h3>Inspection and preparation</h3><p>Before cleaning, we inspect the upholstery, its finish and any visible wear. We remove dust and small particles from seams and joints, and choose the product and method based on the condition of the surface.</p></div></div>
+    <div class="stavka"><div class="broj">02</div><div><h3>Cleaning the leather</h3><p>We clean the seats section by section with products made for leather upholstery. We focus on the areas most often in contact with clothing and skin, especially the seat base and the side bolsters of the driver’s seat. On perforated surfaces we work with a controlled amount of moisture so that the product does not stay in the holes.</p></div></div>
+    <div class="stavka"><div class="broj">03</div><div><h3>Final care and check</h3><p>We remove any cleaning residue and, where the type and condition of the upholstery allow, apply a suitable care or protection product. Finally, we check that the surface is evenly treated and has kept the appearance typical of that upholstery.</p></div></div>
+  </div>
+  <h3 class="naslov-celine">What you can expect</h3>
+  <div class="tekst">
+    <p>After the treatment the seats are cleaner, more even in appearance and pleasant to the touch. If during the inspection we notice cracks, peeling or loss of colour, we will explain before we start what result you can expect from cleaning. We carry out the service at your address in Belgrade and the surrounding area, either on its own or together with cleaning the rest of the interior.</p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>15</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service</span></div>
+  <h2>Polishing dashboard<br><span class="akcent">plastic parts</span></h2>
+  <div class="tekst">
+    <p>Polishing dashboard plastic parts restores glossy surfaces that have developed fine scratches, wiping marks or slight clouding over time. The aim of the treatment is for the treated parts to look clean and even again, while preserving their original finish.</p>
+    <p>Before we start, we inspect the surface and assess how deep the scratches are. We only polish parts whose material and finish allow it. We treat matt and textured surfaces with cleaning and suitable care so that they keep their look.</p>
+    <p>We first carefully clean the selected parts and then polish them with controlled pressure, protecting the surrounding surfaces. When we finish, we check the result under different angles of light. Fine marks can become much less visible, while for deeper scratches we explain in advance how far they can be reduced. We carry out this treatment on request, as part of interior care at the client’s address.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/pod-pre.jpg" style="height:85.7mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/pod-posle.jpg" style="height:85.7mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Deep cleaning: floor</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>16</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">For business partners</span></div>
+  <h2>The Mojsilov app<br><span class="akcent">for business clients</span></h2>
+  <div class="app-red">
+  <div>
+  <div class="tekst">
+    <p>The Mojsilov app for business clients lets business partners book care for their company vehicles or their guests’ cars on their own. A booking takes three to four taps, and our team comes to the agreed address in Belgrade and the surrounding area. Interior cleaning, headlight polishing and other agreed services can be planned for when the vehicle is already parked: between two shifts, during a guest’s stay or before the car is handed over to the next client.</p>
+  </div>
+  <h3 class="naslov-celine">App access and booking</h3>
+  <div class="tekst">
+    <p>Access to the app is granted once a partnership is agreed. With each partner we establish which services are needed, how many vehicles need maintaining and at which addresses we will work. The agreement can cover one branch or several locations, with a visit schedule and benefits adapted to the way the company works.</p>
+  </div>
+  </div>
+  <figure class="telefon"><img src="../brend/slike/b2b-zakazi-en.webp" alt="Booking screen in the app for business clients"></figure>
+  </div>
+  <div class="tekst">
+    <p>When booking, the employee chooses whether the appointment is for a company vehicle or a guest’s car, then selects one of the agreed addresses, the service and a free time slot. If needed, they can add a note, for example where the vehicle is parked. Once the booking is confirmed, we organise the visit and bring all the equipment, our own water and our own power supply. When we finish, the partner receives before and after photos and a clear view of the result.</p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>17</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">For business partners</span></div>
+  <h2>How the service fits<br><span class="akcent">into your business</span></h2>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">01</div><div><h3>Companies with company vehicles</h3><p>Can book care for their fleet in the company car park and time the visit around drivers’ shifts or the gap between two trips out in the field.</p></div></div>
+    <div class="stavka"><div class="broj">02</div><div><h3>Hotels and apartments</h3><p>Can offer guests car care in the property’s car park. Staff can book an appointment on the guest’s behalf, or the guest can call us directly. Either way, our team takes care of agreeing the service, location and time of arrival.</p></div></div>
+    <div class="stavka"><div class="broj">03</div><div><h3>Car dealerships and rent-a-car agencies</h3><p>Can plan the preparation of vehicles for display or for the next handover. We give rent-a-car partners priority when scheduling, whenever a vehicle needs to be prepared quickly for the next client.</p></div></div>
+  </div>
+  <h3 class="naslov-celine">Support throughout the partnership</h3>
+  <div class="tekst">
+    <p>Visits can be arranged every day, including weekends and public holidays. Our contact centre is available to partners for information about services, help with booking and questions about confirmed appointments. We stand behind the agreed quality even after the treatment is finished. If additional work is needed, we take responsibility and agree the next step with the partner.</p>
+  </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/motor-2-pre.jpg" style="height:74mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/motor-2-posle.jpg" style="height:74mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Engine bay cleaning</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>18</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Partnership</span></div>
+  <h2>Transparency<br><span class="akcent">in our partnerships</span></h2>
+  <div class="tekst">
+    <p>At Mojsilov Detailing, transparency means that our partner always knows what we have agreed, what to expect and who to turn to. From the first conversation we talk openly about what we can take on, in what time frame and under what conditions. When we give our word, we stand behind it. If circumstances affect what was agreed, we let the partner know in good time, explain what has changed and agree the next step together.</p>
+    <p>Open communication also means listening carefully to the other side. We take every question, suggestion or complaint seriously, because the partner’s view helps us understand how our service fits into their business. For questions, arrangements or support, we are available to business partners <b>24 hours a day, seven days a week</b>.</p>
+    <p>We build long-term partnerships on mutual respect and responsibility for the commitments we make. When a partner can rely on our word, they can plan their work more easily, and we better understand how to provide a service that truly suits them. In this way the trust we build through everyday cooperation becomes the basis for both sides to grow.</p>
+  </div>
+  <div class="istaknuto">When we give our word, we stand behind it.</div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/pedale-2-pre.jpg" style="height:85.7mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/pedale-2-posle.jpg" style="height:85.7mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Deep cleaning: pedals and floor</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>19</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Quality</span></div>
+  <h2>Quality of work<br><span class="akcent">and warranty</span></h2>
+  <div class="tekst">
+    <p>At Mojsilov Detailing, quality starts with a clear agreement. Before the treatment we establish which parts of the vehicle we will work on and what result the client can expect given the vehicle’s condition. We choose products, equipment and procedures based on the material, how dirty it is and the condition of the surface. If existing damage, wear or a long-standing stain may affect the result, we explain this before we start.</p>
+  </div>
+  <h3 class="naslov-celine">Final check and responsibility for our work</h3>
+  <div class="tekst">
+    <p>Before handing the vehicle back, we inspect all treated surfaces and check that every agreed item has been completed in full. For deep cleaning, we document the result with before and after photos so the client can clearly see what has been done.</p>
+    <p>For deep cleaning, we are responsible for the quality of the work and for the agreed scope of the service being completed at the time of handover. How long the interior stays clean depends on how and how often the car is used. If, after collecting the car, the client notices that an agreed part has not been done properly, we look into it and, if we find a fault in our work, agree how to put it right.</p>
+  </div>
+  <h3 class="naslov-celine">Headlight polishing warranty</h3>
+  <div class="garancija"><div class="okvir"><b class="velika">12 <i>months</i></b><p class="muted">Standard polishing of both headlights.</p></div><div class="okvir"><b class="velika">24 <i>months</i></b><p class="muted">Polishing with ceramic UV protection.</p></div></div>
+  <div class="tekst">
+    <p>If the headlights lose clarity or the quality of the finish during the warranty period for a reason covered by the warranty terms, we redo the treatment <b>free of charge</b>.</p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>20</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Equipment</span></div>
+  <h2>Products and tools<br><span class="akcent">we use on site</span></h2>
+  <table class="tab"><thead><tr><th>Product or tool</th><th>Purpose</th></tr></thead><tbody><tr><td><b>FX Protect Heavy Cut</b></td><td>A heavy cutting compound we use in the correction stage of headlight polishing, after the surface has been prepared.</td></tr><tr><td><b>FX Protect Vision Coating C-12</b></td><td>A ceramic coating we apply to prepared headlights after polishing. The manufacturer lists headlights among the surfaces suitable for application.</td></tr><tr><td><b>Textile Cleaner 1 L</b></td><td>A concentrated, low-foaming product we use for deep cleaning fabric seats with an extraction machine. It is also suitable for carpets and other textile coverings.</td></tr><tr><td><b>Gyeon Q²M LeatherCleaner Strong 1 L</b></td><td>A product for thorough cleaning of leather seats. We use it to remove built-up dirt and prepare suitable leather for a protective coating.</td></tr><tr><td><b>Gyeon Q² LeatherShield</b></td><td>A ceramic protective coating for compatible leather upholstery. We apply it after cleaning and preparing the surface, to make later care of the leather easier.</td></tr><tr><td><b>FX Protect Heavy Cut, Medium Cut and Fine Cut</b></td><td>Compounds for heavy correction, the intermediate stage and final polishing of suitable glossy dashboard plastics. We choose the compound based on the material, finish and condition of the surface.</td></tr><tr><td><b>FX Protect polishing pads, heavy, medium and finishing</b></td><td>Pads of different firmness that we pair with the compound and the stage of work, from correction to the final finish.</td></tr><tr><td><b>Nasiol CabinShine</b></td><td>A product for final care and protection of interior plastic surfaces. We use it after cleaning to refresh the look of the plastic.</td></tr><tr><td><b>Koch Chemie Mehrzweckreiniger</b></td><td>An interior cleaner for heavier dirt on suitable plastic panels, sills, doors and other interior surfaces.</td></tr><tr><td><b>Koch Chemie Green Star</b></td><td>A concentrated alkaline product we use on heavily soiled, compatible plastic surfaces. We adapt its use to the material and how dirty it is.</td></tr><tr><td><b>Meguiar's Ultimate Black Plastic Restorer G15812</b></td><td>A product for restoring the colour of and protecting <b>exterior</b> plastic, vinyl and rubber trim, such as mouldings and unpainted bumper parts.</td></tr></tbody></table>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>21</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Equipment</span></div>
+  <h2>Products and tools<br><span class="akcent">we use on site</span></h2>
+  <table class="tab"><thead><tr><th>Product or tool</th><th>Purpose</th></tr></thead><tbody><tr><td><b>Work Stuff detailing brushes of different stiffness</b></td><td>For cleaning seams, joints, corners and other hard-to-reach places. We choose the bristle stiffness based on how delicate the surface is and the type of dirt.</td></tr><tr><td><b>Koch Chemie Glass Cleaner</b></td><td>A product for cleaning the inside and outside of car windows and mirrors. We use it to remove fingerprints, greasy film and everyday dirt.</td></tr><tr><td><b>Ma Fra Fantasie d'Elisir Berga Note</b></td><td>A car fragrance we use to freshen up the cabin after cleaning.</td></tr><tr><td><b>Professional microfibre cloths of different types and sizes</b></td><td>We choose the cloth for the task, from dusting and cleaning windows to treating delicate plastic, removing compound residue and final wiping.</td></tr><tr><td><b>Work Stuff chemical-resistant sprayers</b></td><td>For even application of compatible products and control of the amount we use during the treatment.</td></tr><tr><td><b>Koch Chemie Orange Power</b></td><td>A special product for targeted removal of chewing gum, adhesive residue and other stubborn sticky deposits from compatible surfaces.</td></tr><tr><td><b>Koch Chemie THE FINISHER DisplayExpert</b></td><td>A dedicated cleaner for delicate screens and suitable smooth surfaces. We use it to remove dust, fingerprints and touch marks.</td></tr><tr><td><b>Koch Chemie Gummifix</b></td><td>A non-greasy product for final care of rubber floor mats and suitable rubber and plastic interior parts.</td></tr><tr><td><b>Koch Chemie Fresh Up</b></td><td>A product for neutralising unpleasant odours, which we use after cleaning surfaces and removing the source of the smell.</td></tr><tr><td><b>Koch Chemie Tinten- &amp; Kuli-Ex</b></td><td>A dedicated product for targeted removal of ink and ballpoint pen marks, after first checking material compatibility and colour fastness.</td></tr><tr><td><b>Koch Chemie Motorplast</b></td><td>A finishing protectant we apply to suitable engine bay surfaces after cleaning. It gives the treated parts a neat, even look.</td></tr></tbody></table>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>22</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Results</span></div>
+  <h2>Our results<br><span class="akcent">and achievements</span></h2>
+  <div class="tekst">
+    <p>More than 500 completed services show how many times we have been trusted. Client reviews give these numbers meaning. They highlight punctuality, attention to detail and the chance to have the car taken care of at the client’s address while they get on with their day. These are exactly the details we want Mojsilov Detailing to be recognised for.</p>
+  </div>
+  <div class="brojke-svetle"><div><b>500<i>+</i></b><span>Services completed</span></div><div><b>130<i>+</i></b><span>Client reviews</span></div><div><b>24</b><span>Months warranty on headlight polishing with ceramic protection</span></div><div><b>0</b><span>Reported cases of client dissatisfaction</span></div></div>
+  <h3 class="naslov-celine">What our clients say (Google reviews, translated from Serbian)</h3>
+  <blockquote class="recenzija"><p>“All praise for the young man who does deep cleaning! He is extremely punctual, precise, hard-working and very responsible. You rarely meet someone who approaches their work with so much care and dedication. The car was cleaned down to the smallest detail, from the seats, where the stains were completely removed, to the thoroughly refreshed floor mats and the hard-to-reach areas around the pedals and in the lower part of the cabin where dirt builds up the most. All the stubborn dirt is gone, and the interior now looks and smells literally like new. Every detail was taken care of to the fullest, and the job was done without a single mistake, meticulously and right on time. If you need someone who is extremely reliable and who puts real effort into their work, you have my warm recommendation!”</p><footer>Dušan Mirković</footer></blockquote>
+  <blockquote class="recenzija"><p>“An extremely professional service from start to finish. The young man is punctual, pleasant and very dedicated to his work. The headlights are fantastic after the polymerisation and painting; given their previous condition, the result is far beyond my expectations. You rarely come across work of such quality. Congratulations and a big, sincere recommendation!”</p><footer>Kikela Popovic</footer></blockquote>
+  <blockquote class="recenzija"><p>“Excellent work. The headlights look like new (a 20-year-old car, and now with a new part ;)). Highly recommended. Coming to your address really saves time, and the result is fantastic at a very affordable price. A professional approach and pleasant communication. Thank you very much. Vukica”</p><footer>V V</footer></blockquote>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>23</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Results</span></div>
+  <h2>Before and after<br><span class="akcent">headlight polishing</span></h2>
+  <div style="margin-top:8mm">
+    <div class="cela"><figure><img src="../brend/slike/farovi-1-pre.jpg" style="height:92mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/farovi-1-posle.jpg" style="height:92mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Dull headlight, before and after polishing</div>
+    <div class="cela"><figure><img src="../brend/slike/farovi-2-pre.jpg" style="height:92mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/farovi-2-posle.jpg" style="height:92mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Oxidised headlight, before and after polishing</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>24</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Results</span></div>
+  <h2>Before and after<br><span class="akcent">headlight polishing</span></h2>
+  <div style="margin-top:8mm">
+    <div class="cela"><figure><img src="../brend/slike/farovi-3-pre.jpg" style="height:92mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/farovi-3-posle.jpg" style="height:92mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Cloudy headlight, before and after polishing</div>
+    <div class="cela"><figure><img src="../brend/slike/farovi-4-pre.jpg" style="height:92mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/farovi-4-posle.jpg" style="height:92mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Yellowed headlight, before and after polishing</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>25</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Innovation</span></div>
+  <h2>Innovation at<br><span class="akcent">Mojsilov Detailing</span></h2>
+  <div class="tekst">
+    <p>At Mojsilov Detailing, innovation shows in how much easier we have made car care for the client. Our goal is to make professional detailing accessible for regular vehicle maintenance, with affordable prices and a service the client can fit into their day. That is why we have brought mobile work, digital booking and clear quality standards together into one way of doing business.</p>
+  </div>
+  <div class="stavke">
+    <div class="stavka"><div class="broj">01</div><div><h3>A mobile service that adapts to the client</h3><p>We come to the client’s home, the company car park or another suitable location in Belgrade and the surrounding area. We bring all the equipment, our own water and our own power supply. The client can book deep interior cleaning or headlight polishing while the car is already parked, and keep the time they would spend dropping off and collecting the vehicle for their own commitments.</p></div></div>
+    <div class="stavka"><div class="broj">02</div><div><h3>Apps that make booking simpler</h3><p>Private clients can book online and follow their points in the loyalty programme. Business partners have a separate app for booking care of a company vehicle or a guest’s car at one of the agreed locations in a few steps. Digital booking reduces the need for calls and messages, while the contact centre is available for questions, arrangements and support.</p></div></div>
+    <div class="stavka"><div class="broj">03</div><div><h3>An affordable price with detailed work</h3><p>We offer professional vehicle care in a price range that is affordable for a wide range of clients. The value of the service shows in a procedure adapted to the condition of the vehicle, attention to hard-to-reach places and a final check before handover. The client knows in advance what has been agreed, and before and after photos give a clear view of the result.</p></div></div>
+    <div class="stavka"><div class="broj">04</div><div><h3>A consistent standard and a recognisable brand</h3><p>We are developing Mojsilov Detailing as a modern service company, with clearly defined procedures for booking, arrival, carrying out the work and support after the service. The branded van makes our team recognisable on site, while punctuality, a tidy area after work and responsibility for the agreed result give that identity substance.</p></div></div>
+  </div>
+  <div class="tekst">
+    <p>Our ambition is to build an offer in the car care market that is recognised for how it works in practice. The client books easily, knows what to expect and receives a professional service at a place that suits them.</p>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>26</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Support</span></div>
+  <h2>Mojsilov Detailing<br><span class="akcent">contact centre</span></h2>
+  <div class="tekst">
+    <p>The Mojsilov Detailing contact centre is available <b>24 hours a day, seven days a week</b>, to private clients and business partners. By phone you can book an appointment, get information about our services or ask for help with a visit that has already been arranged. We first listen to understand what you need, and then explain which service suits the condition of the vehicle and the result you want. Before the appointment is confirmed, you get clear information about what the treatment includes, how long it takes and how the visit to your address is organised.</p>
+    <p>If a further assessment is needed, we connect your enquiry with the colleagues who carry out the treatment, so that you get an answer based on the condition of your vehicle. The contact centre is also available after the service is finished, whether you need advice on maintenance or want to point out something that needs our attention. When we receive a complaint, we listen to you, check what was agreed and explain how we will proceed. Our aim is that after every conversation you know what to expect and who is responsible for the next step.</p>
+  </div>
+  <div class="garancija"><div class="okvir"><b class="velika">24<i>/7</i></b><p class="muted">Contact centre for clients and business partners.</p></div><div class="okvir"><b class="velika">+381 <i>62 152 3470</i></b><p class="muted">Phone, Viber and WhatsApp.</p></div></div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/sediste-2-pre.jpg" style="height:85.7mm" alt=""><figcaption>Before</figcaption></figure><figure><img src="../brend/slike/sediste-2-posle.jpg" style="height:85.7mm" alt=""><figcaption>After</figcaption></figure></div>
+    <div class="cela-naziv">Deep cleaning of a stained seat</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>27</span></div>
+</section>
+<section class="strana tamna">
+  <div class="resetka"></div>
+  <div class="vrh" style="color:rgba(255,255,255,.5)"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Company profile</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Service area</span></div>
+  <h2>Service<br><span style="color:#5d8dff">area</span></h2>
+  <div class="tekst">
+    <p>Mojsilov Detailing provides mobile car care in all 17 Belgrade municipalities and at selected locations in the wider Belgrade area. We come to the client’s home, the company car park, the front of a branch or another agreed location with enough space to work safely. We bring all the equipment, our own water and our own power supply with us.</p>
+  </div>
+  <div class="zone">
+    <div><h3>City of Belgrade</h3><p>Barajevo, Voždovac, Vračar, Grocka, Zvezdara, Zemun, Lazarevac, Mladenovac, Novi Beograd, Obrenovac, Palilula, Rakovica, Savski Venac, Sopot, Stari Grad, Surčin and Čukarica.</p></div>
+    <div><h3>Wider service area</h3><p>Bečmen, Jakovo, Mala Moštanica, Sremčica, Vrčin, Boleč, Vinča, Veliko Selo, Padinska Skela, Vrbovski, Stari Banovci, Novi Banovci, Nova Pazova, Stara Pazova, Vojka, Ugrinovci and Krnješevci.</p></div>
+  </div>
+  <h3 class="naslov-celine">Extended service area for business partners</h3>
+  <div class="tekst">
+    <p>By agreement with a business partner, we can extend the service area to locations outside our regular zone. If a company has vehicles at several addresses, we agree during the partnership talks which locations we can include and how to align visits with the branch schedule and the needs of the fleet.</p>
+  </div>
+  <div class="okvir" style="margin-top:9mm;position:relative">
+    <div class="kontakt-red"><div class="ik"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><small>Contact</small><span>Dušan Mojsilov, Mojsilov Detailing</span></div></div>
+    <div class="kontakt-red"><div class="ik"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div><div><small>Phone, Viber and WhatsApp</small><span>+381 62 152 3470</span></div></div>
+    <div class="kontakt-red"><div class="ik"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><div><small>Email</small><span>MojsilovDetailing@gmail.com</span></div></div>
+    <div class="kontakt-red"><div class="ik"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><div><small>Website</small><span>mojsilov.com</span></div></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobile car care, Belgrade and surrounding area</span><span>28</span></div>
+</section>
+
+</body>
+</html>
