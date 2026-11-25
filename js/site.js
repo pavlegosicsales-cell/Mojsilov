@@ -143,7 +143,7 @@ function headerHTML() {
         ${!IS_SUBPAGE ? '<span class="nav-wordmark font-display">MOJSILOV</span>' : ''}
       </a>
 
-      <div class="hidden lg:flex items-center justify-center gap-7 xl:gap-8 min-[1700px]:gap-10 whitespace-nowrap">${links}</div>
+      <div class="hidden lg:flex items-center justify-center gap-5 xl:gap-6 min-[1440px]:gap-7 whitespace-nowrap">${links}</div>
 
       <!-- Mobilni: dugme sa brojem telefona u centru nav bara -->
       <a href="tel:${TEL}" aria-label="Pozovite nas" class="nav-phone lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white whitespace-nowrap">
@@ -151,7 +151,7 @@ function headerHTML() {
       </a>
 
       <div class="flex items-center justify-end gap-4 lg:justify-self-end [&>*]:shrink-0 [&>*]:whitespace-nowrap" data-bez-app>
-        <a href="tel:${TEL}" class="nav-phone hidden 2xl:inline-flex items-center gap-2 text-sm font-medium text-white hover:text-white transition">
+        <a href="tel:${TEL}" class="nav-phone hidden items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
         <a href="${APP_PAGE}" class="app-cta app-cta--nav hidden xl:inline-flex">${icon.calendar}Rezervišite online</a>
