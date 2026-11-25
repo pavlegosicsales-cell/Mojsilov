@@ -69,6 +69,7 @@ const NAV = [
     { label: 'Pranje nameštaja', page: 'namestaj.html' },
   ] },
   { label: 'Za firme', page: 'saradnja.html' },
+  { label: 'Blog', page: 'blog' },
   { label: 'Kontakt', page: 'kontakt.html' },
   { label: 'Aplikacija', page: 'aplikacija.html', klub: true },
 ];
@@ -87,6 +88,7 @@ const APP_PAGE = 'aplikacija.html';
 const isCurrentPage = (n) => {
   if (!n.page) return false;
   const cur = location.pathname.toLowerCase().replace(/\/+$/, '').replace(/\.html$/, '');
+  if (n.page === 'blog') return cur === '/blog' || cur.startsWith('/blog/');
   return cur === ('/' + n.page).toLowerCase().replace(/\.html$/, '');
 };
 

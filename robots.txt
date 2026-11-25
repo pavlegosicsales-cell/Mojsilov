@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://mojsilov.com/sitemap.xml
+Sitemap: https://mojsilov.com/sitemap-blog.xml
