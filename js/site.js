@@ -903,6 +903,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Sve Google recenzije (5/5). Imena i komentari doslovno kako stoje na Google-u.
      Redosled: grupisano po dužini teksta, da strane budu ujednačene visine. */
   const HOME_REVIEWS = [
+    { n: 'Stefan Kostić', t: 'Radim na pijaci u Zemunu, pa mi je baš značilo što auto mogu dubinski da operem dok sam bio na poslu. Nisam morao da se cimam posle smene.' },
     { n: 'Strahinja Marković', t: 'С обзиром да је ауто стар 23 године, фарови изгледају као да сам ставио нове. Чак сам добио жељу да ставим лед лампе. Свака част мајстору.' },
     { n: 'Igor Filipovic', t: 'Свака препорука за овог момка! Млад је, али више него професионалан. Верујем да ће за неколико година имати свој тим! Фарови су као нови. Извукао је максимум из њих. Свака препорука, и дефинитивно ћу ускоро пробати дубинско прање!' },
     { n: 'Zoran Petkovic', t: 'Све похвале за професионализам и квалитет! Душан је дошао тачно на договорену адресу и врхунски исполирао фарове. Фарови сада изгледају као нови. Препоручујем свима који желе брзу и педантну услугу без одласка у сервис.' },
@@ -965,7 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let rPage = 0;
     const rDraw = () => {
       nrReviews.querySelectorAll('.nr-name, .nr-text, .nr-stars').forEach((e) => e.remove());
-      // Poslednja strana se poravnava na kraj liste (44 nije deljivo sa 3) — uvek 3
+      // Poslednja strana se poravnava na kraj liste (broj recenzija ne mora biti deljiv sa 3) — uvek 3
       // kolone, bez prazne treće; cena je da se jedna recenzija ponovi na kraju.
       const rStart = Math.min(rPage * rPer, Math.max(0, HOME_REVIEWS.length - rPer));
       HOME_REVIEWS.slice(rStart, rStart + rPer).forEach((r) => {
