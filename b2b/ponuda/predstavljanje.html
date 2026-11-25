@@ -39,7 +39,7 @@
   .cela figure:last-child figcaption { background: var(--akcent); }
   .cela figure:only-child figcaption { display: none; }
   .cela-naziv { margin: 2.5mm 0 7mm; text-align: center; font: 600 9.5pt/1.2 'Oswald', sans-serif; text-transform: uppercase; color: var(--navy); letter-spacing: .05em; }
-  .cela-tok { margin-top: 8mm; }
+  .cela-tok { margin-top: 5mm; }
   .cela-tok .cela-naziv { margin-bottom: 0; }
   .app-red { display: grid; grid-template-columns: 1fr 52mm; gap: 7mm; align-items: start; }
   .telefoni { display: flex; justify-content: center; gap: 14mm; }
@@ -47,6 +47,10 @@
   .telefoni .tel { height: 78mm; aspect-ratio: 600 / 1298; border-radius: 6mm; background: #05070d; padding: 1.4mm; margin: 0 auto; }
   .telefoni .tel img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 4.8mm; }
   .telefoni figcaption { margin-top: 3mm; font: 600 9pt/1.2 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); }
+  .telefon-desno { float: right; width: 50mm; margin: 4mm 0 4mm 7mm; }
+  .dva-para { display: flex; justify-content: space-between; gap: 6mm; }
+  .galerija { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 6mm; margin-top: 7mm; }
+  .mali-par .cela-naziv { margin: 2mm 0 0; }
   .telefon { margin: 6mm 0 0; border-radius: 7mm; background: #05070d; padding: 1.6mm; }
   .telefon img { display: block; width: 100%; border-radius: 5.6mm; }
   .brojke-svetle { display: grid; grid-template-columns: repeat(4, 1fr); margin: 5mm 0 2mm; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--linija); }
@@ -90,7 +94,7 @@
     <p>Verujemo da se kvalitet usluge vidi u svakom koraku, od prvog razgovora i dogovora o terminu do završne provere vozila. Poštujemo vreme klijenta, jasno komuniciramo šta usluga obuhvata i svakom vozilu pristupamo pažljivo. Inovativnost za nas ima praktičnu vrednost. Ona se vidi u tome koliko je lako zakazati uslugu, koliko vremena klijent štedi i koliko pouzdano može da računa na ono što smo dogovorili.</p>
   </div>
   <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/kombi-mojsilov.jpg" style="height:99mm" alt="Brendirano vozilo Mojsilov Detailinga"></figure></div>
+    <div class="cela"><figure><img src="../brend/slike/poliranje-teren.jpg" style="height:116mm" alt="Poliranje farova na adresi klijenta"></figure></div>
   </div>
 
   </div>
@@ -108,8 +112,7 @@
     <p>Podjednako nam je važno kako se klijent oseća tokom celog procesa. Od prvog razgovora treba da zna šta usluga obuhvata i šta može da očekuje. Poštujemo njegovo vreme, držimo se dogovora i vodimo računa da rezultat opravda poverenje koje nam je ukazao.</p>
   </div>
   <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/sediste-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/sediste-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Dubinsko pranje sedišta</div>
+    <div class="cela"><figure><img src="../brend/slike/predaja-kljuceva.jpg" style="height:116mm" alt="Na adresu donosimo opremu, vodu i agregat"></figure></div>
   </div>
 
   </div>
@@ -165,7 +168,7 @@
     <p>Sajt za nas predstavlja digitalni izraz karaktera Mojsilov Detailinga. Pažnja koju posvećujemo vozilu treba da bude vidljiva već pri prvoj poseti sajtu, u tome koliko lako klijent pronalazi odgovor, koliko jasno razume ponudu i koliko jednostavno može da zakaže uslugu.</p>
   </div>
   <div class="cela-tok">
-    <div class="telefoni"><figure><div class="tel"><img src="../../assets/app/app-pocetna.webp" alt=""></div><figcaption>Aplikacija za privatne klijente</figcaption></figure><figure><div class="tel"><img src="../../assets/app/b2b-zakazi.webp" alt=""></div><figcaption>Aplikacija za pravna lica</figcaption></figure></div>
+    <div class="cela"><figure><img src="../brend/slike/sajt-i-aplikacija.jpg" style="height:89mm" alt="Sajt i aplikacija Mojsilov Detailinga"></figure></div>
   </div>
 
   </div>
@@ -183,8 +186,7 @@
     <p>Najvredniji pokazatelj da smo ispunili svoj cilj jeste kada nam klijent ponovo poveri automobil ili nas, na osnovu sopstvenog iskustva, preporuči nekome do koga mu je stalo. Takva preporuka govori da je poverenje stekao kroz rezultat koji je dobio, pažnju koju smo mu posvetili i jednostavnost celog procesa. To je merilo prema kojem unapređujemo uslugu, od prvog kontakta do podrške nakon obavljenog posla.</p>
   </div>
   <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/patosnice-pre.jpg" style="height:82mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/patosnice-posle.jpg" style="height:82mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Dubinsko pranje: patosnice i pod</div>
+    <div class="cela"><figure><img src="../brend/slike/iskustvo-klijenta.jpg" style="height:91mm" alt="Iskustvo klijenta"></figure></div>
   </div>
 
   </div>
@@ -202,8 +204,7 @@
     <p>Fleksibilnost mobilne usluge posebno dolazi do izražaja kada se klijentov raspored menja. Jedan termin može da zakaže na kućnoj adresi, a sledeći na poslu, dok je automobil već parkiran. Upravo tu vidimo vrednost našeg pristupa i razlog da ga stalno unapređujemo. Klijent bira gde mu usluga najviše odgovara, a mi preuzimamo organizaciju rada i brigu o vozilu.</p>
   </div>
   <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/pedale-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pedale-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Dubinsko pranje: pedale i pod</div>
+    <div class="cela"><figure><img src="../brend/slike/kombi-studio.jpg" style="height:97.9mm" alt="Brendirano vozilo Mojsilov Detailinga"></figure></div>
   </div>
 
   </div>
@@ -267,8 +268,8 @@
     <p>Za dubinsko pranje enterijera izdvajamo približno četiri do šest sati, u zavisnosti od veličine vozila i stepena zaprljanosti, kako bismo dovoljno pažnje posvetili svakoj površini, od sedišta i podnih obloga do teško dostupnih delova kabine.</p>
   </div>
   <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/motor-pre.jpg" style="height:64.3mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/motor-posle.jpg" style="height:64.3mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Čišćenje motornog prostora</div>
+    <div class="cela"><figure><img src="../brend/slike/patosnice-pre.jpg" style="height:73mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/patosnice-posle.jpg" style="height:73mm" alt=""><figcaption>Posle</figcaption></figure></div>
+    <div class="cela-naziv">Dubinsko pranje automobila: patosnice i pod</div>
   </div>
 
   </div>
@@ -284,18 +285,31 @@
     <p>Tretman obuhvata površinsko usisavanje enterijera, brisanje prašine sa unutrašnjih površina, pranje patosnica i dezinfekciju enterijera. Pažnju posvećujemo mestima koja se svakodnevno koriste, poput prostora za noge, kontrolne table i centralne konzole. Usluga traje <b>najviše dva sata</b>, a automobil je <b>odmah po završetku spreman za vožnju</b>.</p>
     <p>Cena prvog brzog pranja iznosi <b>3.900 dinara</b>. Nakon prvog tretmana, klijent svako naredno brzo pranje može da zakaže po ceni za stalne klijente od <b>2.900 dinara</b>. Na taj način redovno održavanje enterijera može lako da uklopi u svoj raspored i unapred zna koliko će ga koštati.</p>
   </div>
-  <div class="druga-celina">
-  <div><span class="oznaka">Usluga</span></div>
-  <h2>Dubinsko pranje<br><span class="akcent">motornog prostora</span></h2>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/pedale-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pedale-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
+    <div class="cela-naziv">Pranje automobila: pedale i pod</div>
   </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>12</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Usluga</span></div>
+  <h2>Dubinsko pranje<br><span class="akcent">motornog prostora</span></h2>
   <div class="tekst">
     <p>Dubinsko pranje motornog prostora je usluga namenjena uklanjanju masnih naslaga, prašine i nečistoća koje se vremenom nakupljaju ispod haube. Cilj tretmana je da motorni prostor bude čist i uredan, uz posebnu pažnju posvećenu spojevima, udubljenjima i drugim teško dostupnim mestima.</p>
     <p>Pre početka rada pregledamo motorni prostor i postupak prilagođavamo konstrukciji vozila, stanju površina i stepenu zaprljanosti. Tretman obuhvata hemijsko čišćenje i odmašćivanje, uz pažljiv rad oko električnih priključaka i drugih osetljivih delova. Na kraju na odgovarajuće plastične površine nanosimo UV zaštitu kako bismo doprineli očuvanju njihovog izgleda.</p>
     <p>Uslugu obavljamo na dogovorenoj adresi u Beogradu i okolini, sa sopstvenom opremom, vodom i izvorom struje. Po završetku pregledamo obrađene površine i klijentu šaljemo fotografije pre i posle tretmana, kako bi mogao da vidi rezultat i na mestima koja pri prvom pogledu lako promaknu.</p>
   </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/motor-2-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/motor-2-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
+    <div class="cela-naziv">Pranje motornog prostora</div>
+  </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>12</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>13</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -311,6 +325,19 @@
     <div class="stavka"><div class="broj">02</div><div><h3>Poliranje u tri faze</h3><p>Koristimo ekscentričnu polirku i profesionalne paste za grubu korekciju, finiju obradu i završno poliranje. Svaka faza doprinosi ravnomernoj obradi i jasnoći završnog rezultata.</p></div></div>
     <div class="stavka"><div class="broj">03</div><div><h3>Keramička UV zaštita po izboru</h3><p>Nakon poliranja možemo naneti zaštitni sloj sa UV filterom koji pomaže da farovi duže zadrže prozirnost i sjaj. Uz ovaj paket garancija traje 24 meseca.</p></div></div>
   </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/farovi-1-pre.jpg" style="height:86mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-1-posle.jpg" style="height:86mm" alt=""><figcaption>Posle</figcaption></figure></div>
+    <div class="cela-naziv">Poliranje farova</div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>14</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Usluga</span></div>
+  <h2>Poliranje farova<br><span class="akcent">garancija i zakazivanje</span></h2>
   <h3 class="naslov-celine">Garancija i cene</h3>
   <div class="tekst">
     <p><b>Ako farovi tokom garantnog roka izgube kvalitet iz razloga koji je pokriven garancijom, ponovni tretman obavljamo bez naknade.</b> Dolazak na adresu je uračunat u cenu, a tačan iznos potvrđujemo pre zakazivanja na osnovu fotografija i stanja farova.</p>
@@ -319,9 +346,13 @@
   <div class="tekst">
     <p>Na dogovorenu adresu dolazimo sa kompletnom opremom, sopstvenom vodom i izvorom struje. Za jedan far obično je potrebno oko 45 minuta, a za oba oko sat i po. Nakon predaje vozila klijent može da nastavi sa svojim obavezama, a po završetku dobija fotografije pre i posle tretmana. Termin se može dogovoriti pozivom, porukom ili preko Mojsilov aplikacije.</p>
   </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/farovi-2-pre.jpg" style="height:114mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-2-posle.jpg" style="height:114mm" alt=""><figcaption>Posle</figcaption></figure></div>
+    <div class="cela-naziv">Oksidiran far, pre i posle poliranja</div>
+  </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>13</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>15</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -341,9 +372,13 @@
   <div class="tekst">
     <p><b>Sam tretman traje najviše dva sata.</b> Vreme potrebno za potpuno sušenje zavisi prvenstveno od spoljne temperature i provetrenosti vozila. Po završetku tretmana klijentu dajemo okvirnu procenu vremena sušenja prema uslovima na lokaciji. <b>Sedišta su spremna za korišćenje čim se potpuno osuše.</b></p>
   </div>
+  <div class="cela-tok">
+    <div class="cela"><figure><img src="../brend/slike/sediste-2-pre.jpg" style="height:44mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/sediste-2-posle.jpg" style="height:44mm" alt=""><figcaption>Posle</figcaption></figure></div>
+    <div class="cela-naziv">Dubinsko pranje sedišta</div>
+  </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>14</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>16</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -365,7 +400,7 @@
   </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>15</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>17</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -377,21 +412,16 @@
     <p>Pre početka rada pregledamo površinu i procenjujemo dubinu ogrebotina. Poliramo samo delove čiji materijal i završna obrada dozvoljavaju takav postupak. Mat i teksturirane površine obrađujemo čišćenjem i odgovarajućom negom kako bi zadržale svoj izgled.</p>
     <p>Odabrane delove najpre pažljivo očistimo, a zatim ih poliramo uz kontrolisan pritisak i zaštitu okolnih površina. Po završetku proveravamo rezultat pod različitim uglovima svetla. Sitni tragovi mogu postati znatno manje vidljivi, dok kod dubljih ogrebotina unapred objašnjavamo u kojoj meri ih je moguće ublažiti. Tretman obavljamo po dogovoru, u okviru nege enterijera na adresi klijenta.</p>
   </div>
-  <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/pod-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pod-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Dubinsko pranje: pod</div>
-  </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>16</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>18</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
   <div class="sadrzaj">
   <div style="margin-top:10mm"><span class="oznaka">Za poslovne partnere</span></div>
   <h2>Mojsilov aplikacija<br><span class="akcent">za pravna lica</span></h2>
-  <div class="app-red">
-  <div>
+  <figure class="telefon telefon-desno"><img src="../../assets/app/b2b-zakazi.webp" alt="Ekran za zakazivanje u aplikaciji za pravna lica"></figure>
   <div class="tekst">
     <p>Mojsilov aplikacija za pravna lica omogućava poslovnim partnerima da samostalno zakažu negu službenih vozila ili automobila svojih gostiju. Termin se rezerviše u tri do četiri klika, a naš tim dolazi na dogovorenu adresu u Beogradu i okolini. Tako se pranje enterijera, poliranje farova i druge dogovorene usluge mogu planirati u vreme kada je vozilo već parkirano, između dve smene, tokom boravka gosta ili pre predaje automobila sledećem klijentu.</p>
   </div>
@@ -399,15 +429,12 @@
   <div class="tekst">
     <p>Pristup aplikaciji dobija se nakon dogovora o saradnji. Sa svakim partnerom utvrđujemo koje su usluge potrebne, koliko vozila treba održavati i na kojim adresama ćemo raditi. Dogovor može obuhvatiti jednu poslovnicu ili više lokacija, uz raspored dolazaka i pogodnosti prilagođene načinu rada firme.</p>
   </div>
-  </div>
-  <figure class="telefon"><img src="../../assets/app/b2b-zakazi.webp" alt="Ekran za zakazivanje u aplikaciji za pravna lica"></figure>
-  </div>
   <div class="tekst">
     <p>Prilikom zakazivanja zaposleni bira da li je termin namenjen službenom vozilu ili automobilu gosta, zatim odabira jednu od dogovorenih adresa, uslugu i slobodan termin. Po potrebi može da doda napomenu, na primer gde je vozilo parkirano. Nakon potvrde termina preuzimamo organizaciju dolaska i donosimo kompletnu opremu, sopstvenu vodu i izvor struje. Po završetku partner dobija fotografije pre i posle tretmana, uz jasan uvid u rezultat obavljene usluge.</p>
   </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>17</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>19</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -424,12 +451,11 @@
     <p>Dolazak se može dogovoriti svakog dana, uključujući vikende i praznike. Za informacije o uslugama, pomoć pri zakazivanju i pitanja u vezi sa potvrđenim terminom partnerima je dostupan kontakt centar. Stojimo iza dogovorenog kvaliteta i nakon završetka tretmana. Ako je potrebna dodatna obrada, preuzimamo odgovornost i dogovaramo naredni korak sa partnerom.</p>
   </div>
   <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/motor-2-pre.jpg" style="height:79mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/motor-2-posle.jpg" style="height:79mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Čišćenje motornog prostora</div>
+    <div class="cela"><figure><img src="../brend/slike/poslovni-partneri.jpg" style="height:89mm" alt="Za poslovne partnere"></figure></div>
   </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>18</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>20</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -442,13 +468,9 @@
     <p>Dugoročnu saradnju gradimo na uzajamnom poštovanju i odgovornosti za preuzete obaveze. Kada partner može da se osloni na našu reč, lakše planira svoj posao, a mi bolje razumemo kako da mu pružimo uslugu koja mu zaista odgovara. Tako poverenje koje gradimo kroz svakodnevnu saradnju postaje osnova za razvoj obe strane.</p>
   </div>
   <div class="istaknuto">Kada damo reč, stojimo iza nje.</div>
-  <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/pedale-2-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pedale-2-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Dubinsko pranje: pedale i pod</div>
-  </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>19</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>21</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -470,7 +492,7 @@
   </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>20</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>22</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -480,7 +502,7 @@
   <table class="tab"><thead><tr><th>Proizvod ili pribor</th><th>Namena</th></tr></thead><tbody><tr><td><b>FX Protect Heavy Cut</b></td><td>Gruba polirna pasta koju koristimo u korektivnoj fazi poliranja farova, nakon pripreme površine.</td></tr><tr><td><b>FX Protect Vision Coating C-12</b></td><td>Keramički premaz koji nanosimo na pripremljene farove nakon poliranja. Proizvođač navodi farove među površinama pogodnim za primenu.</td></tr><tr><td><b>Textile Cleaner 1 L</b></td><td>Koncentrovano, niskopenušavo sredstvo koje koristimo za dubinsko pranje tekstilnih sedišta ekstrakcionom mašinom. Pogodno je i za čišćenje tepiha i drugih tekstilnih obloga.</td></tr><tr><td><b>Gyeon Q²M LeatherCleaner Strong 1 L</b></td><td>Sredstvo za temeljno čišćenje kožnih sedišta. Koristimo ga za uklanjanje nakupljenih nečistoća i pripremu odgovarajuće kože za zaštitni premaz.</td></tr><tr><td><b>Gyeon Q² LeatherShield</b></td><td>Keramički zaštitni premaz za kompatibilne kožne presvlake. Nanosimo ga nakon čišćenja i pripreme površine kako bismo olakšali kasnije održavanje kože.</td></tr><tr><td><b>FX Protect Heavy Cut, Medium Cut i Fine Cut</b></td><td>Paste za grubu korekciju, međufazu i završno poliranje odgovarajućih sjajnih plastičnih delova instrumentne table. Pastu biramo prema materijalu, završnoj obradi i stanju površine.</td></tr><tr><td><b>FX Protect sunđeri za poliranje, grubi, srednji i završni</b></td><td>Sunđeri različitih tvrdoća koje uparujemo sa pastom i fazom rada, od korekcije do završne obrade.</td></tr><tr><td><b>Nasiol CabinShine</b></td><td>Sredstvo za završnu negu i zaštitu unutrašnjih plastičnih površina. Koristimo ga nakon čišćenja kako bismo osvežili izgled plastike.</td></tr><tr><td><b>Koch Chemie Mehrzweckreiniger</b></td><td>Čistač enterijera za izraženije naslage prljavštine na odgovarajućim plastičnim oblogama, pragovima, vratima i drugim unutrašnjim površinama.</td></tr><tr><td><b>Koch Chemie Green Star</b></td><td>Koncentrovano alkalno sredstvo koje koristimo za jače zaprljane, kompatibilne plastične površine. Primenu prilagođavamo materijalu i stepenu zaprljanosti.</td></tr><tr><td><b>Meguiar's Ultimate Black Plastic Restorer G15812</b></td><td>Sredstvo za obnavljanje boje i zaštitu <b>spoljašnjih</b> plastičnih, vinilnih i gumenih obloga, poput lajsni i nelakiranih delova branika.</td></tr></tbody></table>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>21</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>23</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -490,7 +512,7 @@
   <table class="tab"><thead><tr><th>Proizvod ili pribor</th><th>Namena</th></tr></thead><tbody><tr><td><b>Work Stuff detailing četkice različitih tvrdoća</b></td><td>Za čišćenje šavova, spojeva, uglova i drugih teško dostupnih mesta. Tvrdoću vlakana biramo prema osetljivosti površine i vrsti nečistoće.</td></tr><tr><td><b>Koch Chemie Glass Cleaner</b></td><td>Sredstvo za čišćenje unutrašnje i spoljašnje strane automobilskih stakala i ogledala. Koristimo ga za uklanjanje otisaka, masnog filma i svakodnevne prljavštine.</td></tr><tr><td><b>Ma Fra Fantasie d'Elisir Berga Note</b></td><td>Parfem za automobil koji koristimo za završno osvežavanje kabine nakon čišćenja.</td></tr><tr><td><b>Profesionalne mikrofiber krpe različitih vrsta i veličina</b></td><td>Biramo krpu prema zadatku, od brisanja prašine i čišćenja stakala do obrade osetljive plastike, uklanjanja ostataka paste i završnog brisanja.</td></tr><tr><td><b>Work Stuff prskalice otporne na hemiju</b></td><td>Za ravnomerno nanošenje kompatibilnih sredstava i kontrolu količine koju koristimo tokom tretmana.</td></tr><tr><td><b>Koch Chemie Orange Power</b></td><td>Specijalno sredstvo za ciljano uklanjanje žvakaće gume, ostataka lepka i drugih tvrdokornih lepljivih naslaga sa kompatibilnih površina.</td></tr><tr><td><b>Koch Chemie THE FINISHER DisplayExpert</b></td><td>Namenski čistač za osetljive ekrane i odgovarajuće glatke površine. Koristimo ga za uklanjanje prašine, otisaka prstiju i tragova dodira.</td></tr><tr><td><b>Koch Chemie Gummifix</b></td><td>Nemasno sredstvo za završno održavanje gumenih patosnica i odgovarajućih gumenih i plastičnih delova enterijera.</td></tr><tr><td><b>Koch Chemie Fresh Up</b></td><td>Sredstvo za neutralisanje neprijatnih mirisa koje koristimo nakon čišćenja površina i uklanjanja izvora mirisa.</td></tr><tr><td><b>Koch Chemie Tinten- &amp; Kuli-Ex</b></td><td>Namensko sredstvo za ciljano uklanjanje tragova mastila i hemijske olovke, uz prethodnu proveru kompatibilnosti materijala i postojanosti boje.</td></tr><tr><td><b>Koch Chemie Motorplast</b></td><td>Završni konzervans koji nanosimo na odgovarajuće površine motornog prostora nakon čišćenja. Obrađenim delovima daje uredan, ujednačen izgled.</td></tr></tbody></table>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>22</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>24</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -507,37 +529,41 @@
   <blockquote class="recenzija"><p>„Одличан рад. Фарови изгледају као нови (аутомобил стар 20 година и сада са новим делом ;)). Све препоруке. Долазак на адресу заиста штеди време, а резултат је фантастичан по веома приступачној цени. Професионалан приступ, пријатна комуникација. Хвала пуно. Вукица“</p><footer>V V</footer></blockquote>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>23</span></div>
-</section>
-<section class="strana">
-  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
-  <div class="sadrzaj">
-  <div style="margin-top:10mm"><span class="oznaka">Rezultati</span></div>
-  <h2>Pre i posle<br><span class="akcent">poliranje farova</span></h2>
-  <div style="margin-top:8mm">
-    <div class="cela"><figure><img src="../brend/slike/farovi-1-pre.jpg" style="height:92mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-1-posle.jpg" style="height:92mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Matiran far, pre i posle poliranja</div>
-    <div class="cela"><figure><img src="../brend/slike/farovi-2-pre.jpg" style="height:92mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-2-posle.jpg" style="height:92mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Oksidiran far, pre i posle poliranja</div>
-  </div>
-
-  </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>24</span></div>
-</section>
-<section class="strana">
-  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
-  <div class="sadrzaj">
-  <div style="margin-top:10mm"><span class="oznaka">Rezultati</span></div>
-  <h2>Pre i posle<br><span class="akcent">poliranje farova</span></h2>
-  <div style="margin-top:8mm">
-    <div class="cela"><figure><img src="../brend/slike/farovi-3-pre.jpg" style="height:92mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-3-posle.jpg" style="height:92mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Zamućen far, pre i posle poliranja</div>
-    <div class="cela"><figure><img src="../brend/slike/farovi-4-pre.jpg" style="height:92mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-4-posle.jpg" style="height:92mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Požuteo far, pre i posle poliranja</div>
-  </div>
-
-  </div>
   <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>25</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Galerija radova</span></div>
+  <h2>Galerija<br><span class="akcent">radova</span></h2>
+  <div class="galerija">
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/farovi-1-pre.jpg" style="height:72mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-1-posle.jpg" style="height:72mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Matiran far</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/farovi-2-pre.jpg" style="height:72mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-2-posle.jpg" style="height:72mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Oksidiran far</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/farovi-3-pre.jpg" style="height:72mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-3-posle.jpg" style="height:72mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Zamućen far</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/farovi-4-pre.jpg" style="height:72mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/farovi-4-posle.jpg" style="height:72mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Požuteo far</div></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>26</span></div>
+</section>
+<section class="strana">
+  <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
+  <div class="sadrzaj">
+  <div style="margin-top:10mm"><span class="oznaka">Galerija radova</span></div>
+  <h2>Galerija<br><span class="akcent">radova</span></h2>
+  <div class="galerija">
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/sediste-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/sediste-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Sedište</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/sediste-2-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/sediste-2-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Sedište sa flekama</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/pedale-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pedale-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Pedale i pod</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/pedale-2-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pedale-2-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Pedale i pod</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/pod-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/pod-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Pod</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/patosnice-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/patosnice-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Patosnice i pod</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/motor-2-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/motor-2-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Motorni prostor</div></div>
+    <div class="mali-par"><div class="cela"><figure><img src="../brend/slike/motor-pre.jpg" style="height:40mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/motor-posle.jpg" style="height:40mm" alt=""><figcaption>Posle</figcaption></figure></div><div class="cela-naziv">Motorni prostor</div></div>
+  </div>
+
+  </div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>27</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -558,7 +584,7 @@
   </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>26</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>28</span></div>
 </section>
 <section class="strana">
   <div class="vrh"><img src="../brend/logo-mali.png" alt=""><span>Mojsilov Detailing · Predstavljanje za partnere</span></div>
@@ -570,13 +596,9 @@
     <p>Ako je potrebna dodatna procena, povezujemo vaš upit sa kolegama koji izvode tretman kako biste dobili odgovor zasnovan na stanju vašeg vozila. Kontakt centar vam je na raspolaganju i nakon završetka usluge, bilo da vam je potreban savet o održavanju ili želite da ukažete na nešto što zahteva našu pažnju. Kada primimo reklamaciju, saslušamo vas, proverimo šta je dogovoreno i objasnimo vam kako ćemo postupiti. Cilj nam je da nakon svakog razgovora znate šta možete da očekujete i ko je odgovoran za sledeći korak.</p>
   </div>
   <div class="garancija"><div class="okvir"><b class="velika">24<i>/7</i></b><p class="muted">Kontakt centar za klijente i poslovne partnere.</p></div><div class="okvir"><b class="velika">062 <i>152 3470</i></b><p class="muted">Telefon, Viber i WhatsApp.</p></div></div>
-  <div class="cela-tok">
-    <div class="cela"><figure><img src="../brend/slike/sediste-2-pre.jpg" style="height:85.7mm" alt=""><figcaption>Pre</figcaption></figure><figure><img src="../brend/slike/sediste-2-posle.jpg" style="height:85.7mm" alt=""><figcaption>Posle</figcaption></figure></div>
-    <div class="cela-naziv">Dubinsko pranje sedišta sa flekama</div>
-  </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>27</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>29</span></div>
 </section>
 <section class="strana tamna">
   <div class="resetka"></div>
@@ -603,7 +625,7 @@
   </div>
 
   </div>
-  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>28</span></div>
+  <div class="dno"><span>Mojsilov Detailing · mobilna nega automobila, Beograd i okolina</span><span>30</span></div>
 </section>
 
 </body>
