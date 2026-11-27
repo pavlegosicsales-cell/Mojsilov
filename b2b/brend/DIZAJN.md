@@ -25,7 +25,7 @@ Tamna strana = navy preliv + plavi sjaj gore desno + tanka rešetka 14 mm koja b
 - **Okvir sa zagradama**: tanka ivica + plave ugaone zagrade gore levo i dole desno.
 - **Stavke**: broj (01, 02…) u navy kvadratu, naslov u Oswaldu, rečenica ispod.
 - **Pre/posle**: dve fotke jedna do druge, oznaka „PRE" tamna, „POSLE" plava.
-- **Brojke**: 300+ usluga, 100+ pozitivnih ocena, 24 meseca garancije, 0 nezadovoljnih (isto kao na sajtu; ne izmišljati nove).
+- **Brojke**: 500+ usluga, 130+ pozitivnih ocena, 24 meseca garancije, 0 nezadovoljnih (isto kao na sajtu; ne izmišljati nove).
 
 ## Ton i pisanje
 - Firma govori u **množini**: „dolazimo", „radimo", nikad „ja".
