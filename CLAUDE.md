@@ -12,3 +12,6 @@ Statičan sajt (HTML + Tailwind CDN). Zajednički header/footer i meni ubacuje `
 ## Ponude firmama (B2B, PDF)
 Sve je u `b2b/` i NE objavljuje se na sajtu (`.vercelignore`). Uputstvo: `b2b/ponuda/UPUTSTVO.md`, brend: `b2b/brend/DIZAJN.md`. PDF: `node b2b/ponuda-pdf.mjs <ponuda.html> [izlaz.pdf]`.
 Napomena: GitHub repo je javan, pa ko zna adresu repoa može da vidi i ponude. Ne upisivati poverljive uslove (provizije, interni dogovori) ako Pavle ne kaže da je u redu.
+
+## Cenovnici (PDF)
+Običan cenovnik (cene sa sajta): `b2b/cenovnik/cenovnik.html` → `b2b/cenovnik/pdf/`. Cenovnik za pravna lica je PRIVATAN: `../Mojsilov-Dashboard/docs/cenovnik/` (cene za firme su niže od cena na sajtu, pa ne idu u javni repo). PDF istim alatom: `node b2b/ponuda-pdf.mjs <html> <pdf>`.
