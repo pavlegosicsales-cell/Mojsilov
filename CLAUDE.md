@@ -15,3 +15,6 @@ Napomena: GitHub repo je javan, pa ko zna adresu repoa može da vidi i ponude. N
 
 ## Cenovnici (PDF)
 Običan cenovnik (cene sa sajta): `b2b/cenovnik/cenovnik.html` → `b2b/cenovnik/pdf/`. Cenovnik za pravna lica je PRIVATAN: `../Mojsilov-Dashboard/docs/cenovnik/` (cene za firme su niže od cena na sajtu, pa ne idu u javni repo). PDF istim alatom: `node b2b/ponuda-pdf.mjs <html> <pdf>`.
+
+## Engleska verzija (/en/)
+Strane u `en/` se NE menjaju ručno: prave se iz srpskih alatom. Posle izmene teksta na srpskoj strani: `python tools/prevod/izvuci.py` (pokaže šta nema prevod u `tools/prevod/fali.json`), dopuni `tools/prevod/sr-en.json`, pa `python tools/prevod/napravi-en.py` (pravi `en/*.html`, hreflang na obe verzije, `js/prevod-en.js` i EN adrese u sitemap.xml). Tekst koji ubacuje `site.js` prevodi se u pregledaču istim rečnikom. Bez em-crta i na engleskom.

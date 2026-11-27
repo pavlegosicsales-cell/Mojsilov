@@ -57,8 +57,26 @@ const icon = {
    ne vodi kući. Početna = „/" ili „/index(.html)". */
 /* Mojsilov Klub: aplikacija za kupce (bodovi, nagrade, zakazivanje). Nalog je zajednički sa sajtom. */
 const KLUB_URL = 'https://klub.mojsilov.com';
+/* Jezik: engleske strane su u /en/ (isti HTML, preveden alatom tools/prevod). */
+const LANG = document.documentElement.lang === 'en' ? 'en' : 'sr';
+const EN_STRANE = ['index', 'o-nama', 'poliranje-farova', 'dubinsko-pranje', 'namestaj', 'kontakt', 'aplikacija', 'saradnja', 'b2b-aplikacija'];
+const HOME = LANG === 'en' ? '/en' : '/';
 const _navPath = location.pathname.replace(/\/+$/, '') || '/';
-const IS_SUBPAGE = !(_navPath === '/' || /\/index(\.html)?$/i.test(_navPath));
+const IS_SUBPAGE = !(_navPath === '/' || _navPath === '/en' || /\/index(\.html)?$/i.test(_navPath));
+/* Link ka strani na jeziku strane koja je otvorena (engleska strana vodi na engleske, ako postoje). */
+const pageHref = (p) => {
+  if (LANG !== 'en' || /^(https?:|\/|#)/.test(p)) return p;
+  const [ime, frag] = p.split('#');
+  const slug = ime.replace(/\.html$/, '');
+  return (EN_STRANE.includes(slug) ? '/en/' + slug : '/' + slug) + (frag ? '#' + frag : '');
+};
+/* Ista strana na drugom jeziku (prekidač SR/EN). */
+const drugiJezikHref = (() => {
+  const put = location.pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/+$/, '');
+  if (LANG === 'en') return put.replace(/^\/en/, '') || '/';
+  const slug = put.replace(/^\//, '') || 'index';
+  return EN_STRANE.includes(slug) ? (slug === 'index' ? '/en' : '/en/' + slug) : '/en';
+})();
 const NAV = [
   { label: 'Početna', hash: '#pocetna' },
   { label: 'O nama', page: 'o-nama.html' },
@@ -76,18 +94,18 @@ const NAV = [
 /* Flat lista za mobilni meni i footer — dropdown roditelj se zamenjuje podstavkama */
 const NAV_FLAT = NAV.flatMap((n) => (n.dropdown ? n.dropdown : [n]));
 /* href za nav stavku, ispravan i sa početne i sa podstranice */
-const navHref = (n) => (n.url ? n.url : n.page ? n.page : (IS_SUBPAGE ? '/' + n.hash : n.hash));
+const navHref = (n) => (n.url ? n.url : n.page ? pageHref(n.page) : (IS_SUBPAGE ? HOME + n.hash : n.hash));
 /* href za proizvoljan hash sa bilo koje strane (CTA dugmad, footer linkovi) */
-const homeHash = (hash) => (IS_SUBPAGE ? '/' + hash : hash);
+const homeHash = (hash) => (IS_SUBPAGE ? HOME + hash : hash);
 /* CTA „Pozovite nas": na podstranicama vodi na kontakt kanale, na početnoj na sekciju kontakt */
 /* „Pozovite nas" dugmad (nav + mobilni meni) vode direktno u dialer, ne na sekciju. */
 const ctaHref = 'tel:' + TEL;
 /* „Rezervišite online“ vodi na stranu aplikacije na sajtu (instalacija + zakazivanje). */
-const APP_PAGE = 'aplikacija.html';
+const APP_PAGE = pageHref('aplikacija.html');
 /* da li je nav stavka trenutna stranica (za aktivno stanje na podstranici) */
 const isCurrentPage = (n) => {
   if (!n.page) return false;
-  const cur = location.pathname.toLowerCase().replace(/\/+$/, '').replace(/\.html$/, '');
+  const cur = location.pathname.toLowerCase().replace(/\/+$/, '').replace(/\.html$/, '').replace(/^\/en(?=\/)/, '');
   if (n.page === 'blog') return cur === '/blog' || cur.startsWith('/blog/');
   return cur === ('/' + n.page).toLowerCase().replace(/\.html$/, '');
 };
@@ -139,7 +157,7 @@ function headerHTML() {
          umesto da uđu u logo ili desna dugmad (ranije apsolutno centrirani pa su se preklapali). -->
     <nav class="max-w-container mx-auto px-5 lg:px-8 h-[96px] lg:h-[124px] relative flex items-center justify-between gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
       <a href="${homeHash('#pocetna')}" class="flex items-center gap-3 shrink-0 lg:justify-self-start" aria-label="Mojsilov Detailing, početna">
-        <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" width="334" height="187" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
+        <img src="/brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing logo" width="334" height="187" class="logo-mark h-[42px] lg:h-[62px] w-auto" />
         ${!IS_SUBPAGE ? '<span class="nav-wordmark font-display">MOJSILOV</span>' : ''}
       </a>
 
@@ -154,6 +172,7 @@ function headerHTML() {
         <a href="tel:${TEL}" class="nav-phone hidden items-center gap-2 text-sm font-medium text-white hover:text-white transition">
           ${icon.phone}<span>${TEL_DISPLAY}</span>
         </a>
+        <a href="${drugiJezikHref}" class="lang-switch hidden lg:inline-flex" hreflang="${LANG === 'en' ? 'sr' : 'en'}" lang="${LANG === 'en' ? 'sr' : 'en'}" title="${LANG === 'en' ? 'Srpski' : 'English'}">${LANG === 'en' ? 'SR' : 'EN'}</a>
         <a href="${APP_PAGE}" class="app-cta app-cta--nav hidden xl:inline-flex">${icon.calendar}Rezervišite online</a>
         <a href="${ctaHref}" class="glow-btn hidden lg:inline-flex">Pozovite nas ${icon.sparkles}</a>
         <button id="menu-open" class="lg:hidden text-white p-2 -mr-2" aria-label="Otvorite meni">
@@ -167,7 +186,7 @@ function headerHTML() {
   <div id="menu-overlay" class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"></div>
   <aside class="mobile-menu fixed top-0 right-0 bottom-0 w-[86%] max-w-sm bg-navy z-[70] p-7 flex flex-col">
     <div class="flex items-center justify-between mb-7">
-      <img src="brand_assets/mojsilov-logo.png" alt="Mojsilov Detailing" width="600" height="414" class="logo-img h-12 w-auto"/>
+      <img src="/brand_assets/mojsilov-logo.png" alt="Mojsilov Detailing" width="600" height="414" class="logo-img h-12 w-auto"/>
       <button id="menu-close" class="text-white p-2 -mr-2" aria-label="Zatvorite meni">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
       </button>
@@ -176,6 +195,7 @@ function headerHTML() {
     <div class="mm-foot" data-bez-app>
       <a href="${ctaHref}" data-close-menu class="glow-btn w-full">Pozovite nas ${icon.sparkles}</a>
       <a href="${APP_PAGE}" data-close-menu class="app-cta">${icon.calendar}Rezervišite online</a>
+      <a href="${drugiJezikHref}" class="lang-switch lang-switch--mm" hreflang="${LANG === 'en' ? 'sr' : 'en'}" lang="${LANG === 'en' ? 'sr' : 'en'}">${LANG === 'en' ? 'Srpski' : 'English'}</a>
     </div>
   </aside>`;
 }
@@ -201,7 +221,7 @@ function footerHTML() {
       <div class="ac-footer-grid">
         <!-- Brend -->
         <div>
-          <img src="brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing" width="334" height="187" class="logo-mark h-12 w-auto mb-4"/>
+          <img src="/brand_assets/mojsilov-logo%201.png" alt="Mojsilov Detailing" width="334" height="187" class="logo-mark h-12 w-auto mb-4"/>
           <p class="ac-tagline">Profesionalni mobilni auto-detailing i restauracija farova na vašoj adresi u Beogradu, bez odlaska u servis.</p>
         </div>
 
@@ -213,11 +233,11 @@ function footerHTML() {
         <div class="foot-col corner-frame">
           <h4>Usluge</h4>
           <ul>
-            <li><a href="poliranje-farova.html">Poliranje farova</a></li>
-            <li><a href="dubinsko-pranje.html">Dubinsko pranje auta</a></li>
-            <li><a href="dubinsko-pranje.html">Pranje enterijera</a></li>
-            <li><a href="dubinsko-pranje.html#motor">Dubinsko pranje motora</a></li>
-            <li><a href="namestaj.html">Pranje nameštaja</a></li>
+            <li><a href="${pageHref('poliranje-farova.html')}">Poliranje farova</a></li>
+            <li><a href="${pageHref('dubinsko-pranje.html')}">Dubinsko pranje auta</a></li>
+            <li><a href="${pageHref('dubinsko-pranje.html')}">Pranje enterijera</a></li>
+            <li><a href="${pageHref('dubinsko-pranje.html#motor')}">Dubinsko pranje motora</a></li>
+            <li><a href="${pageHref('namestaj.html')}">Pranje nameštaja</a></li>
           </ul>
         </div>
 
@@ -366,6 +386,38 @@ function ceneNivoa(nivoi) {
   });
 }
 
+/* Engleske strane: tekst koji ubacuje JS prevodi se rečnikom window.PREVOD_EN (js/prevod-en.js, pravi ga
+   tools/prevod/napravi-en.py). Statični tekst strane je već preveden u HTML-u. */
+function prevediCvor(root) {
+  const D = window.PREVOD_EN;
+  if (!D) return;
+  const prevedi = (t) => {
+    const k = t.replace(/\s+/g, ' ').trim();
+    if (!k) return null;
+    if (D.tekst[k]) return t.replace(k, D.tekst[k]);
+    for (const [re, z] of D.obrasci) { const m = k.match(re); if (m) return t.replace(k, k.replace(re, z)); }
+    return null;
+  };
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.parentElement && /^(SCRIPT|STYLE)$/.test(n.parentElement.tagName) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
+  const cvorovi = [];
+  while (w.nextNode()) cvorovi.push(w.currentNode);
+  for (const n of cvorovi) { const v = prevedi(n.nodeValue); if (v != null && v !== n.nodeValue) n.nodeValue = v; }
+  const els = root.nodeType === 1 ? [root, ...root.querySelectorAll('[aria-label],[title],[placeholder],[alt]')] : [];
+  for (const el of els) for (const a of ['aria-label', 'title', 'placeholder', 'alt']) {
+    const v = el.getAttribute && el.getAttribute(a);
+    if (v) { const p = prevedi(v); if (p != null && p !== v) el.setAttribute(a, p); }
+  }
+}
+function prevediStranu() {
+  prevediCvor(document.body);
+  new MutationObserver((ms) => {
+    for (const m of ms) {
+      if (m.type === 'characterData') { prevediCvor(m.target.parentElement || document.body); continue; }
+      m.addedNodes.forEach((n) => { if (n.nodeType === 1) prevediCvor(n); else if (n.nodeType === 3 && n.parentElement) prevediCvor(n.parentElement); });
+    }
+  }).observe(document.body, { childList: true, subtree: true, characterData: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = headerHTML();
@@ -374,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
      cenovnika (obična dugmad) diskretan link ispod. Poziv ostaje glavni, aplikacija je druga opcija.
      Preskače header/meni (imaju svoje) i blokove sa data-bez-app. */
   document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
-    if (!/^pozovite nas/i.test((a.textContent || '').trim()) || a.closest('[data-bez-app], #site-header, .mobile-menu')) return;
+    if (!/^(pozovite nas|call us)/i.test((a.textContent || '').trim()) || a.closest('[data-bez-app], #site-header, .mobile-menu')) return;
     if (a.classList.contains('glow-btn')) {
       const novi = document.createElement('a');
       novi.href = APP_PAGE;
@@ -431,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const footer = document.getElementById('site-footer');
   if (footer) footer.innerHTML = footerHTML();
+  if (LANG === 'en') prevediStranu();
 
   /* Fill-up hover na numerisanim step karticama (Avontiv about) — puni se odozdo
      navy, tekst/broj postaju beli. Samo .how-cell koje imaju .how-num (koraci). */
